@@ -759,3 +759,43 @@ body.blog-page {
   font-size: 30px;
   margin-bottom: 10px;
 }
+
+/* =========================
+   TRUST SECTION
+========================= */
+
+.trust-section {
+  background: #f8fafc;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.trust-intro {
+  max-width: 750px;
+  margin: 20px auto 50px;
+  color: #475569;
+  font-size: 16px;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 30px;
+}
+
+.trust-card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.trust-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.trust-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
