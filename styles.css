@@ -1096,3 +1096,63 @@ body.blog-page ul ul {
 body.blog-page ul ul li {
   margin-bottom: 8px;
 }
+/* =========================
+   BLOG LIST STYLING (UPDATED)
+========================= */
+
+/* All unordered and ordered lists inside blog pages */
+body.blog-page ul,
+body.blog-page ol {
+  list-style-position: outside; /* bullets/numbers outside */
+  padding-left: 40px;           /* consistent indentation */
+  margin-bottom: 16px;
+  text-align: left;             /* aligns text left */
+  color: #cce0ff;               /* readable light bluish text */
+}
+
+/* List items */
+body.blog-page ul li,
+body.blog-page ol li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* Bright bullets / numbers */
+body.blog-page ul li::marker,
+body.blog-page ol li::marker {
+  color: #4da6ff;
+  font-weight: bold;
+}
+
+/* Nested lists styling */
+body.blog-page ul ul,
+body.blog-page ol ol {
+  padding-left: 20px;
+  list-style-type: circle;      /* nested bullets */
+}
+
+body.blog-page ul ul li,
+body.blog-page ol ol li {
+  margin-bottom: 8px;
+}
+
+body.blog-page ul ul li::marker,
+body.blog-page ol ol li::marker {
+  color: #7ec0ff;
+  font-weight: bold;
+}
+
+/* Hover effect on list items */
+body.blog-page ul li:hover,
+body.blog-page ol li:hover {
+  color: #ffffff;
+}
+
+body.blog-page ul li:hover::marker,
+body.blog-page ol li:hover::marker {
+  color: #7ec0ff;
+  transform: scale(1.2);
+  transition: all 0.2s ease;
+}
