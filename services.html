@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Services | NextGrid Technologies</title>
+<title>IT Support & Microsoft 365 Security Services | NextGrid Technologies</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -34,6 +34,49 @@
   </div>
 </section>
 
+  <p class="services-cta">
+Not sure which service you need?  
+<a href="#contact">Request a free security check.</a>
+</p>
+  
+<section class="who-section">
+<div class="container">
+<h2>Who We Help</h2>
+<p class="section-intro">
+Our services are designed for small and growing businesses that rely on secure and reliable IT systems.
+</p>
+
+<div class="who-grid">
+
+<div class="who-card">
+<h3>Small Businesses</h3>
+<p>Companies needing reliable IT support without hiring a full internal IT team.</p>
+</div>
+
+<div class="who-card">
+<h3>Professional Services</h3>
+<p>Accountants, consultants, and legal firms that require secure email and data protection.</p>
+</div>
+
+<div class="who-card">
+<h3>Growing Teams</h3>
+<p>Businesses adopting Microsoft 365 that need proper security and management.</p>
+</div>
+
+<div class="who-card">
+<h3>Security-Focused Companies</h3>
+<p>Organisations wanting to protect against ransomware, phishing, and data breaches.</p>
+</div>
+
+</div>
+</div>
+</section>
+  
+  <p class="services-cta">
+Not sure which service you need?  
+<a href="#contact">Request a free security check.</a>
+</p>
+  
 <!-- Services Grid -->
 <section class="support-section">
 <div class="container">
@@ -42,6 +85,41 @@
 
 <div class="grid">
 
+<section class="benefits-section">
+<div class="container">
+<h2>Why Businesses Choose NextGrid</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Fast Response</h3>
+<p>Quick remote support and on-site assistance across Gauteng.</p>
+</div>
+
+<div class="card">
+<h3>Security-First Approach</h3>
+<p>Every solution focuses on protecting your systems and business data.</p>
+</div>
+
+<div class="card">
+<h3>Microsoft 365 Specialists</h3>
+<p>Deep expertise securing Microsoft 365 environments and cloud services.</p>
+</div>
+
+<div class="card">
+<h3>Proactive IT Management</h3>
+<p>We monitor systems and fix issues before they impact your business.</p>
+</div>
+
+</div>
+</div>
+</section>
+  
+  <p class="services-cta">
+Not sure which service you need?  
+<a href="#contact">Request a free security check.</a>
+</p>
+  
 <!-- Business IT Support -->
 <div class="card tech-card">
 <div class="icon">🖥️</div>
@@ -97,6 +175,11 @@
 </div> <!-- end container -->
 </section>
 
+  <p class="services-cta">
+Not sure which service you need?  
+<a href="#contact">Request a free security check.</a>
+</p>
+  
 <!-- Microsoft 365 Security Packages -->
 <section class="security-section">
 <div class="container">
@@ -153,24 +236,58 @@
 
 </div> <!-- end grid -->
 </div>
+  
 </section>
-
+<p class="services-cta">
+Not sure which service you need?  
+<a href="#contact">Request a free security check.</a>
+</p>
+  
 <section id="contact">
 <div class="container contact-wrapper" style="text-align: center;">
 <h2>Request Services</h2>
 <p class="contact-subtext">
 Get in touch with us for IT support, security checks, or inquiries.
 </p>
-<form action="https://formspree.io/f/xjgezydg" method="POST">
+<form action="https://formspree.io/f/xjgezydg" method="POST" class="contact-form">
+
 <input type="text" name="name" placeholder="Your Name" required>
+
 <input type="email" name="email" placeholder="Business Email" required>
+
+<input type="tel" name="phone" placeholder="Phone Number" required>
+
 <input type="text" name="company" placeholder="Company Name" required>
-<textarea name="message" placeholder="How can we help?" required></textarea>
-<button type="submit" class="btn-primary">Submit</button>
+
+<textarea name="message" placeholder="Tell us about your IT needs..." required></textarea>
+
+<button type="submit" class="btn-primary">Submit Request</button>
+
 </form>
+  
 </div>
 </section>
+<section class="areas-section">
+<div class="container">
+<h2>IT Support Across Gauteng</h2>
 
+<p class="section-intro">
+NextGrid Technologies provides professional IT support and Microsoft 365 security services for businesses across Gauteng.
+</p>
+
+<ul class="areas-list">
+<li>Pretoria</li>
+<li>Centurion</li>
+<li>Midrand</li>
+<li>Johannesburg</li>
+<li>Sandton</li>
+<li>Fourways</li>
+<li>Randburg</li>
+</ul>
+
+</div>
+</section>
+  
 <footer>
 <div class="container">
 <p>© 2026 NextGrid Technologies</p>
@@ -178,6 +295,22 @@ Get in touch with us for IT support, security checks, or inquiries.
 </footer>
 
 <a href="https://wa.me/27680330794" class="whatsapp" target="_blank">💬</a>
-<button id="backToTopBtn" onclick="scrollToTop()">↑</button>
+<script>
+function scrollToTop() {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+}
+
+window.onscroll = function() {
+const btn = document.getElementById("backToTopBtn");
+if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+btn.style.display = "block";
+} else {
+btn.style.display = "none";
+}
+};
+</script>
 </body>
 </html>
