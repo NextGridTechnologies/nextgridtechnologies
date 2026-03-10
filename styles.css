@@ -100,7 +100,7 @@ header img.logo {
   vertical-align: middle;
 }
 header {
-  min-height: 160px;
+  min-height: auto;
 }
 header::after {
   content: "";
