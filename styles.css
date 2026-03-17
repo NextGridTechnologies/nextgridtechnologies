@@ -1575,7 +1575,7 @@ margin-bottom:10px;
 
 .hero-content h1,
 .hero-content p,
-.btn-primary {
+hero-content .btn-primary {
   opacity: 0;
   transform: translateY(20px);
   animation-fill-mode: forwards;
