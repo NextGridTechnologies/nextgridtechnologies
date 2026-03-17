@@ -1537,7 +1537,7 @@ margin-bottom:10px;
   position: relative;
   width: 100%;
   min-height: 60vh; /* smaller hero on large screens */
-  max-height: 90vh; /* optional limit */
+  max-height: 80vh; /* optional limit */
   display: flex;
   align-items: center;
   justify-content: center;
