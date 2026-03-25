@@ -18,9 +18,14 @@ h1, h2, h3 {
 ========================= */
 
 .container {
-  max-width: 1200px;
+  width: 85%;
+  max-width: 100px; /* controls how wide content can go */
+  margin: 0 auto; /* centers everything */
+}
+
+.narrow {
+  max-width: 700px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 header {
