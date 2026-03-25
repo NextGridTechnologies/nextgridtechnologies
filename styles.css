@@ -23,11 +23,6 @@ h1, h2, h3 {
   margin: 0 auto; /* centers everything */
 }
 
-.narrow {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
 header {
   background: linear-gradient(
       rgba(13, 27, 42, 0.85),
