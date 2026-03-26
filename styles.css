@@ -1872,158 +1872,165 @@ color:#2563eb;
 }
 
 /* =========================
-   ELITE M365 SECURITY PROCESS (Blue Background)
+   ELITE M365 PROCESS SECTION
+   (Animated Background + Glass Cards)
 ========================= */
 
 .process-section {
+  position: relative;
   padding: 100px 20px;
-  background: linear-gradient(135deg, #0078d4, #005a9e); /* blue gradient */
   text-align: center;
   overflow: hidden;
-  position: relative;
-  color: #ffffff; /* make text visible on blue */
+  color: #ffffff;
+
+  /* Base gradient */
+  background: linear-gradient(135deg, #0078d4, #005a9e);
 }
 
+/* ========================
+   Animated Background Image Layer
+======================== */
+.process-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: url('Security.jpg') no-repeat center center;
+  background-size: cover;
+
+  opacity: 0.15; /* subtle */
+  z-index: 0;
+
+  animation: bgMove 40s ease-in-out infinite;
+}
+
+/* Dark overlay for readability */
+.process-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+  z-index: 1;
+}
+
+/* Background animation */
+@keyframes bgMove {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.1) translateY(-20px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* ========================
+   Content Layer
+======================== */
+.process-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Title */
 .process-section h2 {
   font-size: 2.5rem;
-  color: #ffffff; /* white title */
   font-weight: 700;
   margin-bottom: 30px;
-  position: relative;
-  display: inline-block;
 }
 
+/* Grid */
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 30px;
   margin-top: 50px;
 }
 
-.process-section {
-  padding: 100px 20px;
-  text-align: center;
-  overflow: hidden;
-  position: relative;
-
-  /* Background image */
-  background: linear-gradient(135deg, rgba(0,120,212,0.8), rgba(0,90,158,0.8)),
-              url('security.jpg') no-repeat center center;
-  background-size: cover; /* Make sure it fills the section */
-  color: #ffffff; /* Text color for contrast */
-}
-
 /* ========================
-   Process Card
+   Glass Cards (Premium Look)
 ======================== */
 .process-card {
-  background: #f9fbff; /* keep cards light for contrast */
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  border-radius: 16px;
+
+  transition: all 0.5s ease;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+
   opacity: 0;
-  transform: translateX(-50px);
-  animation: slideIn 0.8s forwards;
-  position: relative;
-  color: #333; /* text inside cards */
+  transform: translateY(40px);
+  animation: fadeUp 0.8s forwards;
 }
 
-/* Staggered entrance animation */
+/* Stagger animation */
 .process-card:nth-child(1) { animation-delay: 0.2s; }
 .process-card:nth-child(2) { animation-delay: 0.4s; }
 .process-card:nth-child(3) { animation-delay: 0.6s; }
 .process-card:nth-child(4) { animation-delay: 0.8s; }
 
-/* Hover interaction */
+/* Hover effect */
 .process-card:hover {
-  transform: translateY(-10px) scale(1.05) rotateZ(1deg);
-  box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+  transform: translateY(-12px) scale(1.04);
+  box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* Card titles */
+/* Titles */
 .process-card h3 {
   margin-bottom: 15px;
-  color: #0078d4; /* accent color */
   font-size: 1.4rem;
-  font-weight: 600;
-  transition: color 0.3s ease;
+  color: #ffffff;
 }
 
-.process-card:hover h3 {
-  color: #005a9e;
-}
-
-/* Card text */
+/* Text */
 .process-card p {
-  color: #333;
-  font-size: 1rem;
+  color: #e6eef7;
   line-height: 1.6;
 }
 
 /* ========================
-   Floating Security Icons
+   Icon Animation
 ======================== */
 .process-card::before {
-  content: "🔒";
+  content: "🔐";
   font-size: 2rem;
   display: block;
   margin-bottom: 15px;
+
   animation: floatIcon 3s ease-in-out infinite;
 }
 
-/* Animations */
 @keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
+  0%,100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
 
-@keyframes slideIn {
-  0% {
+/* ========================
+   Fade Animation
+======================== */
+@keyframes fadeUp {
+  from {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateY(40px);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
-}
-
-/* Optional glowing accent for a premium feel */
-.process-card::after {
-  content: "";
-  position: absolute;
-  top: -5px; left: -5px; right: -5px; bottom: -5px;
-  border-radius: 18px;
-  background: linear-gradient(45deg, #0078d4, #00bfff);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.process-card:hover::after {
-  opacity: 0.15;
 }
 
 /* ========================
-   Responsive tweaks
+   Responsive
 ======================== */
 @media (max-width: 768px) {
   .process-section h2 {
     font-size: 2rem;
   }
+
   .process-card {
-    transform: translateX(0); /* remove slide on mobile */
-    animation: fadeInUp 0.8s forwards;
+    backdrop-filter: blur(8px);
   }
 }
-
-/* Fallback fade for mobile */
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(30px);}
-  100% { opacity: 1; transform: translateY(0);}
-}
-
 
 /* =========================
    SMALL NOTE (SERVICES)
