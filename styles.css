@@ -1900,6 +1900,19 @@ color:#2563eb;
   margin-top: 50px;
 }
 
+.process-section {
+  padding: 100px 20px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+
+  /* Background image */
+  background: linear-gradient(135deg, rgba(0,120,212,0.8), rgba(0,90,158,0.8)),
+              url('security.jpg') no-repeat center center;
+  background-size: cover; /* Make sure it fills the section */
+  color: #ffffff; /* Text color for contrast */
+}
+
 /* ========================
    Process Card
 ======================== */
