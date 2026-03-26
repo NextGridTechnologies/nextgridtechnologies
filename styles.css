@@ -120,19 +120,6 @@ nav a {
   border-radius: 4px;
 }
 
-.hero {
-   position: relative;
-  text-align: center;
-  padding: 180px 20px 120px 20px;
-  background: linear-gradient(
-      rgba(13, 27, 42, 0.85),
-      rgba(13, 27, 42, 0.85)
-    ),
-    url("header-bg.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
 .hero h2 {
   font-size: 36px;
   margin-bottom: 20px;
@@ -1527,28 +1514,39 @@ font-size:32px;
 margin-bottom:10px;
 }
 
+/* Hero Section */
 .hero {
   position: relative;
   width: 100%;
-  min-height: 60vh; /* smaller hero on large screens */
-  max-height: 80vh; /* optional limit */
+  min-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  text-align: center;
+  padding: 120px 20px 80px 20px;
+  background: linear-gradient(
+      rgba(13, 27, 42, 0.85),
+      rgba(13, 27, 42, 0.85)
+    ),
+    url("header-bg.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
+/* Background Video */
 .hero-video {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: auto;     /* let width scale automatically */
-  height: 100%;    /* fill the hero vertically */
+  width: auto;
+  height: 100%;
   transform: translate(-50%, -50%);
-  object-fit: cover; /* keeps aspect ratio while covering the hero */
+  object-fit: cover;
   z-index: 1;
 }
 
+/* Overlay */
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -1559,35 +1557,38 @@ margin-bottom:10px;
   z-index: 2;
 }
 
+/* Hero Content */
 .hero-content {
   position: relative;
   z-index: 3;
-  text-align: center;
-  padding: 60px 20px; /* more breathing room */
   color: #fff;
+  max-width: 800px;
+  padding: 20px;
 }
 
+/* Initial hidden state for animation */
 .hero-content h1,
 .hero-content p,
-hero-content .btn-primary {
+.hero-content .btn-primary {
   opacity: 0;
   transform: translateY(20px);
   animation-fill-mode: forwards;
 }
 
-.hero-content h1.fade-in {
+/* Animation classes */
+.fade-in {
   animation: fadeInUp 1s ease forwards;
 }
 
-.hero-content p.fade-in {
-  animation: fadeInUp 1s ease 0.5s forwards; /* delay */
+.fade-in:nth-child(2) {
+  animation-delay: 0.5s; /* paragraph */
 }
 
 .btn-primary.slide-up {
-  animation: fadeInUp 1s ease 1s forwards; /* further delay for CTA */
+  animation: fadeInUp 1s ease 1s forwards; /* CTA button */
 }
 
-/* Fade-in keyframes */
+/* Keyframes */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -1599,23 +1600,42 @@ hero-content .btn-primary {
   }
 }
 
-/* Button styling */
-.btn-primary {
-  display: inline-block;
-  background-color: #0078d4;
-  color: #ffffff;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+/* Buttons */
+.hero-buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 30px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #ff5a5f;
+  color: #fff;
 }
 
 .btn-primary:hover {
-  background-color: #005ea3;
-  transform: translateY(-3px);
+  background: #e04e53;
 }
 
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: #fff;
+  color: #000;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .hero-content h1 {
