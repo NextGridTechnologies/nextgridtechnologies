@@ -1204,6 +1204,47 @@ color:#475569;
 font-size:15px;
 }
 
+.who-section{
+  background:#f8fafc;
+  padding:80px 20px;
+  text-align:center;
+}
+
+.who-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  justify-items:center;
+  gap:30px;
+}
+
+.who-grid .who-card:last-child {
+  grid-column: 2; /* center the bottom card */
+}
+
+.who-card{
+  background:white;
+  padding:30px;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+  transition:all .3s ease;
+  opacity:0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 0.8s forwards;
+}
+
+.who-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+}
+
+@keyframes fadeSlideUp {
+  to {
+    opacity:1;
+    transform: translateY(0);
+  }
+}
+
 /* =========================
    COMMON PROBLEMS SECTION
 ========================= */
@@ -2041,6 +2082,33 @@ header {
 .solution-card:hover {
   transform: translateY(-5px);
 }
+.solution-grid {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap:20px;
+  margin-top:30px;
+  background: #e0f0ff; /* light blue shade */
+  padding: 20px;
+}
+
+.solution-grid .solution-card:last-child {
+  grid-column: 2; /* center bottom card */
+}
+
+.solution-card {
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  text-align:left;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.solution-card:hover {
+  transform: scale(1.05);
+  box-shadow:0 15px 25px rgba(0,0,0,0.08);
+}
 
 /* =========================
    Responsive for smaller screens
@@ -2131,7 +2199,57 @@ header {
   font-weight: 600;
   color: #0f172a;
 }
+.testimonials-section {
+  background: #d0e6ff; /* slightly darker blue shade */
+  padding: 80px 20px;
+  text-align:center;
+}
 
+.testimonials-section h2 {
+  font-size:32px;
+  margin-bottom:50px;
+}
+
+/* marquee effect */
+.testimonials-grid {
+  display:flex;
+  gap:30px;
+  overflow:hidden;
+  justify-content:center;
+  animation: marquee 15s linear infinite;
+}
+
+.testimonial-card {
+  background:white;
+  padding:30px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+  min-width:250px;
+  max-width:350px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05);
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.testimonial-card p {
+  font-size:16px;
+  color:#475569;
+  margin-bottom:15px;
+}
+
+.testimonial-card h4 {
+  font-weight:600;
+  color:#0f172a;
+}
+
+/* Marquee keyframes */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
 /* =========================
    Testimonials Continuous Scroll
 ========================= */
