@@ -5,110 +5,159 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | NextGrid Technologies</title>
 
+  <!-- External CSS -->
   <link rel="stylesheet" href="styles.css">
 
   <style>
-    /* Simple success state */
+    /* ===== Elite AJAX Form Styling ===== */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: auto;
+      padding: 50px 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    input, textarea, button {
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input, textarea {
+      width: 100%;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
     .success-message {
       display: none;
       text-align: center;
       padding: 40px;
-      background: #0f172a;
-      color: white;
+      background: rgba(0,0,0,0.3);
       border-radius: 12px;
     }
 
-    .success-message h2 {
-      margin-bottom: 10px;
+    .success-message a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #25D366;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
     }
 
     .error-message {
-      color: red;
-      margin-top: 10px;
       display: none;
+      color: red;
+      text-align: center;
+      margin-top: 10px;
     }
+
   </style>
 </head>
 
 <body>
 
-<section class="section">
   <div class="container">
-
     <h2>Get Your Free Security Check</h2>
-    <p>Fill in the form below and we’ll contact you shortly.</p>
+    <p>Fill in the form below and one of our specialists will contact you shortly.</p>
 
-    <!-- =========================
-         FORM
-    ========================= -->
-    <form id="contact-form" class="contact-form">
-      
+    <!-- AJAX Form -->
+    <form id="contact-form">
       <input type="text" name="name" placeholder="Your Name" required>
       <input type="email" name="email" placeholder="Your Email" required>
       <input type="text" name="company" placeholder="Company Name">
       <textarea name="message" placeholder="Tell us about your IT environment..." required></textarea>
-
       <button type="submit">Request Free Check</button>
-
-      <p class="error-message" id="errorMsg">Something went wrong. Please try again.</p>
-
+      <p class="error-message" id="errorMsg">Oops! Something went wrong. Try again.</p>
     </form>
 
-    <!-- =========================
-         SUCCESS MESSAGE
-    ========================= -->
+    <!-- Success message -->
     <div class="success-message" id="successMsg">
       <h2>✅ You're All Set!</h2>
-      <p>Your request has been received.</p>
-      <p>We’ll contact you shortly.</p>
-
-      <a href="https://wa.me/27680330794?text=Hi%20I%20just%20submitted%20a%20request"
-         target="_blank"
-         style="display:inline-block;margin-top:15px;background:#25D366;color:white;padding:10px 15px;border-radius:6px;text-decoration:none;">
+      <p>Your request has been received successfully.</p>
+      <p>We will contact you shortly.</p>
+      <a href="https://wa.me/27680330794?text=Hi%20I%20just%20submitted%20a%20request" target="_blank">
         💬 Chat With Us Now
       </a>
     </div>
 
   </div>
-</section>
 
-<!-- =========================
-     SCRIPT (AJAX)
-========================= -->
-<script>
-const form = document.getElementById("contact-form");
-const successMsg = document.getElementById("successMsg");
-const errorMsg = document.getElementById("errorMsg");
+  <!-- AJAX Script -->
+  <script>
+    const form = document.getElementById("contact-form");
+    const successMsg = document.getElementById("successMsg");
+    const errorMsg = document.getElementById("errorMsg");
 
-// 🔴 IMPORTANT: Replace with your Formspree endpoint
-const formEndpoint = "https://formspree.io/f/maqdkqyg";
+    // 🔴 Replace with your Formspree ID
+    const endpoint = "https://formspree.io/f/YOUR_FORM_ID";
 
-form.addEventListener("submit", async function(e) {
-  e.preventDefault();
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault(); // prevent default redirect
 
-  const formData = new FormData(form);
+      const formData = new FormData(form);
 
-  try {
-    const response = await fetch(formEndpoint, {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          form.style.display = "none";
+          successMsg.style.display = "block";
+        } else {
+          errorMsg.style.display = "block";
+        }
+      } catch (error) {
+        errorMsg.style.display = "block";
       }
     });
-
-    if (response.ok) {
-      form.style.display = "none";
-      successMsg.style.display = "block";
-    } else {
-      errorMsg.style.display = "block";
-    }
-
-  } catch (error) {
-    errorMsg.style.display = "block";
-  }
-});
-</script>
+  </script>
 
 </body>
 </html>
