@@ -2080,10 +2080,10 @@ header {
 }
 
 /* =========================
-   TESTIMONIALS SECTION (2+1 layout)
+   TESTIMONIALS SECTION (2+1 Layout)
 ========================= */
 .testimonials-section {
-  background: #e0f0ff; /* light blue background */
+  background: #cce4f6; /* light blue shade */
   padding: 80px 20px;
   text-align: center;
 }
@@ -2095,9 +2095,9 @@ header {
 
 .testimonials-grid {
   display: grid;
-  grid-template-areas: 
+  grid-template-areas:
     "card1 card2"
-    ". card3 ."; /* centers the 3rd card */
+    ". card3 ."; /* centers the 3rd testimonial */
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   justify-items: center;
@@ -2108,7 +2108,7 @@ header {
 .testimonials-grid > .testimonial-card:nth-child(3) { grid-area: card3; }
 
 .testimonial-card {
-  background: #cce6ff; /* shaded blue card */
+  background: #e6f2fa; /* slightly darker blue for the cards */
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -2123,7 +2123,7 @@ header {
 
 .testimonial-card p {
   font-size: 16px;
-  color: #0f172a;
+  color: #0f172a; /* darker text for readability */
   margin-bottom: 15px;
 }
 
@@ -2132,6 +2132,18 @@ header {
   color: #0f172a;
 }
 
+/* =========================
+   Responsive Adjustments
+========================= */
+@media (max-width: 768px) {
+  .testimonials-grid {
+    grid-template-areas:
+      "card1"
+      "card2"
+      "card3";
+    grid-template-columns: 1fr;
+  }
+}
 /* =========================
    Responsive Layout
 ========================= */
