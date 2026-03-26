@@ -2297,3 +2297,39 @@ section p {
     padding: 20px 10px;
   }
 }
+
+/* === Reduce spacing between sections === */
+section {
+  padding-top: 40px;    /* smaller than default */
+  padding-bottom: 40px; /* smaller than default */
+}
+
+/* Reduce heading and paragraph margins inside sections */
+section h1,
+section h2,
+section h3,
+section h4,
+section h5,
+section h6,
+section p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Reduce padding inside cards */
+.who-card,
+.testimonial-card,
+.hero-content {
+  padding: 20px; /* less than your 30-60px default */
+}
+
+/* Reduce spacing in hero */
+.hero {
+  padding: 120px 20px 80px 20px; /* smaller top/bottom padding */
+}
+
+/* Optional: reduce gap in grids */
+.who-grid,
+.testimonials-grid {
+  gap: 20px; /* instead of 30px */
+}
