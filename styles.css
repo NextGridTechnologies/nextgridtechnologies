@@ -175,22 +175,25 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 .m365-card p, .trust-card p, .process-card p, .security-section .card.tech-card p, .support-section .card.tech-card p { color: var(--text-light); }
 .security-section .card.tech-card ul li, .support-section .card.tech-card ul li { border-bottom: 1px solid rgba(16,185,129,0.2); }
 
-.support-illustration .support-media {
-  width: 100%;
-  max-width: 360px;
-  height: 280px;      /* exact height */
-  object-fit: cover;
-  border-radius: 12px;
-}
-
 .why-us-wrap {
   display: flex;
   gap: 40px;
-  align-items: center;
+  align-items: center;   /* aligns video & text vertically */
 }
-.why-us-wrap .support-illustration {
-  flex: 1;
+
+.support-illustration {
+  flex: 1;               /* lets it shrink */
   min-width: 0;
+}
+
+.support-illustration .support-media {
+  width: 100%;
+  max-width: 380px;      /* same width as text column */
+  height: 100%;
+  max-height: 320px;     /* key: matches text height */
+  object-fit: cover;     /* crops excess, no squishing */
+  border-radius: 12px;
+  display: block;
 }
 /* ========= BLOG VALUE SECTION ========= */
 .blog-value {
