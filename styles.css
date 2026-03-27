@@ -177,8 +177,20 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 
 .support-illustration .support-media {
   width: 100%;
-  max-width: 500px;
+  max-width: 380px;   /* shrink it */
+  height: auto;       /* keep aspect ratio */
   border-radius: 12px;
+  object-fit: cover;  /* crops edges if needed */
+}
+
+.why-us-wrap {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+.why-us-wrap .support-illustration {
+  flex: 1;
+  min-width: 0;
 }
 /* ========= BLOG VALUE SECTION ========= */
 .blog-value {
