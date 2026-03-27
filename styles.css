@@ -347,3 +347,58 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   .bottom-nav { gap: 30px; }
   .testimonials-grid { animation: none; flex-direction: column; align-items: center; }
 }
+
+/* --- Premium Blog Styling --- */
+.blog-page .support-section {
+  padding: 60px 0;
+  background: #ffffff;
+}
+
+.blog-page .blog-article {
+  max-width: 800px;          /* narrower reading column */
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;          /* keep body text left-aligned for readability */
+}
+
+.blog-page .blog-article h2 {
+  font-size: 1.9rem;
+  margin-top: 2.2rem;
+  margin-bottom: 1rem;
+  color: #1e3a8a;            /* brand blue */
+  border-left: 4px solid #22c55e; /* green accent */
+  padding-left: 12px;
+}
+
+.blog-page .blog-article p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #334155;
+  margin-bottom: 1.2rem;
+}
+
+.blog-page .blog-article ul.tech-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.blog-page .blog-article ul.tech-list li {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.blog-page .blog-article ul.tech-list li strong {
+  color: #0f172a;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.blog-page .cta-support {
+  text-align: center;
+  margin-top: 2.5rem;
+}
