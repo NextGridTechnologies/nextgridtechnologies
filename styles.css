@@ -176,7 +176,7 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 .security-section .card.tech-card ul li, .support-section .card.tech-card ul li { border-bottom: 1px solid rgba(16,185,129,0.2); }
 
 .support-illustration .support-media {
-  width: 100%;
+  width: 70%;
   max-width: 380px;   /* shrink it */
   height: auto;       /* keep aspect ratio */
   border-radius: 12px;
