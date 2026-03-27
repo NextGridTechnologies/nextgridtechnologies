@@ -74,8 +74,13 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 }
 .services-hero { min-height: 40vh; padding: 80px 20px 50px; }
 .hero-video {
-  position: absolute; top: 50%; left: 50%; width: auto; height: 100%;
-  transform: translate(-50%, -50%); object-fit: cover; z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills the whole hero */
+  z-index: 1;
 }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(2,6,23,0.6), rgba(16,185,129,0.25)); z-index: 2; }
 .hero-content { position: relative; z-index: 3; max-width: 800px; }
