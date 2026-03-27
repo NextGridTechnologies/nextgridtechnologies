@@ -410,3 +410,41 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   text-align: center;
   margin-top: 2.5rem;
 }
+.services-snapshot, .why-us, .testimonials, .areas {
+  padding: 4rem 1rem;
+  background: #f8fafc;
+}
+.services-snapshot .service-grid,
+.testimonials .testimonial-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1.5rem;
+  margin-top:2rem;
+}
+.service-card, .testimonial-card {
+  background:#fff;
+  padding:1.5rem;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+.check-list {
+  list-style:none;
+  padding:0;
+  max-width:700px;
+  margin:2rem auto;
+}
+.check-list li {
+  margin:.75rem 0;
+  padding-left:1.8rem;
+  position:relative;
+  color:#333;
+}
+.check-list li::before {
+  content:"✓";
+  position:absolute;
+  left:0;
+  color:#0ea5e9;
+  font-weight:700;
+}
+.cta-center { text-align:center; margin-top:2rem; }
+.areas .section-intro { font-weight:600; color:#333; }
