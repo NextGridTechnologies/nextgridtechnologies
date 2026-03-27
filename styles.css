@@ -185,11 +185,15 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 }
 /* Blog article readability — applies to all posts */
 .blog-article,
-.blog-article * {
+.blog-article *,
+.container .blog-article + p,
+.container p,
+.container li {
   color: #333 !important;
 }
 
-.blog-article h2 {
+.blog-article h2,
+.container h2 {
   color:#111 !important;
   margin-top: 2rem;
 }
