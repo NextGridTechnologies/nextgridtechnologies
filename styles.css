@@ -190,7 +190,7 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
   width: 100%;
   max-width: 380px;      /* same width as text column */
   height: 100%;
-  max-height: 320px;     /* key: matches text height */
+  max-height: 150px;     /* key: matches text height */
   object-fit: cover;     /* crops excess, no squishing */
   border-radius: 12px;
   display: block;
