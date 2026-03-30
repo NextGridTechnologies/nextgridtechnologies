@@ -335,7 +335,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  // Create Supabase client
+// Create Supabase client
 const supabaseClient = supabase.createClient(
   'https://tirkqybcedxfusifslim.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
@@ -344,40 +344,38 @@ const supabaseClient = supabase.createClient(
 // Handle form submit
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
   e.preventDefault()
-    console.log('signUp called')   // ← add this
-    const name = document.getElementById('name').value
-    const company = document.getElementById('company').value
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-    const need = document.getElementById('need').value
-    const msg = document.getElementById('message')
 
-    msg.textContent = 'Creating account...'
-    msg.style.color = 'inherit'
+  const name = document.getElementById('name').value
+  const company = document.getElementById('company').value
+  const email = document.getElementById('email').value
+  const password = document.getElementById('password').value
+  const need = document.getElementById('need').value
+  const msg = document.getElementById('message')
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: name,
-          company: company,
-          need: need
-        }
+  msg.textContent = 'Creating account...'
+  msg.style.color = 'inherit'
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name,
+        company: company,
+        need: need
       }
-    })
-
-    console.log('Supabase response', { data, error })
-
-    if (error) {
-      msg.textContent = error.message
-      msg.style.color = 'red'
-    } else {
-       msg.textContent = 'Account created! You can log in now.'
-      msg.style.color = 'green'
-      e.target.reset()
     }
   })
+
+  if (error) {
+    msg.textContent = error.message
+    msg.style.color = 'red'
+  } else {
+    msg.textContent = 'Account created! You can log in now.'
+    msg.style.color = 'green'
+    e.target.reset()
+  }
+})
 
   // Hamburger menu
   const hamburger = document.getElementById("hamburger");
