@@ -171,26 +171,22 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px; margin-top: 30px;
 }
-.who-card, .why-card, .m365-card, .trust-card, .cert-card, .process-card, .card.tech-card,
-.service-card {
+.who-card, .why-card, .m365-card, .trust-card, .cert-card, .process-card, .card.tech-card {
   background: white; padding: 1.5rem; border-radius: 12px;
   box-shadow: 0 10px 25px rgba(2,6,23,0.06);
   border: 1px solid #e2f5ef;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   text-align: left;
 }
-.who-card:hover, .why-card:hover, .m365-card:hover, .trust-card:hover, .cert-card:hover, .process-card:hover, .card.tech-card:hover,
-.service-card:hover {
+.who-card:hover, .why-card:hover, .m365-card:hover, .trust-card:hover, .cert-card:hover, .process-card:hover, .card.tech-card:hover {
   transform: translateY(-6px); 
   box-shadow: 0 15px 35px rgba(2,6,23,0.1);
   border-color: var(--accent-2);
 }
-.who-card h3, .why-card h3, .m365-card h3, .trust-card h3, .cert-card h3, .process-card h3, .card.tech-card h3,
-.service-card h3 {
+.who-card h3, .why-card h3, .m365-card h3, .trust-card h3, .cert-card h3, .process-card h3, .card.tech-card h3 {
   color: var(--text);
 }
-.who-card p, .why-card p, .m365-card p, .trust-card p, .cert-card p, .process-card p, .card.tech-card p,
-.service-card p {
+.who-card p, .why-card p, .m365-card p, .trust-card p, .cert-card p, .process-card p, .card.tech-card p {
   color: var(--muted); font-size: 15px;
 }
 .card.tech-card .icon { font-size: 28px; margin-bottom: 10px; }
@@ -746,7 +742,8 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 .service-icon {
   font-size: 32px;
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  display: block;
 }
 
 .cta-center {
