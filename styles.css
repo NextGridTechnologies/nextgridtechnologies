@@ -175,39 +175,91 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 .m365-card p, .trust-card p, .process-card p, .security-section .card.tech-card p, .support-section .card.tech-card p { color: var(--text-light); }
 .security-section .card.tech-card ul li, .support-section .card.tech-card ul li { border-bottom: 1px solid rgba(16,185,129,0.2); }
 
-/* ========= Support-illustration ========= */
+/* ========= WHY US (TWO COLUMNS) ========= */
+.why-us {
+  background: var(--bg-dark-2);
+  color: #fff;
+  padding: 4rem 1rem;
+}
+
+.why-us h2 { color:#fff; }
+
 .why-us-wrap {
   display: flex;
   gap: 40px;
-  align-items: flex-start;   /* <-- don't stretch, align tops */
+  align-items: flex-start;   /* columns align at top, not same height */
 }
 
-.support-illustration {
-  flex: 0 0 40%;             /* video takes 40% of row width */
+.why-us-text,
+.why-us-side {
+  flex: 1;
   min-width: 0;
-  overflow: hidden;
+  text-align: left;
+}
+
+.why-us-side {
+  background: rgba(255,255,255,0.05);
+  padding: 24px;
   border-radius: 12px;
-  max-height: 20%;           /* <-- video will be 80% of text height */
 }
 
-.support-illustration .support-media {
-  width: 100%;
-  height: auto;              /* keep natural aspect ratio */
-  object-fit: cover;
-  display: block;
+.why-us-side h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: var(--accent-2);
 }
 
-.why-us-text {
-  flex: 1;
-  min-width: 0;
+.why-us-side p {
+  color: var(--text-light);
 }
 
-/* If your text column is short, give it a min-height so the video grows */
-.why-us-text {
-  flex: 1;
-  min-width: 0;
-  min-height: 300px;      /* adjust to your design */
+.why-us-side .btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 20px;
+  background: var(--accent-2);
+  color: var(--bg-dark);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
+
+.why-us-side .btn:hover {
+  background: var(--accent-2-hover);
+  transform: translateY(-2px);
+}
+
+.check-list {
+  list-style:none;
+  padding:0;
+  margin:2rem 0;
+}
+
+.check-list li {
+  margin:.9rem 0;
+  padding-left:2rem;
+  position:relative;
+  color:#e2e8f0;
+  font-size:1.05rem;
+}
+
+.check-list li::before {
+  content:"✓";
+  position:absolute;
+  left:0;
+  color:var(--accent-2);
+  font-weight:700;
+  font-size:1.2rem;
+}
+
+/* Mobile: stack columns */
+@media (max-width: 800px) {
+  .why-us-wrap {
+    flex-direction: column;
+  }
+}
+
 /* ========= BLOG VALUE SECTION ========= */
 .blog-value {
   background: var(--bg-light);
@@ -277,40 +329,20 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 .support-section .card.tech-card.highlight { border: 2px solid var(--accent-2); }
 
 /* ========= TESTIMONIALS ========= */
-.testimonials { padding: 4rem 1rem; background: #f8fafc; }
-.testimonials-grid {
-  display: flex; gap: 30px; overflow: hidden; justify-content: center;
-  animation: scrollLeft 25s linear infinite;
-}
-.testimonial-card p { color: var(--muted); margin-bottom: 15px; }
-.testimonial-card h4 { color: var(--text); font-weight: 600; }
-@keyframes scrollLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.testimonials {
-  padding: 4rem 1rem;
-  background: #f8fafc;
-  overflow: hidden;
-}
-
+.testimonials { padding: 4rem 1rem; background: #f8fafc; overflow: hidden; }
 .testimonial-slider {
   overflow: hidden;
   position: relative;
 }
-
 .testimonial-track {
   display: flex;
   gap: 1.5rem;
   width: max-content;
   animation: scroll-left 30s linear infinite;
 }
-
-/* Pause on hover */
 .testimonial-slider:hover .testimonial-track {
   animation-play-state: paused;
 }
-
 .testimonial-card {
   background:#fff;
   padding:1.5rem;
@@ -319,30 +351,26 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
   min-width: 300px;
   flex-shrink: 0;
 }
-
 .testimonial-card p {
   color: #333;
   margin-bottom: 1rem;
   font-size: 0.95rem;
 }
-
 .testimonial-card span {
   color: #64748b;
   font-size: 0.9rem;
   font-weight: 600;
 }
-
 @keyframes scroll-left {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-
-/* On mobile, slow it down a bit */
 @media (max-width: 768px) {
   .testimonial-track {
     animation-duration: 45s;
   }
 }
+
 /* ========= RESULTS ========= */
 .results { 
   background: linear-gradient(135deg, var(--bg-dark), #042f2e);
@@ -437,7 +465,6 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   .hero-content p { font-size: 1rem; }
   .hero-buttons { flex-direction: column; gap: 15px; }
   .bottom-nav { gap: 30px; }
-  .testimonials-grid { animation: none; flex-direction: column; align-items: center; }
 }
 
 /* --- Premium Blog Styling --- */
@@ -480,77 +507,8 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 
 /* Services snapshot */
 .services-snapshot { padding: 4rem 1rem; background: #f8fafc; }
-.check-list {
-  list-style:none;
-  padding:0;
-  max-width:700px;
-  margin:2rem auto;
-}
-.check-list li {
-  margin:.75rem 0;
-  padding-left:1.8rem;
-  position:relative;
-  color:#333;
-}
-.check-list li::before {
-  content:"✓";
-  position:absolute;
-  left:0;
-  color:#0ea5e9;
-  font-weight:700;
-}
-.cta-center { text-align:center; margin-top:2rem; }
 
 .service-icon {
   width:48px; height:48px; margin-bottom:.75rem;
   filter: invert(46%) sepia(88%) saturate(1475%) hue-rotate(176deg) brightness(98%) contrast(92%);
-}
-
-.why-us {
-  background: var(--bg-dark-2);
-  color: #fff;
-  padding: 4rem 1rem;
-}
-
-.why-us h2 { color:#fff; }
-
-.why-us-wrap {
-  display:grid; 
-  grid-template-columns:1fr 1.2fr; 
-  gap:2.5rem; 
-  align-items:center;
-}
-
-.why-us-wrap img { 
-  width:100%; 
-  border-radius:12px; 
-  opacity:.9;
-}
-
-.check-list {
-  list-style:none;
-  padding:0;
-  margin:2rem 0;
-}
-
-.check-list li {
-  margin:.9rem 0;
-  padding-left:2rem;
-  position:relative;
-  color:#e2e8f0;
-  font-size:1.05rem;
-}
-
-.check-list li::before {
-  content:"✓";
-  position:absolute;
-  left:0;
-  color:var(--accent-2);
-  font-weight:700;
-  font-size:1.2rem;
-}
-
-@media(max-width:800px){
-  .why-us-wrap { grid-template-columns:1fr; }
-  .why-us-wrap img { order:2; }
 }
