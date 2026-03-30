@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account | NextGrid Technologies</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+<section class="container" style="max-width:720px;margin:80px auto;">
+  <h2>My Account</h2>
+  <div id="profile"></div>
+  <button id="logout" class="btn-secondary" style="margin-top:20px;">Sign Out</button>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient = supabase.createClient(
+  'https://tirkqybcedxfusifslim.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
+)
+
+async function loadAccount() {
+  const { data: { user }, error } = await supabaseClient.auth.getUser()
+  if (error || !user) {
+    window.location.href = 'login.html'
+    return
+  }
+
+  // Fetch profile row created by your trigger
+  const { data: profile } = await supabaseClient
+    .from('profiles')
+    .select('full_name, company, need')
+    .eq('id', user.id)
+    .single()
+
+  document.getElementById('profile').innerHTML = `
+    <p><strong>Name:</strong> ${profile?.full_name || '—'}</p>
+    <p><strong>Company:</strong> ${profile?.company || '—'}</p>
+    <p><strong>Your Request:</strong> ${profile?.need || '—'}</p>
+    <p><strong>Email:</strong> ${user.email}</p>
+  `
+}
+
+document.getElementById('logout').addEventListener('click', async () => {
+  await supabaseClient.auth.signOut()
+  window.location.href = 'login.html'
+})
+
+loadAccount()
+</script>
+</body>
+</html>
