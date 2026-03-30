@@ -342,7 +342,7 @@
 
     msg.textContent = 'Creating account...'
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -353,7 +353,7 @@
         }
       }
     })
-
+    console.log('Superbase response' , { data, error })
     if (error) {
       msg.textContent = error.message
     } else {
