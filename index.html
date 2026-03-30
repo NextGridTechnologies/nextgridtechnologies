@@ -106,8 +106,6 @@
     </div>
   </div>
 </section>
-</body>
-</html>
 
 <!-- Services Snapshot -->
 <section class="services-snapshot">
@@ -302,6 +300,7 @@
   </div>
 </section>
 
+<!-- Contact / Sign Up -->
 <section id="contact">
 <div class="container contact-wrapper" style="text-align: center;">
     <h2>Request IT Support</h2>
@@ -319,50 +318,6 @@
 </div>
 </section>
 
-<!-- Supabase library -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  // 1. Create the client
-  const supabase = supabase.createClient(
-    'https://tirkqybcedxfusifslim.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
-  )
-
-  // 2. Handle submit
-  document.getElementById('signupForm').addEventListener('submit', async (e) => {
-    e.preventDefault()
-
-    const name = document.getElementById('name').value
-    const company = document.getElementById('company').value
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-    const need = document.getElementById('need').value
-    const msg = document.getElementById('message')
-
-    msg.textContent = 'Creating account...'
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: name,
-          company: company,
-          need: need
-        }
-      }
-    })
-    console.log('Superbase response' , { data, error })
-    if (error) {
-      msg.textContent = error.message
-    } else {
-      msg.textContent = 'Check your email to confirm your account!'
-      e.target.reset()
-    }
-  })
-</script>
-  
 <div class="bottom-nav">
 <a href="index.html"><span>🏠</span><p>Home</p></a>
 <a href="services.html"><span>🛠</span><p>Services</p></a>
@@ -376,46 +331,61 @@
 </div>
 </footer>
 
-<script>
-const hamburger = document.getElementById("hamburger");
-const navMenu = document.getElementById("navMenu");
-if (hamburger && navMenu) {
-  hamburger.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
-  });
-}
-</script>
-
 <!-- Supabase library -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  // 1. Create the client
+  // Create Supabase client
   const supabase = supabase.createClient(
     'https://tirkqybcedxfusifslim.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
   )
 
-  // 2. Signup function
-  async function handleSignup(event) {
-    event.preventDefault()
+  // Handle form submit
+  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault()
 
+    const name = document.getElementById('name').value
+    const company = document.getElementById('company').value
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
-    const fullName = document.getElementById('full_name').value
+    const need = document.getElementById('need').value
+    const msg = document.getElementById('message')
+
+    msg.textContent = 'Creating account...'
+    msg.style.color = 'inherit'
 
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } }
+      options: {
+        data: {
+          full_name: name,
+          company: company,
+          need: need
+        }
+      }
     })
 
-    const msg = document.getElementById('message')
+    console.log('Supabase response', { data, error })
+
     if (error) {
       msg.textContent = error.message
+      msg.style.color = 'red'
     } else {
-      msg.textContent = 'Check your email to confirm!'
+      msg.textContent = 'Check your email to confirm your account!'
+      msg.style.color = 'green'
+      e.target.reset()
     }
+  })
+
+  // Hamburger menu
+  const hamburger = document.getElementById("hamburger");
+  const navMenu = document.getElementById("navMenu");
+  if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+    });
   }
 </script>
 
