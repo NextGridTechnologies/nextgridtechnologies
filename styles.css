@@ -669,7 +669,7 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   margin-bottom: 6px;
 }
 
-/* ========= SERVICES PAGE ========= */
+/* ========= SERVICES PAGE (MUST BE LAST) ========= */
 .services-snapshot {
   padding: 4rem 1rem;
   background: #f8fafc;
@@ -690,7 +690,8 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 }
 
 .service-card {
-  background: #fff;
+  background: #ffffff !important;   /* force white */
+  color: var(--text) !important;    /* force dark text */
   padding: 1.8rem;
   border-radius: 12px;
   border: 1px solid #e2f5ef;
@@ -706,13 +707,13 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 }
 
 .service-card h3 {
-  color: var(--text);
+  color: var(--text) !important;
   margin: 10px 0 8px;
   font-size: 1.25rem;
 }
 
 .service-card p {
-  color: var(--muted);
+  color: var(--muted) !important;
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 12px;
@@ -722,7 +723,7 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   list-style: none;
   padding: 0;
   margin: 0;
-  color: var(--muted);
+  color: var(--muted) !important;
   font-size: 0.9rem;
 }
 
@@ -744,6 +745,7 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   line-height: 1;
   margin-bottom: 0.75rem;
   display: block;
+  filter: none !important;   /* undo the image filter */
 }
 
 .cta-center {
