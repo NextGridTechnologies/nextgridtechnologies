@@ -175,27 +175,28 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 .m365-card p, .trust-card p, .process-card p, .security-section .card.tech-card p, .support-section .card.tech-card p { color: var(--text-light); }
 .security-section .card.tech-card ul li, .support-section .card.tech-card ul li { border-bottom: 1px solid rgba(16,185,129,0.2); }
 
+/* ========= Support-illustration ========= */
 .why-us-wrap {
   display: flex;
   gap: 40px;
-  align-items: stretch; /* both columns match height */
+  align-items: stretch;   /* row height = height of tallest child */
 }
 
 .support-illustration {
   flex: 1;
   min-width: 0;
-  /* remove max-height: 300px */
   overflow: hidden;
   border-radius: 12px;
+  /* remove any max-height */
+  display: flex;          /* <-- key */
 }
 
 .support-illustration .support-media {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* fills the wrapper, crops excess */
+  height: 100%;           /* fills the wrapper */
+  object-fit: cover;
   display: block;
 }
-
 /* ========= BLOG VALUE SECTION ========= */
 .blog-value {
   background: var(--bg-light);
