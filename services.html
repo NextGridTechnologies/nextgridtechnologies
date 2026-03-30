@@ -1,24 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IT Services for Small Businesses</title>
-  <link rel="stylesheet" href="styles.css">   <!-- THIS LINE WAS MISSING -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Services | NextGrid Technologies</title>
+<meta name="description" content="IT support and Microsoft 365 security services in Pretoria, Centurion and Gauteng. Server rooms, computer repair, network security, cloud backup and 24/7 support.">
+<meta name="keywords" content="Microsoft 365 security Gauteng, IT support Gauteng, server room setup, computer repair Centurion, cloud backup">
+<meta name="author" content="NextGrid Technologies">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<!-- SERVICES HERO -->
-<section class="services-hero">
+<header>
+<div class="container header-flex">
+  <div class="logo-area">
+    <img src="favicon.ico" alt="NextGrid Technologies Logo" class="logo">
+    <span class="logo-text">NextGrid Technologies</span>
+  </div>
+
+  <nav id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="blog.html">Blog</a>
+  </nav>
+
+  <div class="header-contact">
+    <a href="tel:+27680330794" class="btn-phone">📞 Call</a>
+    <a href="https://wa.me/27680330794" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
+  </div>
+
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+</div>
+</header>
+
+<section class="hero services-hero">
+  <video autoplay muted loop playsinline class="hero-video" loading="lazy">
+    <source src="security-screen.mp4" type="video/mp4">
+  </video>
   <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <h1>IT Services for Small Businesses</h1>
-    <p class="hero-sub">Practical security, support and cloud setup — delivered locally in Pretoria & Gauteng.</p>
+
+  <div class="container hero-content">
+    <h1>IT Security & Support for Small Businesses</h1>
+    <p class="section-intro">Protect email, devices, and data with proven security.</p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn-primary">Get a Free Network Assessment</a>
+      <a href="tel:+27680330794" class="btn-secondary">Book Support Call</a>
+    </div>
   </div>
 </section>
 
-<!-- SERVICES -->
+<!-- SERVICES (uses .services-snapshot so the white-card CSS applies) -->
 <section class="services-snapshot">
   <div class="container">
     <h2>What We Do</h2>
@@ -99,5 +132,14 @@
   </div>
 </section>
 
-</body>
-</html>
+<section id="contact">
+  <div class="container contact-wrapper">
+    <h2>Request Services</h2>
+    <p class="contact-subtext">Tell us what you need — we’ll reply fast.</p>
+    <form action="https://formspree.io/f/xjgezydg" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="text" name="company" placeholder="Company Name" required>
+      <input type="email" name="email" placeholder="Business Email" required>
+      <textarea name="need" placeholder="What do you need?" required></textarea>
+      <button type="submit" class="btn-primary">Send Request</button>
+    </form>
