@@ -338,5 +338,39 @@ if (hamburger && navMenu) {
   });
 }
 </script>
+
+<!-- Supabase library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // 1. Create the client
+  const supabase = supabase.createClient(
+    'https://tirkqybcedxfusifslim.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
+  )
+
+  // 2. Signup function
+  async function handleSignup(event) {
+    event.preventDefault()
+
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+    const fullName = document.getElementById('full_name').value
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: fullName } }
+    })
+
+    const msg = document.getElementById('message')
+    if (error) {
+      msg.textContent = error.message
+    } else {
+      msg.textContent = 'Check your email to confirm!'
+    }
+  }
+</script>
+
 </body>
 </html>
