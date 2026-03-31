@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Entry for your homepage -->
+  <url>
+    <loc>https://www.nextgridtechnologies.co.za/index.html</loc>
+    <lastmod>2026-03-31</lastmod> <!-- Last modification date (YYYY-MM-DD) -->
+    <changefreq>monthly</changefreq> <!-- How frequently the page is likely to change -->
+    <priority>1.0</priority> <!-- Priority of this URL relative to other URLs on your site (0.0 to 1.0) -->
+  </url>
+
+  <!-- Entry for your Services page -->
+  <url>
+    <loc>https://www.nextgridtechnologies.co.za/services.html</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Entry for your Blog page -->
+  <url>
+    <loc>https://www.nextgridtechnologies.co.za/blog.html</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Add more <url> blocks for each of your other pages -->
+	<!-- Entry for your Login page -->
+    <url>
+    <loc>https://www.nextgridtechnologies.co.za/login.html</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
