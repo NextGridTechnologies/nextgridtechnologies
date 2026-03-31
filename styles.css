@@ -68,7 +68,7 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
 }
 .nav-cta:hover, .btn-small:hover { 
   background: linear-gradient(135deg, var(--accent-hover), var(--accent-2-hover));
-  transform: translateY(-2px);
+  transform: translateY(-2px); 
 }
 
 .hamburger {
@@ -589,6 +589,62 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
   background: #f0fdfa; color: var(--text); font-size: 1rem;
 }
 .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent-2); outline: none; box-shadow: 0 0 0 3px rgba(16,185,129,0.2); }
+
+/* ========= LOGIN / AUTH ========= */
+input::placeholder {
+  color: #a0a0a0; /* A darker, but still subtle grey for placeholders */
+  opacity: 1; /* Ensure full opacity across browsers */
+}
+input::-webkit-input-placeholder { color: #a0a0a0; } /* For older Webkit browsers */
+input:-moz-placeholder { color: #a0a0a0; }         /* For older Firefox */
+input:-ms-input-placeholder { color: #a0a0a0; }    /* For older IE */
+
+.forgot-password-link {
+  color: #87CEEB; /* A clear, visible sky blue. Adjust to your brand's accent if preferred. */
+  text-decoration: underline; /* Classic visual cue for links */
+  font-weight: 500; /* Medium boldness to help it stand out */
+  display: block; /* Makes it take up full width, placing it on its own line */
+  text-align: right; /* Aligns the link to the right within its container */
+  margin-top: 8px; /* Space above the link */
+  margin-bottom: 15px; /* Space below the link, before other elements like a submit button */
+  font-size: 0.9em; /* Slightly smaller text for secondary action */
+}
+
+.forgot-password-link:hover {
+  color: #6495ED; /* A slightly different shade on hover for user feedback */
+  text-decoration: none; /* Remove underline on hover for a subtle effect */
+}
+
+.message-text { /* Use this class on all your message <p> tags, e.g., <p id="message" class="message-text"></p> */
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 15px;
+  min-height: 40px; /* Give it some height even when empty to prevent layout shifts */
+  display: flex; /* Use flex to center text vertically if needed */
+  align-items: center;
+  justify-content: center;
+}
+
+.message-text.success {
+  color: #4CAF50; /* Green for success */
+  background-color: rgba(76, 175, 80, 0.1); /* Light green background */
+  border: 1px solid #4CAF50;
+}
+
+.message-text.error {
+  color: #ff4d4d; /* Red for errors */
+  background-color: rgba(255, 77, 77, 0.1); /* Light red background */
+  border: 1px solid #ff4d4d;
+}
+
+.message-text.warning {
+  color: #FFA500; /* Orange for warnings/instructions */
+  background-color: rgba(255, 165, 0, 0.1);
+  border: 1px solid #FFA500;
+}
 
 /* ========= BOTTOM NAV ========= */
 .bottom-nav {
