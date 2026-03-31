@@ -6,68 +6,7 @@
 <title>Client Login | NextGrid Technologies</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<!-- Custom styles for messages to ensure they're consistent and visible -->
-<style>
-/* --- Placeholder Text Clarity --- */
-input::placeholder {
-  color: #a0a0a0; /* A darker, but still subtle grey for placeholders */
-  opacity: 1; /* Ensure full opacity across browsers */
-}
-input::-webkit-input-placeholder { color: #a0a0a0; } /* For older Webkit browsers */
-input:-moz-placeholder { color: #a0a0a0; }         /* For older Firefox */
-input:-ms-input-placeholder { color: #a0a0a0; }    /* For older IE */
-
-/* --- "Forgot Password?" Link Styling --- */
-.forgot-password-link {
-  color: #87CEEB; /* A clear, visible sky blue. Adjust to your brand's accent if preferred. */
-  text-decoration: underline; /* Classic visual cue for links */
-  font-weight: 500; /* Medium boldness to help it stand out */
-  display: block; /* Makes it take up full width, placing it on its own line */
-  text-align: right; /* Aligns the link to the right within its container */
-  margin-top: 8px; /* Space above the link */
-  margin-bottom: 15px; /* Space below the link, before other elements like a submit button */
-  font-size: 0.9em; /* Slightly smaller text for secondary action */
-}
-
-.forgot-password-link:hover {
-  color: #6495ED; /* A slightly different shade on hover for user feedback */
-  text-decoration: none; /* Remove underline on hover for a subtle effect */
-}
-
-/* --- Message Text Styling (for #message and any other feedback areas) --- */
-.message-text { /* Use this class on all your message <p> tags, e.g., <p id="message" class="message-text"></p> */
-  font-size: 0.95em;
-  font-weight: 500;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  margin-top: 15px;
-  min-height: 40px; /* Give it some height even when empty to prevent layout shifts */
-  display: flex; /* Use flex to center text vertically if needed */
-  align-items: center;
-  justify-content: center;
-}
-
-/* Specific colors for success, error, and warning messages */
-.message-text.success { /* Add this class via JS: msg.classList.add('success'); */
-  color: #4CAF50; /* Green for success */
-  background-color: rgba(76, 175, 80, 0.1); /* Light green background */
-  border: 1px solid #4CAF50;
-}
-
-.message-text.error { /* Add this class via JS: msg.classList.add('error'); */
-  color: #ff4d4d; /* Red for errors */
-  background-color: rgba(255, 77, 77, 0.1); /* Light red background */
-  border: 1px solid #ff4d4d;
-}
-
-.message-text.warning { /* Add this class via JS: msg.classList.add('warning'); */
-  color: #FFA500; /* Orange for warnings/instructions */
-  background-color: rgba(255, 165, 0, 0.1);
-  border: 1px solid #FFA500;
-}
-</style>
+<link rel="stylesheet" href="styles.css"> <!-- Your main stylesheet -->
 </head>
 <body>
 
@@ -85,7 +24,7 @@ input:-ms-input-placeholder { color: #a0a0a0; }    /* For older IE */
     </div>
 
     <button type="submit" class="btn-primary">Sign In</button>
-    <p id="message" class="message-text"></p> <!-- Added .message-text class here -->
+    <p id="message" class="message-text"></p> <!-- Now using the .message-text class -->
 
     <p style="margin-top:10px;font-size:14px;">
       Don’t have an account? <a href="index.html#contact">Request access</a>
@@ -108,9 +47,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const msg = document.getElementById('message');
 
   msg.textContent = 'Signing in...';
-  // Use class for styling messages
-  msg.className = 'message-text'; // Clear previous classes
-  msg.classList.add('warning'); // Apply initial warning/info styling
+  msg.className = 'message-text warning'; // Use class for initial styling
 
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
@@ -146,11 +83,8 @@ document.getElementById('forgotPasswordLink').addEventListener('click', async (e
   msg.textContent = 'Sending password reset email...';
   msg.classList.add('warning');
 
-  // Supabase password reset
   const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-    // IMPORTANT: Change this to the URL of your dedicated password reset page
-    // This page needs to handle the token Supabase sends in the URL.
-    redirectTo: 'https://nextgridtechnologies.co.za/reset-password.html', // <<< MAKE SURE THIS IS YOUR ACTUAL URL
+    redirectTo: 'https://nextgridtechnologies.co.za/reset-password.html', // <<< CHANGE THIS TO YOUR ACTUAL RESET PAGE URL
   });
 
   if (error) {
