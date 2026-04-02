@@ -363,9 +363,10 @@
             { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
         );
 
-        document.addEventListener('DOMContentLoaded', async () => {
+           document.addEventListener('DOMContentLoaded', async () => {
             const adminLinkContainer = document.getElementById('adminLinkContainer');
             const loginLogoutLink = document.getElementById('loginLogoutLink');
+            const authNavWrapper = document.getElementById('authNavWrapper'); // Get the new wrapper
 
             // Check user session
             const { data: { user }, error } = await supabaseClient.auth.getUser();
@@ -399,6 +400,19 @@
                 loginLogoutLink.textContent = 'Client Login';
                 loginLogoutLink.href = 'login.html';
                 adminLinkContainer.innerHTML = ''; // Hide admin link
+                // Additional redirect for client_dashboard.html if not logged in
+                // (Only for client_dashboard.html and admin restricted pages)
+                if (window.location.pathname.includes('client_dashboard.html') ||
+                    window.location.pathname.includes('admin_dashboard.html') ||
+                    window.location.pathname.includes('create_invoice.html')) {
+                    window.location.href = 'login.html';
+                    return; // Stop further execution
+                }
+            }
+
+            // After all checks and updates, make the navigation wrapper visible
+            if (authNavWrapper) {
+                authNavWrapper.classList.remove('nav-hidden');
             }
 
             // Hamburger menu functionality (your existing code)
