@@ -164,7 +164,7 @@ const supabaseClient = supabase.createClient(
                 // Format total_amount_due to 2 decimal places with 'R ' prefix
                 const formattedTotal = `R ${invoice.total_amount_due ? invoice.total_amount_due.toFixed(2) : '0.00'}`;
                 listItem.innerHTML = `
-                    <a href="invoice_details.html?id=${invoice.id}">
+                    <a href="invoice.html?id=${invoice.id}">
                         Invoice ${invoice.invoice_number} - ${formattedTotal}
                     </a>
                     <span class="invoice-status">Status: ${invoice.status}</span>
