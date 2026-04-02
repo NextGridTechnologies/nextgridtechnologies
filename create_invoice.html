@@ -19,7 +19,7 @@
 <body>
 
     <!-- ============================================== -->
-    <!-- START: ADDED HEADER FROM YOUR EXISTING SITE -->
+    <!-- Updated Header HTML with dynamic admin and login/logout links -->
     <header>
       <div class="container header-flex">
         <div class="logo-area">
@@ -30,12 +30,14 @@
           <a href="index.html">Home</a>
           <a href="services.html">Services</a>
           <a href="blog.html">Blog</a>
-          <a href="login.html" class="nav-cta">Client Login</a>
+          <!-- Placeholder for admin link - will be populated by JS if user is admin -->
+          <div id="adminLinkContainer"></div>
+          <!-- Login/Logout Link - ID for JS to target -->
+          <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
         </nav>
         <button class="hamburger" id="hamburger">&#9776;</button>
       </div>
     </header>
-    <!-- END: ADDED HEADER -->
     <!-- ============================================== -->
 
     <div class="container">
@@ -48,8 +50,8 @@
             </div>
 
             <div class="form-group">
-                <label for="clientName">Client Name:</label> <!-- RENAMED -->
-                <input type="text" id="clientName" placeholder="e.g., Acme Corp" required> <!-- RENAMED -->
+                <label for="clientName">Client Name:</label>
+                <input type="text" id="clientName" placeholder="e.g., Acme Corp" required>
             </div>
 
             <div class="form-group">
@@ -63,8 +65,8 @@
             </div>
 
             <div class="form-group">
-                <label for="issueDate">Issue Date:</label> <!-- NEW FIELD -->
-                <input type="date" id="issueDate" required> <!-- NEW FIELD -->
+                <label for="issueDate">Issue Date:</label>
+                <input type="date" id="issueDate" required>
             </div>
 
             <div class="form-group">
@@ -93,8 +95,8 @@
             </div>
 
             <div class="form-group">
-                <label for="paymentInstructions">Payment Instructions:</label> <!-- NEW FIELD -->
-                <textarea id="paymentInstructions" rows="4" placeholder="e.g., Bank Name: [Your Bank Name]..."></textarea> <!-- NEW FIELD -->
+                <label for="paymentInstructions">Payment Instructions:</label>
+                <textarea id="paymentInstructions" rows="4" placeholder="e.g., Bank Name: [Your Bank Name]..., Account Number:..."></textarea>
             </div>
 
             <div class="form-group">
@@ -166,9 +168,10 @@
 
     <script src="js/supabase.min.js"></script>
     <script>
+        // Initialize Supabase Client
         const supabaseClient = supabase.createClient(
-            'https://tirkqybcedxfusifslim.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXalDBfsCpbj2FUS60e5-8',
+            'https://tirkqybcedxfusifslim.supabase.co', // <-- REPLACE WITH YOUR SUPABASE URL
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8', // <-- REPLACE WITH YOUR SUPABASE ANON KEY
             { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
         );
 
@@ -290,20 +293,20 @@
             calculateTotals();
 
             const userId = document.getElementById('user_id').value;
-            const clientName = document.getElementById('clientName').value; // RENAMED
+            const clientName = document.getElementById('clientName').value;
             const invoiceNumber = document.getElementById('invoiceNumber').value;
             const invoiceDate = document.getElementById('invoiceDate').value;
-            const issueDate = document.getElementById('issueDate').value; // NEW FIELD
+            const issueDate = document.getElementById('issueDate').value;
             const dueDate = document.getElementById('dueDate').value;
             const status = document.getElementById('status').value;
             const paymentTerms = document.getElementById('paymentTerms').value;
             const purchaseOrder = document.getElementById('purchaseOrder').value;
-            const paymentInstructions = document.getElementById('paymentInstructions').value; // NEW FIELD
+            const paymentInstructions = document.getElementById('paymentInstructions').value;
 
             const subtotal = parseFloat(document.getElementById('subtotal').value);
-            const discountAmount = parseFloat(document.getElementById('discountAmount').value); // Use calculated value
-            const vatPercentage = parseFloat(document.getElementById('vatRate').value); // Rename from vatRate
-            const vatAmount = parseFloat(document.getElementById('vatAmount').value); // Use calculated value
+            const discountAmount = parseFloat(document.getElementById('discountAmount').value);
+            const vatPercentage = parseFloat(document.getElementById('vatRate').value);
+            const vatAmount = parseFloat(document.getElementById('vatAmount').value);
             const totalAmountDue = parseFloat(document.getElementById('totalAmountDue').value);
 
             // Basic validation
@@ -319,20 +322,20 @@
                  .insert([
                         {
                             user_id: userId,
-                            client_name: clientName, // RENAMED
+                            client_name: clientName,
                             invoice_number: invoiceNumber,
                             invoice_date: invoiceDate,
-                            issue_date: issueDate, // NEW FIELD
+                            issue_date: issueDate,
                             due_date: dueDate,
                             status: status,
                             payment_terms: paymentTerms,
                             purchase_order: purchaseOrder,
-                            payment_instructions: paymentInstructions, // NEW FIELD
+                            payment_instructions: paymentInstructions,
 
                             subtotal: subtotal,
-                            discount_amount: discountAmount, // NEW FIELD
-                            vat_percentage: vatPercentage, // NEW FIELD
-                            vat_amount: vatAmount, // NEW FIELD
+                            discount_amount: discountAmount,
+                            vat_percentage: vatPercentage,
+                            vat_amount: vatAmount,
                             total_amount_due: totalAmountDue,
                         }
                     ])
@@ -345,7 +348,7 @@
                 const newInvoiceId = invoiceData[0].id;
                 console.log('Invoice created with ID:', newInvoiceId);
 
-                // 2. Prepare and insert line items into a 'line_items' table (you'll need to create this table in Supabase)
+                // 2. Prepare and insert line items into a 'line_items' table
                 const lineItemsToInsert = [];
                 const lineItemSections = lineItemsContainer.querySelectorAll('.line-item-section');
 
@@ -392,24 +395,66 @@
             }
         });
 
-        // Initialize with one line item and calculate totals on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set issueDate and invoiceDate to today's date by default
+        // This DOMContentLoaded listener now combines initial form setup AND role-based protection
+        document.addEventListener('DOMContentLoaded', async () => {
+            // --- 1. Page-level protection for admin pages ---
+            const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+
+            if (userError ||!user) {
+                // If not logged in, redirect to login page
+                window.location.href = 'login.html';
+                return; // Stop execution
+            }
+
+            // If logged in, fetch user's profile to get their role
+            const { data: profileData, error: profileError } = await supabaseClient
+              .from('profiles')
+              .select('role')
+              .eq('id', user.id)
+              .single();
+
+            if (profileError ||!profileData || profileData.role!== 'admin') {
+                console.warn('Unauthorized access attempt by user:', user.id, 'Role:', profileData? profileData.role : 'not found');
+                // Not an admin, redirect to client dashboard or a generic unauthorized page
+                window.location.href = 'client_dashboard.html'; // Or 'unauthorized.html'
+                return; // Stop execution
+            }
+            // If we reach here, the user is an authenticated admin
+            console.log('Admin user successfully accessed invoice creation page.');
+
+            // --- 2. Dynamic Navigation Link Display (for the header) ---
+            const adminLinkContainer = document.getElementById('adminLinkContainer');
+            const loginLogoutLink = document.getElementById('loginLogoutLink');
+
+            // User is logged in and is an admin (due to checks above)
+            loginLogoutLink.textContent = 'Logout';
+            loginLogoutLink.href = '#'; // Make it a button to trigger logout
+
+            loginLogoutLink.onclick = async (e) => {
+                e.preventDefault();
+                await supabaseClient.auth.signOut();
+                window.location.href = 'login.html'; // Redirect to login after logout
+            };
+
+            // Since we know the user is an admin, always show the admin link
+            adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
+
+            // --- 3. Initialize form dates and totals (existing form setup) ---
             const today = new Date();
             const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
             const formattedDate = `${yyyy}-${mm}-${dd}`;
 
             document.getElementById('invoiceDate').value = formattedDate;
-            document.getElementById('issueDate').value = formattedDate; // Pre-fill issue_date
+            document.getElementById('issueDate').value = formattedDate;
 
-            // Add the initial line item if the container is empty (e.g., after a reset or first load)
             if (lineItemsContainer.children.length === 0) {
-                addLineItem(); // This will add the first one with ID 0
+                addLineItem(); // Add the initial line item if the container is empty
             }
-            calculateTotals();
-            // Hamburger menu functionality from your login.html
+            calculateTotals(); // Perform initial calculation
+
+            // --- 4. Hamburger menu functionality (your existing code) ---
             const hamburger = document.getElementById("hamburger");
             const navMenu = document.getElementById("navMenu");
             if (hamburger && navMenu) {
