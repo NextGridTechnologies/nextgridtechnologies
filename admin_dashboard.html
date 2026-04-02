@@ -19,7 +19,7 @@
 <body>
 
     <!-- ============================================== -->
-    <!-- Your existing header -->
+    <!-- Updated Header HTML with dynamic admin and login/logout links -->
     <header>
       <div class="container header-flex">
         <div class="logo-area">
@@ -30,9 +30,9 @@
           <a href="index.html">Home</a>
           <a href="services.html">Services</a>
           <a href="blog.html">Blog</a>
-          <!-- This div is for the dynamic Admin Panel link -->
+          <!-- Placeholder for admin link - will be populated by JS if user is admin -->
           <div id="adminLinkContainer"></div>
-          <!-- Login/Logout Link -->
+          <!-- Login/Logout Link - ID for JS to target -->
           <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
         </nav>
         <button class="hamburger" id="hamburger">&#9776;</button>
@@ -70,66 +70,55 @@
     <script>
         // Initialize Supabase Client
         const supabaseClient = supabase.createClient(
-            'https://tirkqybcedxfusifslim.supabase.co', // Replace with your Supabase URL
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8', // Replace with your Supabase Anon Key
+            'https://tirkqybcedxfusifslim.supabase.co', // <-- REPLACE WITH YOUR SUPABASE URL
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8', // <-- REPLACE WITH YOUR SUPABASE ANON KEY
             { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
         );
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // --- Page-level protection for admin pages ---
+            // --- 1. Page-level protection for admin pages ---
             const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
             if (userError || !user) {
-                // Not logged in, redirect to login page
+                // If not logged in, redirect to login page
                 window.location.href = 'login.html';
-                return;
+                return; // Stop execution
             }
 
-            // Fetch user's profile to get their role
+            // If logged in, fetch user's profile to get their role
             const { data: profileData, error: profileError } = await supabaseClient
-                .from('profiles')
-                .select('role')
-                .eq('id', user.id)
-                .single();
+              .from('profiles')
+              .select('role')
+              .eq('id', user.id)
+              .single();
 
             if (profileError || !profileData || profileData.role !== 'admin') {
                 console.warn('Unauthorized access attempt by user:', user.id, 'Role:', profileData ? profileData.role : 'not found');
                 // Not an admin, redirect to client dashboard or a generic unauthorized page
                 window.location.href = 'client_dashboard.html'; // Or 'unauthorized.html'
-                return;
+                return; // Stop execution
             }
             // If we reach here, the user is an authenticated admin
-            console.log('Admin user successfully accessed admin page.');
+            console.log('Admin user successfully accessed admin dashboard.');
 
-            // --- Dynamic Navigation Link Display (for the header) ---
+            // --- 2. Dynamic Navigation Link Display (for the header) ---
             const adminLinkContainer = document.getElementById('adminLinkContainer');
             const loginLogoutLink = document.getElementById('loginLogoutLink');
 
-            if (user) {
-                loginLogoutLink.textContent = 'Logout';
-                loginLogoutLink.href = '#';
+            // User is logged in and is an admin (due to checks above)
+            loginLogoutLink.textContent = 'Logout';
+            loginLogoutLink.href = '#'; // Make it a button to trigger logout
 
-                loginLogoutLink.onclick = async (e) => {
-                    e.preventDefault();
-                    await supabaseClient.auth.signOut();
-                    window.location.href = 'login.html';
-                };
+            loginLogoutLink.onclick = async (e) => {
+                e.preventDefault();
+                await supabaseClient.auth.signOut();
+                window.location.href = 'login.html'; // Redirect to login after logout
+            };
 
-                // Admin link should already be handled by the profileData check above,
-                // but this ensures it's rendered in the nav if they are an admin.
-                if (profileData && profileData.role === 'admin') {
-                    adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
-                } else {
-                    adminLinkContainer.innerHTML = '';
-                }
+            // Since we know the user is an admin, always show the admin link
+            adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
 
-            } else {
-                loginLogoutLink.textContent = 'Client Login';
-                loginLogoutLink.href = 'login.html';
-                adminLinkContainer.innerHTML = '';
-            }
-
-            // --- Hamburger menu functionality (your existing code) ---
+            // --- 3. Hamburger menu functionality (your existing code) ---
             const hamburger = document.getElementById("hamburger");
             const navMenu = document.getElementById("navMenu");
             if (hamburger && navMenu) {
