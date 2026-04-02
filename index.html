@@ -32,7 +32,6 @@
   <div class="container header-flex">
     <div class="logo-area">
       <img src="favicon.ico" alt="NextGrid Technologies Logo" class="logo">
-      <!-- Changed span to an anchor to make the logo clickable to home -->
       <a href="index.html" class="logo-text">NextGrid Technologies</a>
     </div>
 
@@ -40,11 +39,13 @@
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
       <a href="blog.html">Blog</a>
-      <!-- Placeholder for admin link - will be populated by JS if user is admin -->
-      <div id="adminLinkContainer"></div>
-      <!-- Login/Logout Link - ID for JS to target -->
-      <!-- This will be "Client Login" or "Logout" based on auth status -->
-      <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
+      <!-- New wrapper div with nav-hidden class -->
+      <div id="authNavWrapper" class="nav-hidden">
+          <!-- Placeholder for admin link - will be populated by JS if user is admin -->
+          <div id="adminLinkContainer"></div>
+          <!-- Login/Logout Link - ID for JS to target -->
+          <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
+      </div>
     </nav>
 
     <div class="header-contact">
