@@ -421,7 +421,7 @@ supabaseClient.auth.onAuthStateChange(async (event, session) => {
 
 // --- Event Delegation for Logout Button ---
 // Attach a single click listener to a static parent element (e.g., authStatusDisplay)
-// This listener will then check if the clicked element is our logout button.
+// --- Event Delegation for Logout Button ---
 authStatusDisplay.addEventListener('click', async (e) => {
     // Check if the clicked element (or its closest ancestor) has the ID 'logoutButton'
     if (e.target && e.target.id === 'logoutButton') {
@@ -431,9 +431,14 @@ authStatusDisplay.addEventListener('click', async (e) => {
             console.error('Delegated click: Error signing out:', error.message);
             alert('Error signing out: ' + error.message);
         } else {
-            console.log('Delegated click: signOut() called, waiting for SIGNED_OUT event...'); // Diagnostic log
+            console.log('Delegated click: signOut() called successfully. Forcing redirect...'); // Diagnostic log
+            // --- MODIFIED REDIRECT HERE ---
+            // Use replace() for a cleaner history (prevents back button to previous state)
+            // And force a full reload by replacing the current URL
+            window.location.replace('login.html');
         }
-        // Redirection will be handled by the 'SIGNED_OUT' event in onAuthStateChange
+        // Removed the onAuthStateChange redirect logic for SIGNED_OUT from the main listener
+        // This direct redirect ensures it happens immediately after a successful signOut() call from this button.
     }
 });
 
