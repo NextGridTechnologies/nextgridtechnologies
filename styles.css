@@ -54,17 +54,50 @@ header {
 @media (max-width:768px){
   .header-contact { display:none; }
 }
-nav { display: flex; align-items: center; }
-nav a {
-  color: white; text-decoration: none; margin-left: 20px;
+
+/* --- MODIFIED NAV STYLES --- */
+nav {
+  display: flex;
+  align-items: center;
+  flex-direction: row; /* <--- ADD THIS for desktop horizontal alignment */
+  flex-wrap: nowrap; /* Prevent items from wrapping to a new line */
+}
+
+/* Apply margin to all direct children of nav to create spacing */
+nav > * {
+  margin-left: 20px;
+}
+
+/* Reset margin for the first child if you don't want left margin there */
+nav > *:first-child {
+  margin-left: 0;
+}
+
+/* Ensure the adminLinkContainer and its child behave like other nav links */
+#adminLinkContainer {
+  display: flex; /* Treat it as a flex container to align its content */
+  align-items: center;
+}
+
+/* Ensure any anchor inside adminLinkContainer also gets appropriate styling */
+#adminLinkContainer a {
+    text-decoration: none; /* Inherit nav a styling, but ensure this */
+    font-weight: 500;
+    opacity: 0.95;
+    transition: color 0.3s ease;
+}
+
+nav a { /* This remains the same, applies to direct 'a' children of nav */
+  color: white; text-decoration: none;
   font-weight: 500; opacity: 0.95; transition: color 0.3s ease;
 }
 nav a:hover { color: var(--accent-2); text-decoration: underline; }
 .nav-cta, .btn-small {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: var(--bg-dark);
-  padding: 10px 18px; border-radius: 6px; font-weight: 600; margin-left: 20px;
+  padding: 10px 18px; border-radius: 6px; font-weight: 600;
   transition: all 0.3s ease;
+  white-space: nowrap; /* Prevent text from wrapping inside the button */
 }
 .nav-cta:hover, .btn-small:hover {
   background: linear-gradient(135deg, var(--accent-hover), var(--accent-2-hover));
@@ -75,9 +108,40 @@ nav a:hover { color: var(--accent-2); text-decoration: underline; }
   display: none; font-size: 28px; cursor: pointer; color: white; background: none; border: none;
 }
 @media (max-width: 768px) {
-  nav { display: none; width: 100%; flex-direction: column; margin-top: 15px; }
-  nav.active { display: flex; }
-  nav a { display: block; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.15); margin: 0; }
+  /* Hide desktop nav, show mobile nav only when active */
+  nav { display: none; }
+  nav.active {
+    display: flex;
+    flex-direction: column; /* <--- This is correct for mobile stacking */
+    width: 100%;
+    position: absolute;
+    top: 60px; /* Adjust based on your header height */
+    left: 0;
+    background: var(--bg-dark); /* Mobile menu background */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 999;
+    padding-bottom: 15px; /* Add some padding at the bottom for better look */
+  }
+
+  /* Adjust spacing for mobile nav items */
+  nav.active > * {
+    margin-left: 0;
+    padding: 12px 20px; /* Add horizontal padding for mobile links */
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  nav.active > *:first-child {
+      padding-top: 20px; /* More padding for the very first item */
+  }
+  nav.active > *:last-child {
+      border-bottom: none; /* No border for the last item */
+  }
+
+  /* Specific styles for links inside the active mobile nav */
+  nav.active a {
+      display: block; /* Ensure links take full width in mobile menu */
+      text-align: center; /* Center text in mobile menu */
+  }
+
   .hamburger { display: block; }
 }
 
