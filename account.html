@@ -211,6 +211,8 @@ const supabaseClient = supabase.createClient(
   { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
 );
 
+console.log('ACCOUNT PAGE Supabase Client Object:', supabaseClient); // <-- ADDED FOR DIAGNOSIS
+
 // Function to fetch and display user data
 async function fetchUserData(user) {
   console.log('Fetching user data for:', user ? user.id : 'no user');
