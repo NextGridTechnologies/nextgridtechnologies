@@ -107,22 +107,13 @@
     const updateProfileFormDiv = document.querySelector('.update-profile-form');
     const updateMessage = document.getElementById('updateMessage');
 
-    // --- Data Fetching Functions ---
-    async function fetchUserData(user) {
-        if (!user) {
-            console.error("fetchUserData called with no user.");
-            return;
-        }
-
-        const { data: profile, error } = await supabaseClient
-            .from('profiles')
-            .select('full_name, company, need, information, role')
-            .eq('user_id', user.id)
-            .single();
+    // --- Data Fetching & Display Functions ---
+    async function fetchAndDisplayUserData(user) {
+        if (!user) return;
+        const { data: profile, error } = await supabaseClient.from('profiles').select('full_name, company, need, information, role').eq('user_id', user.id).single();
 
         if (error) {
             console.error('Error fetching profile:', error.message);
-            document.getElementById('accountName').textContent = 'Error loading profile.';
             return;
         }
 
@@ -132,24 +123,17 @@
             document.getElementById('accountNeed').textContent = profile.need || 'N/A';
             document.getElementById('accountInformation').textContent = profile.information || 'N/A';
             document.getElementById('accountEmail').textContent = user.email;
-
             document.getElementById('updateName').value = profile.full_name || '';
             document.getElementById('updateCompany').value = profile.company || '';
             document.getElementById('updateInformation').value = profile.information || '';
-
-            // Return the role for the main handler to use
-            return profile.role;
         }
+        return profile; // Return the profile so the caller can check the role
     }
 
-    async function fetchUserInvoices(user) {
+    async function fetchAndDisplayInvoices(user) {
         if (!user) return;
         invoicesContainer.innerHTML = '<p class="no-invoices">Loading invoices...</p>';
-        const { data: invoices, error } = await supabaseClient
-            .from('invoices')
-            .select('*')
-            .eq('user_id', user.id)
-            .order('issue_date', { ascending: false });
+        const { data: invoices, error } = await supabaseClient.from('invoices').select('*').eq('user_id', user.id).order('issue_date', { ascending: false });
 
         if (error) {
             console.error('Error fetching invoices:', error.message);
@@ -165,14 +149,10 @@
                 invoicesContainer.innerHTML += `
                     <div class="invoice-item">
                         <div class="invoice-details-text">
-                            <p><strong>#:</strong> ${invoice.invoice_number}</p>
-                            <p><strong>Total:</strong> ${formattedTotal}</p>
-                            <p><strong>Status:</strong> ${invoice.status}</p>
-                            <p><strong>Due:</strong> ${new Date(invoice.due_date).toLocaleDateString()}</p>
+                            <p><strong>#:</strong> ${invoice.invoice_number}</p> <p><strong>Total:</strong> ${formattedTotal}</p>
+                            <p><strong>Status:</strong> ${invoice.status}</p> <p><strong>Due:</strong> ${new Date(invoice.due_date).toLocaleDateString()}</p>
                         </div>
-                        <div class="invoice-actions">
-                            <a href="invoice.html?id=${invoice.id}" class="btn-secondary">View Details</a>
-                        </div>
+                        <div class="invoice-actions"><a href="invoice.html?id=${invoice.id}" class="btn-secondary">View Details</a></div>
                     </div>`;
             });
         }
@@ -183,18 +163,13 @@
         e.preventDefault();
         const { data: { user } } = await supabaseClient.auth.getUser();
         if (!user) return;
-
         updateMessage.textContent = 'Saving...';
         updateMessage.className = 'message-text warning';
-
-        const { error } = await supabaseClient
-            .from('profiles')
-            .update({
-                full_name: document.getElementById('updateName').value,
-                company: document.getElementById('updateCompany').value,
-                information: document.getElementById('updateInformation').value
-            })
-            .eq('user_id', user.id);
+        const { error } = await supabaseClient.from('profiles').update({
+            full_name: document.getElementById('updateName').value,
+            company: document.getElementById('updateCompany').value,
+            information: document.getElementById('updateInformation').value
+        }).eq('user_id', user.id);
 
         if (error) {
             updateMessage.textContent = `Error: ${error.message}`;
@@ -202,39 +177,56 @@
         } else {
             updateMessage.textContent = 'Profile updated!';
             updateMessage.className = 'message-text success';
-            await fetchUserData(user); // Refresh data on success
+            await fetchAndDisplayUserData(user); // Refresh data
         }
     });
 
     // ==========================================================
-    // == THE MAIN AUTHENTICATION HANDLER ==
+    // == ROBUST AUTHENTICATION HANDLER
     // ==========================================================
     supabaseClient.auth.onAuthStateChange(async (event, session) => {
         if (session && session.user) {
             // --- USER IS LOGGED IN ---
-            // 1. Show dashboard and hide auth forms (if they exist)
-            document.querySelectorAll('.account-form-container').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.dashboard-content').forEach(el => el.style.display = 'block');
+            // 1. Show dashboard content
+            accountInfoDiv.style.display = 'block';
+            updateProfileFormDiv.style.display = 'block';
+            if (invoicesContainer.parentElement) invoicesContainer.parentElement.style.display = 'block';
+            authStatusDisplay.style.display = 'block';
 
-            // 2. Set up the Logout Button (using the reliable dynamic creation method)
-            loginLogoutLink.textContent = 'My Account'; // Main nav link goes to the dashboard
+            // 2. Set up Nav links
+            loginLogoutLink.textContent = 'My Account';
             loginLogoutLink.href = 'account.html';
 
-            authStatusDisplay.innerHTML = `<p>You are logged in as <strong>${session.user.email}</strong>.</p>`;
-            let logoutButton = document.createElement('button');
-            logoutButton.className = 'btn-secondary'; // Use a standard button class
-            logoutButton.textContent = 'Logout';
+            // 3. Set up Auth Status and Logout Button (THE RELIABLE WAY)
+            // Clear previous content safely
+            authStatusDisplay.innerHTML = ''; 
+            
+            // Add the status text
+            const statusText = document.createElement('p');
+            statusText.innerHTML = `You are logged in as <strong>${session.user.email}</strong>.`;
+            authStatusDisplay.appendChild(statusText);
+
+            // Create or find the logout button
+            let logoutButton = document.getElementById('dynamicLogoutButton');
+            if (!logoutButton) {
+                logoutButton = document.createElement('button');
+                logoutButton.id = 'dynamicLogoutButton';
+                logoutButton.className = 'btn btn-secondary';
+                logoutButton.textContent = 'Logout';
+                authStatusDisplay.appendChild(logoutButton);
+            }
+
+            // ALWAYS re-assign the onclick handler to be safe
             logoutButton.onclick = async () => {
                 await supabaseClient.auth.signOut();
             };
-            authStatusDisplay.appendChild(logoutButton);
+            
+            // 4. Fetch all user data
+            const profile = await fetchAndDisplayUserData(session.user);
+            await fetchAndDisplayInvoices(session.user);
 
-            // 3. Fetch all user data
-            const userRole = await fetchUserData(session.user);
-            await fetchUserInvoices(session.user);
-
-            // 4. Handle Admin Link
-            if (userRole === 'admin') {
+            // 5. Handle Admin Link based on fetched profile
+            if (profile && profile.role === 'admin') {
                 adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
             } else {
                 adminLinkContainer.innerHTML = '';
@@ -242,19 +234,15 @@
 
         } else {
             // --- USER IS LOGGED OUT or NO SESSION ---
-            // If the user is on the account page without a session, redirect to the login page.
-            if (window.location.pathname.includes('account.html')) {
-                window.location.href = 'login.html';
-            }
+            // If the user is on this page without a session, they should be sent to the login page.
+            window.location.href = 'login.html';
         }
     });
 
     // Hamburger menu functionality
     document.addEventListener('DOMContentLoaded', () => {
         const hamburger = document.getElementById("hamburger");
-        if (hamburger) {
-            hamburger.addEventListener("click", () => document.getElementById("navMenu").classList.toggle("active"));
-        }
+        if (hamburger) hamburger.addEventListener("click", () => document.getElementById("navMenu").classList.toggle("active"));
     });
 </script>
     </body>
