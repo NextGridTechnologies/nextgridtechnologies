@@ -203,16 +203,15 @@
 </section>
 
 <script src="js/supabase.min.js"></script>
-
 <script>
-// Supabase client initialization (keep as is)
+// Supabase client initialization
 const supabaseClient = supabase.createClient(
   'https://tirkqybcedxfusifslim.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
   { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
 );
 
-// Function to fetch and display user data (keep as is)
+// Function to fetch and display user data
 async function fetchUserData(user) {
   console.log('Fetching user data for:', user ? user.id : 'no user');
   if (!user) {
@@ -255,7 +254,7 @@ async function fetchUserData(user) {
   document.getElementById('updateInformation').value = profile?.information || '';
 }
 
-// Function to fetch and display invoices (keep as is)
+// Function to fetch and display invoices
 async function fetchUserInvoices(user) {
   console.log('Fetching user invoices for:', user ? user.id : 'no user');
   const invoicesContainer = document.getElementById('invoicesContainer');
@@ -274,7 +273,7 @@ async function fetchUserInvoices(user) {
 
   if (error) {
     console.error('Error fetching invoices:', error.message);
-    invoicesContainer.innerHTML = `<p class="no-invoices">Error loading invoices: ${error.message}</p`;
+    invoicesContainer.innerHTML = `<p class="no-invoices">Error loading invoices: ${error.message}</p>`;
     return;
   }
 
@@ -302,7 +301,7 @@ async function fetchUserInvoices(user) {
   }
 }
 
-// Handle profile update form submission (keep as is)
+// Handle profile update form submission
 document.getElementById('updateProfileForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const updateName = document.getElementById('updateName').value;
@@ -411,9 +410,10 @@ supabaseClient.auth.onAuthStateChange(async (event, session) => {
         invoicesContainer.parentElement.style.display = 'none'; 
     }
 
-    // Redirect to login page if not on login.html (and not an initial session where no user exists)
-    if (event === 'SIGNED_OUT' || (event === 'INITIAL_SESSION' && !session)) {
-      console.log('Redirecting to login.html due to signed out or no initial session.'); // Diagnostic log
+    // Only redirect for initial sessions without a user.
+    // The SIGNED_OUT event is handled by the logout button's direct redirect.
+    if (event === 'INITIAL_SESSION' && !session) {
+      console.log('Redirecting to login.html due to no initial session.'); // Diagnostic log
       window.location.href = 'login.html';
     }
   }
@@ -421,13 +421,16 @@ supabaseClient.auth.onAuthStateChange(async (event, session) => {
 
 // --- Event Delegation for Logout Button ---
 // Attach a single click listener to a static parent element (e.g., authStatusDisplay)
-// --- Event Delegation for Logout Button ---
+// This listener will then check if the clicked element is our logout button.
 authStatusDisplay.addEventListener('click', async (e) => {
+    // Check if the clicked element (or its closest ancestor) has the ID 'logoutButton'
     if (e.target && e.target.id === 'logoutButton') {
         console.log('Delegated click: Logout button clicked!'); // Diagnostic log
 
         // Add a log right before the signOut call
         console.log('Attempting to call supabaseClient.auth.signOut()...');
+        // Inspect the supabaseClient.auth object
+        console.log('Supabase client auth object:', supabaseClient.auth); 
 
         let signOutError = null;
         let signOutSuccessful = false;
@@ -443,10 +446,11 @@ authStatusDisplay.addEventListener('click', async (e) => {
             const result = await Promise.race([signOutPromise, timeoutPromise]);
             
             // If it reached here, it means signOutPromise resolved successfully (or timeout rejected)
-            if (result && 'error' in result) { // Supabase signOut always returns { error } even if null
+            // Supabase signOut always returns { error } even if null. We check for a non-null error.
+            if (result && result.error) { 
                  signOutError = result.error;
             } else {
-                 signOutSuccessful = true; // SignOut resolved without error object, or timeout resolved early (unlikely)
+                 signOutSuccessful = true; // SignOut resolved without error object
             }
 
         } catch (error) {
@@ -459,11 +463,14 @@ authStatusDisplay.addEventListener('click', async (e) => {
             alert('Error signing out: ' + (signOutError.message || signOutError));
         } else {
             console.log('Delegated click: signOut() called successfully. Forcing redirect...'); // Diagnostic log
+            // Use replace() for a cleaner history (prevents back button to previous state)
+            // And force a full reload by replacing the current URL
             window.location.replace('login.html');
         }
     }
 });
-// Hamburger menu functionality (keep as is)
+
+// Hamburger menu functionality
 document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.getElementById("hamburger");
     const navMenu = document.getElementById("navMenu");
