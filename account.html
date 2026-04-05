@@ -91,7 +91,8 @@
         <!-- <p id="status">Status: Initializing...</p> -->
         <!-- <button id="logoutButton">Logout</button> -->
 
-     <script>
+    
+<script>
     // Supabase client initialization
     const supabaseClient = supabase.createClient(
         'https://tirkqybcedxfusifslim.supabase.co',
@@ -109,14 +110,9 @@
 
     // --- Data Fetching & Display Functions ---
     async function fetchAndDisplayUserData(user) {
-        if (!user) return;
+        if (!user) return null;
         const { data: profile, error } = await supabaseClient.from('profiles').select('full_name, company, need, information, role').eq('user_id', user.id).single();
-
-        if (error) {
-            console.error('Error fetching profile:', error.message);
-            return;
-        }
-
+        if (error) { console.error('Error fetching profile:', error.message); return null; }
         if (profile) {
             document.getElementById('accountName').textContent = profile.full_name || 'N/A';
             document.getElementById('accountCompany').textContent = profile.company || 'N/A';
@@ -127,19 +123,14 @@
             document.getElementById('updateCompany').value = profile.company || '';
             document.getElementById('updateInformation').value = profile.information || '';
         }
-        return profile; // Return the profile so the caller can check the role
+        return profile;
     }
 
     async function fetchAndDisplayInvoices(user) {
         if (!user) return;
         invoicesContainer.innerHTML = '<p class="no-invoices">Loading invoices...</p>';
         const { data: invoices, error } = await supabaseClient.from('invoices').select('*').eq('user_id', user.id).order('issue_date', { ascending: false });
-
-        if (error) {
-            console.error('Error fetching invoices:', error.message);
-            invoicesContainer.innerHTML = `<p class="no-invoices">Error: ${error.message}</p>`;
-            return;
-        }
+        if (error) { console.error('Error fetching invoices:', error.message); invoicesContainer.innerHTML = `<p class="no-invoices">Error: ${error.message}</p>`; return; }
         if (!invoices || invoices.length === 0) {
             invoicesContainer.innerHTML = '<p class="no-invoices">No invoices found.</p>';
         } else {
@@ -149,8 +140,8 @@
                 invoicesContainer.innerHTML += `
                     <div class="invoice-item">
                         <div class="invoice-details-text">
-                            <p><strong>#:</strong> ${invoice.invoice_number}</p> <p><strong>Total:</strong> ${formattedTotal}</p>
-                            <p><strong>Status:</strong> ${invoice.status}</p> <p><strong>Due:</strong> ${new Date(invoice.due_date).toLocaleDateString()}</p>
+                            <p><strong>#:</strong> ${invoice.invoice_number}</p><p><strong>Total:</strong> ${formattedTotal}</p>
+                            <p><strong>Status:</strong> ${invoice.status}</p><p><strong>Due:</strong> ${new Date(invoice.due_date).toLocaleDateString()}</p>
                         </div>
                         <div class="invoice-actions"><a href="invoice.html?id=${invoice.id}" class="btn-secondary">View Details</a></div>
                     </div>`;
@@ -163,69 +154,60 @@
         e.preventDefault();
         const { data: { user } } = await supabaseClient.auth.getUser();
         if (!user) return;
-        updateMessage.textContent = 'Saving...';
-        updateMessage.className = 'message-text warning';
+        updateMessage.textContent = 'Saving...'; updateMessage.className = 'message-text warning';
         const { error } = await supabaseClient.from('profiles').update({
             full_name: document.getElementById('updateName').value,
             company: document.getElementById('updateCompany').value,
             information: document.getElementById('updateInformation').value
         }).eq('user_id', user.id);
-
-        if (error) {
-            updateMessage.textContent = `Error: ${error.message}`;
-            updateMessage.className = 'message-text error';
-        } else {
-            updateMessage.textContent = 'Profile updated!';
-            updateMessage.className = 'message-text success';
-            await fetchAndDisplayUserData(user); // Refresh data
-        }
+        if (error) { updateMessage.textContent = `Error: ${error.message}`; updateMessage.className = 'message-text error'; }
+        else { updateMessage.textContent = 'Profile updated!'; updateMessage.className = 'message-text success'; await fetchAndDisplayUserData(user); }
     });
 
     // ==========================================================
-    // == ROBUST AUTHENTICATION HANDLER
+    // == STABLE AUTH HANDLER BASED ON THE "BARE MINIMUM" TEST ==
     // ==========================================================
     supabaseClient.auth.onAuthStateChange(async (event, session) => {
         if (session && session.user) {
             // --- USER IS LOGGED IN ---
-            // 1. Show dashboard content
+            // 1. Show all dashboard content
             accountInfoDiv.style.display = 'block';
             updateProfileFormDiv.style.display = 'block';
             if (invoicesContainer.parentElement) invoicesContainer.parentElement.style.display = 'block';
             authStatusDisplay.style.display = 'block';
 
-            // 2. Set up Nav links
+            // 2. Set up main navigation links
             loginLogoutLink.textContent = 'My Account';
             loginLogoutLink.href = 'account.html';
-
-            // 3. Set up Auth Status and Logout Button (THE RELIABLE WAY)
-            // Clear previous content safely
-            authStatusDisplay.innerHTML = ''; 
             
-            // Add the status text
-            const statusText = document.createElement('p');
-            statusText.innerHTML = `You are logged in as <strong>${session.user.email}</strong>.`;
-            authStatusDisplay.appendChild(statusText);
+            // 3. Set up Auth Status and Logout Button (THE WORKING, NON-DESTRUCTIVE WAY)
+            const statusTextElement = document.getElementById('statusText');
+            if (!statusTextElement) {
+                const newStatusText = document.createElement('p');
+                newStatusText.id = 'statusText';
+                authStatusDisplay.prepend(newStatusText); // Add to the start of the div
+            }
+            document.getElementById('statusText').innerHTML = `You are logged in as <strong>${session.user.email}</strong>.`;
 
-            // Create or find the logout button
             let logoutButton = document.getElementById('dynamicLogoutButton');
-            if (!logoutButton) {
+            if (!logoutButton) { // Create button ONLY if it doesn't exist
                 logoutButton = document.createElement('button');
                 logoutButton.id = 'dynamicLogoutButton';
                 logoutButton.className = 'btn btn-secondary';
                 logoutButton.textContent = 'Logout';
-                authStatusDisplay.appendChild(logoutButton);
+                authStatusDisplay.appendChild(logoutButton); // Append it to the end
             }
-
-            // ALWAYS re-assign the onclick handler to be safe
+            
+            // ALWAYS re-assign the event listener to ensure it's fresh
             logoutButton.onclick = async () => {
                 await supabaseClient.auth.signOut();
             };
             
-            // 4. Fetch all user data
+            // 4. Fetch all data
             const profile = await fetchAndDisplayUserData(session.user);
             await fetchAndDisplayInvoices(session.user);
-
-            // 5. Handle Admin Link based on fetched profile
+            
+            // 5. Handle Admin Link based on the fetched data
             if (profile && profile.role === 'admin') {
                 adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
             } else {
@@ -234,7 +216,7 @@
 
         } else {
             // --- USER IS LOGGED OUT or NO SESSION ---
-            // If the user is on this page without a session, they should be sent to the login page.
+            // If the user lands on this page without being logged in, send them to the login page.
             window.location.href = 'login.html';
         }
     });
