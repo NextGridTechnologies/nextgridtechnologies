@@ -15,12 +15,12 @@
 </script>
   
 <!-- Refined Title Tag -->
-<title>NextGrid Technologies: Pro IT Security & Microsoft 365 Support in South Africa</title>
+<title>NextGrid Technologies: Client Login</title>
 
 <!-- Refined Meta Description -->
-<meta name="description" content="Secure your small business with expert Microsoft 365 protection, rapid IT support, cloud backups, and network security. Local service in Pretoria & Gauteng.">
+<meta name="description" content="Securely log in to your NextGrid Technologies client account. Manage services, access support, and view your profile.">
 
-<meta name="keywords" content="Microsoft 365 security, IT support South Africaa, small business IT, Office 365 protection, managed IT services South Africa, cybersecurity South Africa">
+<meta name="keywords" content="client login, secure login, IT support login, Microsoft 365 access, NextGrid Technologies">
 <meta name="author" content="NextGrid Technologies">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,7 +58,6 @@
 </header>
 <!-- ============================================== -->
 
-<!-- Adjusted margin-top for the login section to account for the header -->
 <section id="login" class="contact-wrapper" style="max-width:420px;margin:30px auto;text-align:center; padding-top: 20px;">
   <h2>Client Login</h2>
   <p class="contact-subtext">Access your account</p>
@@ -73,125 +72,144 @@
     </div>
 
     <button type="submit" class="btn-primary">Sign In</button>
-    <p id="message" class="message-text"></p> <!-- Now using the .message-text class -->
+    <p id="message" class="message-text"></p>
 
     <p style="margin-top:10px;font-size:14px;">
       Don’t have an account? <a href="index.html#contact">Request access</a>
+      <!-- If you add a dedicated signup page later, change this link -->
+      <!-- <a href="signup.html">Sign Up Here</a> -->
     </p>
   </form>
 </section>
 
-    <script src="js/supabase.min.js"></script>
-    <script>
-        // Initialize Supabase Client
-        const supabaseClient = supabase.createClient(
-            'https://tirkqybcedxfusifslim.supabase.co', // <-- REPLACE WITH YOUR SUPABASE URL
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8', // <-- REPLACE WITH YOUR SUPABASE ANON KEY
-            { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
-        );
+<!-- Updated script tag for local Supabase library -->
+<script src="js/supabase.min.js"></script>
+<script>
+// Initialize Supabase Client
+const supabaseClient = supabase.createClient(
+    'https://tirkqybcedxfusifslim.supabase.co', // <-- REPLACE WITH YOUR SUPABASE URL
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8', // <-- REPLACE WITH YOUR SUPABASE ANON KEY
+    { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
+);
 
-        const loginForm = document.getElementById('loginForm');
-        const messageDiv = document.getElementById('message');
+const messageDiv = document.getElementById('message');
 
-        function showMessage(text, type) {
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-            setTimeout(() => {
-                messageDiv.textContent = '';
-                messageDiv.className = 'message';
-            }, 5000);
-        }
+function displayMessage(text, type) {
+    messageDiv.textContent = text;
+    messageDiv.className = `message-text ${type}`; // Using .message-text class
+    // Optional: Hide message after a few seconds
+    // setTimeout(() => {
+    //     messageDiv.textContent = '';
+    //     messageDiv.className = 'message-text';
+    // }, 5000);
+}
 
-        async function signInUser(email, password) {
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
+// --- Global Supabase Auth State Change Listener ---
+// This is crucial for handling redirects reliably after sign-in, signup, etc.
+supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    const loginLogoutLink = document.getElementById('loginLogoutLink');
+    const adminLinkContainer = document.getElementById('adminLinkContainer');
 
-                if (error) {
-                    throw error;
-                }
+    if (session && session.user) {
+        // User is signed in. Check their role and redirect if on login page.
+        loginLogoutLink.textContent = 'My Account';
+        loginLogoutLink.href = 'account.html';
 
-                // Fetch user's profile to get their role
-                const { data: profileData, error: profileError } = await supabaseClient
-                    .from('profiles')
-                    .select('role')
-                    .eq('user_id::uuid', user.id)// Use the ID from the logged-in user
-                    .single(); // Expect only one profile
+        // Fetch user's profile to get their role
+        const { data: profileData, error: profileError } = await supabaseClient
+            .from('profiles')
+            .select('role')
+            .eq('user_id', session.user.id) // Using 'user_id' as the column name based on your feedback
+            .single();
 
-                if (profileError) {
-                    console.error('Error fetching user role:', profileError.message);
-                    // Even if role fetch fails, we might still want to let them into a default client dashboard
-                    window.location.href = 'client_dashboard.html'; // Default safe redirection
-                    return;
-                }
-
-                if (profileData && profileData.role === 'admin') {
-                    window.location.href = 'admin_dashboard.html';
-                } else {
-                    // Default to client dashboard for regular users or if role is not found/admin
-                    window.location.href = 'client_dashboard.html';
-                }
-
-            } catch (error) {
-                console.error('Login error:', error.message);
-                showMessage(`Login failed: ${error.message}`, 'error');
+        if (profileError) {
+            console.error('Error fetching user role:', profileError.message);
+            // Default to client dashboard if role fetch fails
+        } else if (profileData && profileData.role === 'admin') {
+            adminLinkContainer.innerHTML = '<a href="admin_dashboard.html">Admin Dashboard</a>';
+            if (window.location.pathname.endsWith('login.html')) {
+                window.location.href = 'admin_dashboard.html';
+                return; // Stop further execution
             }
         }
-
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                await signInUser(email, password);
-            });
+        
+        // If not admin or if admin link not needed, redirect client users if on login page
+        if (window.location.pathname.endsWith('login.html')) {
+            window.location.href = 'account.html';
+            return; // Stop further execution
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Dynamic Navigation Link Display (for the header)
-            const adminLinkContainer = document.getElementById('adminLinkContainer');
-            const loginLogoutLink = document.getElementById('loginLogoutLink');
+    } else {
+        // User is NOT signed in.
+        loginLogoutLink.textContent = 'Client Login';
+        loginLogoutLink.href = 'login.html';
+        adminLinkContainer.innerHTML = ''; // Hide admin link
+    }
+});
 
-            // On the login page, we specifically check if a user is *already* logged in.
-            // If they are, we should probably redirect them away from the login page.
-            const { data: { user }, error } = await supabaseClient.auth.getUser();
+// --- Login Form Submission ---
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        displayMessage('Signing in...', 'warning');
 
-            if (user) {
-                // If user is already logged in, fetch their role and redirect them
-                const { data: profileData, error: profileError } = await supabaseClient
-                   .from('profiles')
-                   .select('role')
-                  .eq('user_id::uuid', user.id) // Explicitly cast 'id' to uuid for the filter
-                   .single();
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
-                if (!profileError && profileData) {
-                    if (profileData.role === 'admin') {
-                        window.location.href = 'admin_dashboard.html';
-                    } else {
-                        window.location.href = 'client_dashboard.html';
-                    }
-                } else {
-                    window.location.href = 'client_dashboard.html'; // Default if role fetch fails
-                }
-                return; // Stop further execution on login page if already logged in
-            } else {
-                // User is NOT logged in. Ensure login link is visible and admin link is hidden.
-                loginLogoutLink.textContent = 'Client Login';
-                loginLogoutLink.href = 'login.html'; // It's already login.html, but ensures consistency
-                adminLinkContainer.innerHTML = ''; // Hide admin link
-            }
+        if (error) {
+            displayMessage(`Login failed: ${error.message}`, 'error');
+            console.error('Login error:', error.message);
+        } else if (data && data.user) {
+            // Success! The onAuthStateChange listener will handle the redirect based on role.
+            displayMessage('Signed in successfully! Redirecting…', 'success');
+        } else {
+            // This case is unlikely for email/password but good for completeness.
+            displayMessage('Login attempt processed. If successful, you will be redirected.', 'warning');
+        }
+    });
+}
 
-            // Hamburger menu functionality
-            const hamburger = document.getElementById("hamburger");
-            const navMenu = document.getElementById("navMenu");
-            if (hamburger && navMenu) {
-                hamburger.addEventListener("click", () => {
-                    navMenu.classList.toggle("active");
-                });
-            }
+// --- Forgot Password Link Click ---
+document.getElementById('forgotPasswordLink').addEventListener('click', async (e) => {
+  e.preventDefault();
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value;
+
+  displayMessage('', ''); // Clear previous messages
+
+  if (!email) {
+    displayMessage('Please enter your email address in the field above.', 'warning');
+    return;
+  }
+
+  displayMessage('Sending password reset email...', 'warning');
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    // !!! IMPORTANT: CHANGE THIS TO YOUR LIVE reset-password.html URL !!!
+    redirectTo: 'https://nextgridtechnologies.co.za/reset-password.html', 
+  });
+
+  if (error) {
+    displayMessage(error.message, 'error');
+  } else {
+    displayMessage('Password reset email sent! Check your inbox.', 'success');
+    emailInput.value = ''; // Clear email field after sending
+  }
+});
+
+// Hamburger menu functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+    if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("active");
         });
-    </script>
+    }
+});
+</script>
 </body>
 </html>
