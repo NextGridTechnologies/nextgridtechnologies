@@ -53,13 +53,30 @@
 
         <form id="invoiceForm">
             <div class="form-group">
-                <label for="user_id">Client User ID (from Supabase auth):</label>
-                <input type="text" id="user_id" placeholder="e.g., 81234567-abcd-abcd-abcd-1234567890ab" required>
+                <label for="clientSelect">Select Client:</label>
+                <select id="clientSelect" required>
+                    <option value="">-- Select a client --</option>
+                    <!-- Client options will be loaded here by JavaScript -->
+                </select>
+                <!-- Hidden input to store the selected user_id -->
+                <input type="hidden" id="selectedUserId">
             </div>
 
             <div class="form-group">
                 <label for="clientName">Client Name:</label>
-                <input type="text" id="clientName" placeholder="e.g., Acme Corp" required>
+                <input type="text" id="clientName" placeholder="e.g., Acme Corp" readonly>
+            </div>
+            <div class="form-group">
+                <label for="clientEmail">Client Email:</label>
+                <input type="email" id="clientEmail" placeholder="e.g., client@example.com" readonly>
+            </div>
+            <div class="form-group">
+                <label for="clientAddress">Client Address:</label>
+                <input type="text" id="clientAddress" placeholder="e.g., 123 Main St, City, Country" readonly>
+            </div>
+            <div class="form-group">
+                <label for="clientPhone">Client Phone:</label>
+                <input type="tel" id="clientPhone" placeholder="e.g., +27 12 345 6789" readonly>
             </div>
 
             <div class="form-group">
@@ -188,6 +205,17 @@
         const lineItemsContainer = document.getElementById('lineItemsContainer');
         let lineItemCount = 1; // Keep track of line items for unique IDs
 
+        // New elements for client selection and autofill
+        const clientSelect = document.getElementById('clientSelect');
+        const selectedUserIdInput = document.getElementById('selectedUserId');
+        const clientNameInput = document.getElementById('clientName');
+        const clientEmailInput = document.getElementById('clientEmail');
+        const clientAddressInput = document.getElementById('clientAddress');
+        const clientPhoneInput = document.getElementById('clientPhone');
+
+        // Store client profiles for autofill
+        let allClientProfiles = [];
+
         // --- Helper to show messages ---
         function showMessage(text, type) {
             messageDiv.textContent = text;
@@ -260,12 +288,20 @@
             const lineItemSections = lineItemsContainer.querySelectorAll('.line-item-section');
 
             lineItemSections.forEach((section) => {
-                const itemId = section.dataset.itemId;
-                const qty = parseFloat(section.querySelector(`#itemQty_${itemId}`).value) || 0;
-                const rate = parseFloat(section.querySelector(`#itemRate_${itemId}`).value) || 0;
-                const itemAmount = qty * rate;
-                section.querySelector(`#itemAmount_${itemId}`).value = itemAmount.toFixed(2);
-                subtotal += itemAmount;
+                // Ensure the data-item-id matches the current IDs for the fields within that section
+                // This handles cases where items might have been re-indexed after removal
+                const currentItemId = section.dataset.itemId;
+                const qtyInput = section.querySelector(`input[id^="itemQty_"]`);
+                const rateInput = section.querySelector(`input[id^="itemRate_"]`);
+                const amountInput = section.querySelector(`input[id^="itemAmount_"]`);
+
+                if (qtyInput && rateInput && amountInput) {
+                    const qty = parseFloat(qtyInput.value) || 0;
+                    const rate = parseFloat(rateInput.value) || 0;
+                    const itemAmount = qty * rate;
+                    amountInput.value = itemAmount.toFixed(2);
+                    subtotal += itemAmount;
+                }
             });
 
             document.getElementById('subtotal').value = subtotal.toFixed(2);
@@ -283,7 +319,7 @@
             document.getElementById('totalAmountDue').value = totalAmountDue.toFixed(2);
         }
 
-        // Add event listeners for calculation on rate/qty change
+        // Add event listeners for calculation on rate/qty/discount/vat change
         document.getElementById('lineItemsContainer').addEventListener('input', (event) => {
             if (event.target.id.startsWith('itemQty_') || event.target.id.startsWith('itemRate_')) {
                 calculateTotals();
@@ -291,6 +327,57 @@
         });
         document.getElementById('discountRate').addEventListener('input', calculateTotals);
         document.getElementById('vatRate').addEventListener('input', calculateTotals);
+
+        // --- Client Management ---
+        async function fetchClientProfiles() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('profiles')
+                    .select('user_id, full_name, email, company, address, phone_number') // Select all relevant client fields
+                    .eq('role', 'client'); // Only fetch profiles with role 'client'
+
+                if (error) throw error;
+                return data;
+            } catch (error) {
+                console.error('Error fetching client profiles:', error.message);
+                showMessage(`Error fetching client profiles: ${error.message}`, 'error');
+                return [];
+            }
+        }
+
+        function populateClientDropdown(clients) {
+            clientSelect.innerHTML = '<option value="">-- Select a client --</option>'; // Reset options
+            allClientProfiles = clients; // Store for autofill
+
+            clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.user_id; // Store user_id as value
+                option.textContent = client.full_name || client.email; // Display name or email
+                clientSelect.appendChild(option);
+            });
+        }
+
+        function autofillClientDetails() {
+            const selectedId = clientSelect.value;
+            const selectedClient = allClientProfiles.find(client => client.user_id === selectedId);
+
+            if (selectedClient) {
+                selectedUserIdInput.value = selectedClient.user_id;
+                clientNameInput.value = selectedClient.full_name || '';
+                clientEmailInput.value = selectedClient.email || '';
+                clientAddressInput.value = selectedClient.address || '';
+                clientPhoneInput.value = selectedClient.phone_number || '';
+            } else {
+                // Clear fields if no client is selected or found
+                selectedUserIdInput.value = '';
+                clientNameInput.value = '';
+                clientEmailInput.value = '';
+                clientAddressInput.value = '';
+                clientPhoneInput.value = '';
+            }
+        }
+
+        clientSelect.addEventListener('change', autofillClientDetails);
 
         // --- Form Submission ---
         invoiceForm.addEventListener('submit', async (e) => {
@@ -300,8 +387,12 @@
             // Ensure all calculations are up-to-date before submission
             calculateTotals();
 
-            const userId = document.getElementById('user_id').value;
-            const clientName = document.getElementById('clientName').value;
+            const userId = selectedUserIdInput.value; // Get from hidden input
+            const clientName = clientNameInput.value; // Get from autofilled input
+            const clientEmail = clientEmailInput.value; // New: get client email
+            const clientAddress = clientAddressInput.value; // New: get client address
+            const clientPhone = clientPhoneInput.value; // New: get client phone
+
             const invoiceNumber = document.getElementById('invoiceNumber').value;
             const invoiceDate = document.getElementById('invoiceDate').value;
             const issueDate = document.getElementById('issueDate').value;
@@ -318,8 +409,8 @@
             const totalAmountDue = parseFloat(document.getElementById('totalAmountDue').value);
 
             // Basic validation
-            if (!userId ||!clientName ||!invoiceNumber ||!invoiceDate ||!issueDate ||!dueDate || isNaN(totalAmountDue)) {
-                showMessage('Please fill in all required fields and ensure totals are calculated.', 'error');
+            if (!userId || !clientName || !invoiceNumber || !invoiceDate || !issueDate || !dueDate || isNaN(totalAmountDue)) {
+                showMessage('Please select a client, fill in all required invoice details, and ensure totals are calculated.', 'error');
                 return;
             }
 
@@ -331,6 +422,9 @@
                         {
                             user_id: userId,
                             client_name: clientName,
+                            client_email: clientEmail, // New: save client email
+                            client_address: clientAddress, // New: save client address
+                            client_phone: clientPhone, // New: save client phone
                             invoice_number: invoiceNumber,
                             invoice_date: invoiceDate,
                             issue_date: issueDate,
@@ -361,13 +455,13 @@
                 const lineItemSections = lineItemsContainer.querySelectorAll('.line-item-section');
 
                 lineItemSections.forEach(section => {
-                    const itemId = section.dataset.itemId;
-                    const description = section.querySelector(`#itemDescription_${itemId}`).value;
-                    const qty = parseFloat(section.querySelector(`#itemQty_${itemId}`).value);
-                    const rate = parseFloat(section.querySelector(`#itemRate_${itemId}`).value);
-                    const amount = parseFloat(section.querySelector(`#itemAmount_${itemId}`).value);
+                    // Ensure the data-item-id matches the current IDs for the fields within that section
+                    const description = section.querySelector(`input[id^="itemDescription_"]`).value;
+                    const qty = parseFloat(section.querySelector(`input[id^="itemQty_"]`).value);
+                    const rate = parseFloat(section.querySelector(`input[id^="itemRate_"]`).value);
+                    const amount = parseFloat(section.querySelector(`input[id^="itemAmount_"]`).value);
 
-                    if (description &&!isNaN(qty) &&!isNaN(rate)) { // Ensure quantity and rate are valid numbers
+                    if (description && !isNaN(qty) && !isNaN(rate)) { // Ensure quantity and rate are valid numbers
                         lineItemsToInsert.push({
                             invoice_id: newInvoiceId,
                             description: description,
@@ -396,6 +490,8 @@
                 lineItemCount = 0; // Reset count
                 addLineItem(); // Add a fresh first line item
                 calculateTotals(); // Ensure totals are reset too
+                clientSelect.value = ''; // Reset client selection
+                autofillClientDetails(); // Clear autofilled client details
 
             } catch (error) {
                 console.error('Error creating invoice:', error.message);
@@ -408,7 +504,7 @@
             // --- 1. Page-level protection for admin pages ---
             const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
-            if (userError ||!user) {
+            if (userError || !user) {
                 // If not logged in, redirect to login page
                 window.location.href = 'login.html';
                 return; // Stop execution
@@ -421,14 +517,18 @@
               .eq('user_id::uuid', user.id) // Explicitly cast 'id' to uuid for the filter
               .single();
 
-            if (profileError ||!profileData || profileData.role!== 'admin') {
-                console.warn('Unauthorized access attempt by user:', user.id, 'Role:', profileData? profileData.role : 'not found');
+            if (profileError || !profileData || profileData.role !== 'admin') {
+                console.warn('Unauthorized access attempt by user:', user.id, 'Role:', profileData ? profileData.role : 'not found');
                 // Not an admin, redirect to client dashboard or a generic unauthorized page
                 window.location.href = 'client_dashboard.html'; // Or 'unauthorized.html'
                 return; // Stop execution
             }
             // If we reach here, the user is an authenticated admin
             console.log('Admin user successfully accessed invoice creation page.');
+
+            // --- NEW: Fetch and populate client dropdown ---
+            const clients = await fetchClientProfiles();
+            populateClientDropdown(clients);
 
             // --- 2. Dynamic Navigation Link Display (for the header) ---
             const adminLinkContainer = document.getElementById('adminLinkContainer');
