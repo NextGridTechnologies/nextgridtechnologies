@@ -504,27 +504,44 @@
             // --- 1. Page-level protection for admin pages ---
             const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
+            console.log('--- Debugging Admin Access ---'); // START DEBUG LOG
+            console.log('Step 1: Auth check for logged-in user.');
+
             if (userError || !user) {
+                console.log('Result: No user or user error. Redirecting to login.');
                 // If not logged in, redirect to login page
                 window.location.href = 'login.html';
                 return; // Stop execution
             }
 
+            console.log('Result: User logged in.');
+            console.log('Logged-in user object:', user);
+            console.log('User ID from auth:', user.id); // Should show the UUID of the logged-in user
+            console.log('Step 2: Fetching profile role for user ID:', user.id);
+
             // If logged in, fetch user's profile to get their role
             const { data: profileData, error: profileError } = await supabaseClient
               .from('profiles')
-              .select('role')
+              .select('role') // We only need the role for this check
               .eq('user_id::uuid', user.id) // Explicitly cast 'id' to uuid for the filter
               .single();
 
+            console.log('Step 3: Profile data fetch result.');
+            console.log('Profile Data fetched:', profileData);
+            console.log('Profile Error:', profileError);
+
             if (profileError || !profileData || profileData.role !== 'admin') {
-                console.warn('Unauthorized access attempt by user:', user.id, 'Role:', profileData ? profileData.role : 'not found');
+                console.warn('Result: Unauthorized access attempt - Role Check Failed.');
+                console.warn('Actual Role in DB:', profileData ? profileData.role : 'NOT FOUND or NULL');
+                console.warn('Expected Role: admin');
+                console.warn('Redirecting to client dashboard.');
                 // Not an admin, redirect to client dashboard or a generic unauthorized page
                 window.location.href = 'client_dashboard.html'; // Or 'unauthorized.html'
                 return; // Stop execution
             }
             // If we reach here, the user is an authenticated admin
-            console.log('Admin user successfully accessed invoice creation page.');
+            console.log('Result: Admin user successfully verified and accessed invoice creation page.');
+            console.log('--- End Debugging Admin Access ---'); // END DEBUG LOG
 
             // --- NEW: Fetch and populate client dropdown ---
             const clients = await fetchClientProfiles();
