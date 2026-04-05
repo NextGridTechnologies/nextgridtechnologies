@@ -37,7 +37,7 @@
     li a { text-decoration: none; color: #007bff; font-weight: bold; }
     li a:hover { text-decoration: underline; }
     .invoice-status { font-size: 0.9em; color: #6c757d; margin-left: auto; /* Pushes status to the right */ }
-    #auth-ui { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f9fa; }
+    #auth-ui { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f9fa; text-align: center;} /* Added text-align */
     .btn {
         display: inline-block;
         background-color: #007bff;
@@ -100,8 +100,8 @@
         <p>Here you can view all your invoices, quotes, and other important information.</p>
 
         <div id="auth-ui">
-            <!-- This will be replaced by login/logout buttons -->
-            <p>Loading authentication...</p>
+            <!-- This will be dynamically populated -->
+            <p>Checking authentication status...</p>
         </div>
 
         <h2 style="margin-top: 30px;">Your Invoices</h2>
@@ -121,48 +121,67 @@
             { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
         );
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        // --- Supabase Auth State Change Listener ---
+        supabaseClient.auth.onAuthStateChange(async (event, session) => {
             const adminLinkContainer = document.getElementById('adminLinkContainer');
             const loginLogoutLink = document.getElementById('loginLogoutLink');
+            const authUiDiv = document.getElementById('auth-ui');
 
-            // Check user session
-            const { data: { user }, error } = await supabaseClient.auth.getUser();
+            if (session && session.user) {
+                // --- User is Logged In ---
+                console.log('onAuthStateChange: User is signed in:', session.user.id);
+                loginLogoutLink.textContent = 'My Account';
+                loginLogoutLink.href = 'account.html'; // Link to account.html as they are logged in
 
-            if (user) {
-                // User is logged in
-                loginLogoutLink.textContent = 'Logout';
-                loginLogoutLink.href = '#'; // Make it a button to trigger logout
+                // Populate auth-ui with Logout button
+                authUiDiv.innerHTML = `
+                    <p>You are logged in as <strong>${session.user.email}</strong>.</p>
+                    <button id="logoutButton" class="btn">Logout</button>
+                `;
 
-                loginLogoutLink.onclick = async (e) => {
-                    e.preventDefault();
-                    await supabaseClient.auth.signOut();
-                    window.location.href = 'login.html'; // Redirect to login after logout
-                };
+                // Attach event listener to the newly created logoutButton
+                document.getElementById('logoutButton').addEventListener('click', async () => {
+                    console.log('Logout button clicked from auth-ui!');
+                    const { error } = await supabaseClient.auth.signOut();
+                    if (error) {
+                        console.error('Error signing out:', error.message);
+                        alert('Error signing out: ' + error.message);
+                    }
+                    // Redirection is handled by the 'SIGNED_OUT' event below
+                });
 
-                // Fetch user role
+                // Fetch user role for admin link
                 const { data: profileData, error: profileError } = await supabaseClient
-                   .from('profiles')
-                   .select('role')
-                  .eq('user_id::uuid', user.id)// Explicitly cast 'id' to uuid for the filter
-                   .single();
+                    .from('profiles')
+                    .select('role')
+                    .eq('user_id', session.user.id) // Using 'user_id' as column name
+                    .single();
 
                 if (!profileError && profileData && profileData.role === 'admin') {
-                    // If admin, show the admin link
                     adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
                 } else {
                     adminLinkContainer.innerHTML = ''; // Hide admin link for non-admins
                 }
+
+                // Call function to load invoices (assuming this exists or will be added)
+                // loadUserInvoices(session.user.id);
+
             } else {
-                // User is not logged in, ensure login link is shown and admin link is hidden
+                // --- User is Not Logged In (or has just logged out) ---
+                console.log('onAuthStateChange: User is not signed in or signed out.');
                 loginLogoutLink.textContent = 'Client Login';
                 loginLogoutLink.href = 'login.html';
                 adminLinkContainer.innerHTML = ''; // Hide admin link
-                // If on client_dashboard and not logged in, redirect to login page
-                window.location.href = 'login.html';
-                return;
-            }
 
-            // Hamburger menu functionality (your existing code)
+                // If user logs out or is not authenticated, redirect to login page
+                if (!window.location.pathname.endsWith('login.html')) { // Avoid redirect loop if already on login
+                     window.location.href = 'login.html';
+                }
+            }
+        });
+
+        // Hamburger menu functionality (your existing code)
+        document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById("hamburger");
             const navMenu = document.getElementById("navMenu");
             if (hamburger && navMenu) {
@@ -170,8 +189,43 @@
                     navMenu.classList.toggle("active");
                 });
             }
-            // Add any other client_dashboard specific JS here
+            // You can add loadUserInvoices() call here if needed, but the onAuthStateChange is better
+            // for dynamically loading content based on auth state.
         });
+
+        // Placeholder for future invoice loading function
+        async function loadUserInvoices(userId) {
+            const invoicesList = document.getElementById('invoices-list');
+            invoicesList.innerHTML = '<li>Fetching your invoices...</li>'; // Show loading state
+
+            // Example: Fetch invoices from Supabase
+            // const { data: invoices, error } = await supabaseClient
+            //     .from('invoices')
+            //     .select('*')
+            //     .eq('user_id', userId);
+
+            // if (error) {
+            //     console.error('Error fetching invoices:', error.message);
+            //     invoicesList.innerHTML = `<li>Error loading invoices: ${error.message}</li>`;
+            //     return;
+            // }
+
+            // if (invoices && invoices.length > 0) {
+            //     invoicesList.innerHTML = ''; // Clear loading message
+            //     invoices.forEach(invoice => {
+            //         invoicesList.innerHTML += `
+            //             <li>
+            //                 <a href="${invoice.link}">${invoice.title}</a>
+            //                 <span class="invoice-status">${invoice.status}</span>
+            //             </li>
+            //         `;
+            //     });
+            // } else {
+            //     invoicesList.innerHTML = '<li>No invoices found.</li>';
+            // }
+             invoicesList.innerHTML = '<li>Invoice loading not yet implemented.</li>'; // Temporary message
+        }
+
     </script>
           
 </body>
