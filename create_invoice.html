@@ -360,12 +360,104 @@
 
         clientSelect.addEventListener('change', autofillClientDetails);
 
-        // --- Form Submission Logic (unchanged) ---
+        // --- Form Submission Logic ---
         invoiceForm.addEventListener('submit', async (e) => {
-            // ... your existing submit code
+            // PREVENT THE PAGE FROM RELOADING! This is the most important step.
+            e.preventDefault();
+
+            showMessage('Saving invoice...', 'info');
+
+            try {
+                // --- 1. GATHER INVOICE DATA ---
+                const invoiceData = {
+                    user_id: document.getElementById('selectedUserId').value,
+                    client_name: document.getElementById('clientName').value,
+                    client_email: document.getElementById('clientEmail').value,
+                    client_address: document.getElementById('clientAddress').value,
+                    client_phone: document.getElementById('clientPhone').value,
+                    invoice_number: document.getElementById('invoiceNumber').value,
+                    invoice_date: document.getElementById('invoiceDate').value,
+                    issue_date: document.getElementById('issueDate').value,
+                    due_date: document.getElementById('dueDate').value,
+                    status: document.getElementById('status').value,
+                    payment_terms: document.getElementById('paymentTerms').value,
+                    purchase_order: document.getElementById('purchaseOrder').value || null,
+                    payment_instructions: document.getElementById('paymentInstructions').value,
+                    subtotal: parseFloat(document.getElementById('subtotal').value),
+                    discount_rate: parseFloat(document.getElementById('discountRate').value),
+                    discount_amount: parseFloat(document.getElementById('discountAmount').value),
+                    vat_rate: parseFloat(document.getElementById('vatRate').value),
+                    vat_amount: parseFloat(document.getElementById('vatAmount').value),
+                    total_amount_due: parseFloat(document.getElementById('totalAmountDue').value),
+                };
+
+                // Basic validation
+                if (!invoiceData.user_id) {
+                    throw new Error("No client selected. Please choose a client from the dropdown.");
+                }
+
+                // --- 2. INSERT THE MAIN INVOICE ---
+                // We use .select() here to get the new invoice's ID back immediately.
+                const { data: newInvoice, error: invoiceError } = await supabaseClient
+                    .from('invoices')
+                    .insert(invoiceData)
+                    .select('id')
+                    .single(); // .single() is crucial to get an object back, not an array
+
+                if (invoiceError) {
+                    throw new Error(`Failed to save invoice: ${invoiceError.message}`);
+                }
+
+                const newInvoiceId = newInvoice.id;
+
+                // --- 3. GATHER AND INSERT LINE ITEMS ---
+                const lineItemSections = document.querySelectorAll('.line-item-section');
+                const lineItemsData = [];
+                lineItemSections.forEach((section, index) => {
+                    const item = {
+                        invoice_id: newInvoiceId, // Link to the invoice we just created
+                        description: document.getElementById(`itemDescription_${index}`).value,
+                        quantity: parseFloat(document.getElementById(`itemQty_${index}`).value),
+                        rate: parseFloat(document.getElementById(`itemRate_${index}`).value),
+                        amount: parseFloat(document.getElementById(`itemAmount_${index}`).value),
+                    };
+                    // Basic validation for line items
+                    if (!item.description || isNaN(item.quantity) || isNaN(item.rate)) {
+                         throw new Error(`Line item #${index + 1} is incomplete.`);
+                    }
+                    lineItemsData.push(item);
+                });
+
+                if (lineItemsData.length > 0) {
+                    const { error: itemsError } = await supabaseClient
+                        .from('invoice_items') // Assuming your table is named 'invoice_items'
+                        .insert(lineItemsData);
+
+                    if (itemsError) {
+                        throw new Error(`Invoice saved, but failed to save line items: ${itemsError.message}`);
+                    }
+                }
+
+                // --- 4. SUCCESS! ---
+                showMessage('Invoice successfully created!', 'success');
+                // Optionally, reset the form after successful submission
+                invoiceForm.reset(); 
+                // Re-populate the client dropdown as reset() clears it
+                populateClientDropdown(allClientProfiles); 
+                // Set dates again
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('invoiceDate').value = today;
+                document.getElementById('issueDate').value = today;
+                // Recalculate totals to reset them to 0
+                calculateTotals();
+
+            } catch (error) {
+                console.error('Submission Error:', error);
+                showMessage(error.message, 'error');
+            }
         });
 
-        // --- DOMContentLoaded (unchanged, but its dependent functions now have logs) ---
+        // --- DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', async () => {
             const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
@@ -377,7 +469,7 @@
             const { data: profileData, error: profileError } = await supabaseClient
               .from('profiles')
               .select('role')
-              .eq('user_id::uuid', user.id)
+              .eq('user_id', user.id) // Removed the ::uuid cast, it's often not needed
               .single();
 
             if (profileError || !profileData || profileData.role !== 'admin') {
@@ -409,6 +501,7 @@
             document.getElementById('invoiceDate').value = formattedDate;
             document.getElementById('issueDate').value = formattedDate;
 
+            // Ensure there's at least one line item on load
             if (lineItemsContainer.children.length === 0) {
                 addLineItem();
             }
