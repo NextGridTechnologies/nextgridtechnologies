@@ -1,333 +1,300 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create or Update Invoice - NextGrid Technologies</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="create_invoice.css">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-C9DS2C71G6');
-</script>
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Client Account - NextGrid Technologies</title>
+        <script src="js/supabase.min.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-C9DS2C71G6');
+        </script>
+        <meta name="description" content="Manage your NextGrid Technologies account, view invoices, update profile details, and access client services.">
+        <meta name="keywords" content="account settings, profile, Microsoft 365, IT support, client dashboard, invoices">
+        <meta name="author" content="NextGrid Technologies">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Your standard header content -->
+        <header>
+            <div class="container header-flex">
+                <div class="logo-area">
+                    <img src="favicon.ico" alt="NextGrid Technologies Logo" class="logo">
+                    <a href="index.html" class="logo-text">NextGrid Technologies</a>
+                </div>
+                <nav id="navMenu">
+                    <a href="index.html">Home</a>
+                    <a href="services.html">Services</a>
+                    <a href="blog.html">Blog</a>
+                    <div id="adminLinkContainer"></div> <!-- Admin link dynamically populated -->
+                    <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a> <!-- Login/Logout link dynamically updated -->
+                </nav>
+                <button class="hamburger" id="hamburger">&#9776;</button>
+            </div>
+        </header>
 
-<header>
-  <div class="container header-flex">
-    <div class="logo-area">
-      <img src="favicon.ico" alt="NextGrid Technologies Logo" class="logo">
-      <a href="index.html" class="logo-text">NextGrid Technologies</a>
-    </div>
-    <nav id="navMenu">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="blog.html">Blog</a>
-      <div id="adminLinkContainer"></div>
-      <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
-    </nav>
-    <div class="header-contact">
-      <a href="tel:+27680330794" class="btn-phone">📞 Call</a>
-      <a href="https://wa.me/27680330794" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
-  </div>
-</header>
+        <!-- Main dashboard HTML structure -->
+        <section id="main-account-dashboard" class="contact-wrapper account-wrapper">
+            <div class="dashboard-content">
+                <h1>Welcome to your Client Dashboard!</h1>
+                <p>Here you can view all your invoices, update your profile, and access other important information.</p>
 
-<div class="container">
-  <h1>Create or Update Invoice</h1>
-  <form id="invoiceForm">
+                <div id="auth-status-display">
+                    <!-- This area will dynamically show "checking auth status..." or "Logged in as..." -->
+                    <p>Checking authentication status...</p>
+                </div>
 
-    <!-- ===== Client Selection ===== -->
-    <div class="form-group">
-      <label for="clientSelect">Select Client:</label>
-      <select id="clientSelect" required>
-        <option value="">-- Select a client --</option>
-      </select>
-      <input type="hidden" id="selectedUserId">
-    </div>
+             <div class="account-info">
+                <h2>Your Profile</h2>
+                <p><strong>Full Name:</strong> <span id="accountName">Loading...</span></p>
+                <p><strong>Company:</strong> <span id="accountCompany">Loading...</span></p>
+                <p><strong>Phone Number:</strong> <span id="accountPhone">Loading...</span></p>
+                <p><strong>Address:</strong> <span id="accountAddress">Loading...</span></p>
+                <p><strong>Information:</strong> <span id="accountInformation">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
+            </div>
 
-    <!-- ===== Autofilled Client Info ===== -->
-    <div class="form-group"><label>Client Email:</label><input type="email" id="clientEmail" readonly></div>
-    <div class="form-group"><label>Client Address:</label><input type="text" id="clientAddress" readonly></div>
-    <div class="form-group"><label>Client Phone:</label><input type="tel" id="clientPhone" readonly></div>
+                <div class="invoice-list">
+                    <h2>Your Invoices</h2>
+                    <div id="invoicesContainer">
+                        <p class="no-invoices">Loading invoices...</p>
+                    </div>
+                </div>
 
-    <!-- ===== Invoice Details ===== -->
-    <div class="form-group"><label for="invoiceNumber">Invoice Number:</label><input type="text" id="invoiceNumber" required></div>
-    <div class="form-group"><label for="invoiceDate">Invoice Date:</label><input type="date" id="invoiceDate" required></div>
-    <div class="form-group"><label for="issueDate">Issue Date:</label><input type="date" id="issueDate" required></div>
-    <div class="form-group"><label for="dueDate">Due Date:</label><input type="date" id="dueDate" required></div>
-    <div class="form-group">
-      <label for="status">Status:</label>
-      <select id="status" required>
-        <option value="draft">Draft</option>
-        <option value="sent">Sent</option>
-        <option value="paid">Paid</option>
-        <option value="overdue">Overdue</option>
-      </select>
-    </div>
-    <div class="form-group"><label for="paymentTerms">Payment Terms:</label><input type="text" id="paymentTerms" value="Net 15"></div>
-    <div class="form-group"><label for="purchaseOrder">Purchase Order (Optional):</label><input type="text" id="purchaseOrder"></div>
-    <div class="form-group"><label for="paymentInstructions">Payment Instructions:</label><textarea id="paymentInstructions" rows="4"></textarea></div>
+                <div class="update-profile-form">
+                    <h2>Update Your Information</h2>
+                    <form id="updateProfileForm">
+                        <label for="updateName">Name:</label>
+                        <input type="text" id="updateName" placeholder="Your Name">
 
-    <!-- ===== Calculated Totals ===== -->
-    <div class="form-group"><label for="subtotal">Subtotal (calculated):</label><input type="number" id="subtotal" step="0.01" value="0.00" readonly></div>
-    <div class="form-group"><label for="discountRate">Discount Rate (%):</label><input type="number" id="discountRate" step="0.01" value="0.00" min="0" max="100"></div>
-    <div class="form-group"><label for="discountAmount">Discount Amount (R):</label><input type="number" id="discountAmount" step="0.01" value="0.00" readonly></div>
-    <div class="form-group"><label for="vatRate">VAT Rate (%):</label><input type="number" id="vatRate" step="0.01" value="15.00" min="0" max="100"></div>
-    <div class="form-group"><label for="vatAmount">VAT Amount (R):</label><input type="number" id="vatAmount" step="0.01" value="0.00" readonly></div>
-    <div class="form-group"><label for="totalAmountDue">Total Amount Due (calculated):</label><input type="number" id="totalAmountDue" step="0.01" value="0.00" readonly></div>
+                        <label for="updateCompany">Company:</label>
+                        <input type="text" id="updateCompany" placeholder="Your Company">
 
-    <!-- ===== Line Items ===== -->
-    <h2>Line Items</h2>
-    <div id="lineItemsContainer"></div>
-    <button type="button" class="btn-primary add-line-item-btn" onclick="addLineItem()">Add Line Item</button>
+                        <label for="updateInformation">Information:</label>
+                        <textarea id="updateInformation" placeholder="Any additional information"></textarea>
 
-    <!-- ===== Submit ===== -->
-    <div class="button-group">
-      <button type="submit" class="btn-primary">Save Invoice</button>
-    </div>
-    <div id="message" class="message"></div>
-  </form>
-</div>
+                        <button type="submit" class="btn">Save Changes</button>
+                        <p id="updateMessage" class="message-text"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-<script src="js/supabase.min.js"></script>
-<script>
-const supabaseClient = supabase.createClient(
-  'https://tirkqybcedxfusifslim.supabase.co',
-  'YOUR_SUPABASE_KEY'
-);
+        <!-- NOTE: The <p id="status"> and <button id="logoutButton"> elements below are now redundant. -->
+        <!-- The onAuthStateChange listener will dynamically create the logout button. -->
+        <!-- You can remove these two lines from your HTML for cleaner code. -->
+        <!-- <p id="status">Status: Initializing...</p> -->
+        <!-- <button id="logoutButton">Logout</button> -->
 
-const invoiceForm = document.getElementById('invoiceForm');
-const messageDiv = document.getElementById('message');
-const lineItemsContainer = document.getElementById('lineItemsContainer');
-let lineItemCount = 0;
+        <script>
+            // Supabase client initialization
+            const supabaseClient = supabase.createClient(
+                'https://tirkqybcedxfusifslim.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
+                { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
+            );
 
-const clientSelect = document.getElementById('clientSelect');
-const selectedUserIdInput = document.getElementById('selectedUserId');
-const clientEmailInput = document.getElementById('clientEmail');
-const clientAddressInput = document.getElementById('clientAddress');
-const clientPhoneInput = document.getElementById('clientPhone');
+            console.log('ACCOUNT PAGE Supabase Client Object:', supabaseClient); // Diagnostic log
 
-let allClientProfiles = [];
+            // DOM elements
+            const adminLinkContainer = document.getElementById('adminLinkContainer');
+            const loginLogoutLink = document.getElementById('loginLogoutLink');
+            const authStatusDisplay = document.getElementById('auth-status-display');
+            const invoicesContainer = document.getElementById('invoicesContainer');
+            const accountInfoDiv = document.querySelector('.account-info');
+            const updateProfileFormDiv = document.querySelector('.update-profile-form');
+            const updateMessage = document.getElementById('updateMessage'); // Ensure this is available
+            
 
-// --- Helper Functions ---
-function showMessage(text, type) {
-  messageDiv.textContent = text;
-  messageDiv.className = `message ${type}`;
-  setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = 'message'; }, 5000);
-}
+            // Function to fetch and display user data (STILL COMMENTED OUT, BUT HERE FOR CONTEXT)
+            async function fetchUserData(user) {
+              console.log('Fetching user data for:', user ? user.id : 'no user');
+              // ... (Your original fetchUserData function code here)
+              // For now, these lines below are just placeholders for the UI, not actual data fetches.
+              document.getElementById('accountName').textContent = user.email ? user.email.split('@')[0] : 'Guest';
+              document.getElementById('accountEmail').textContent = user.email || 'N/A';
+            }
 
-function addLineItem() {
-  const newItemId = lineItemCount++;
-  const lineItemHtml = `
-    <div class="line-item-section" data-item-id="${newItemId}">
-      <div class="line-item-header">
-        <h3>Line Item #${newItemId + 1}</h3>
-        <button type="button" class="remove-line-item-btn" onclick="removeLineItem(this)">Remove</button>
-      </div>
-      <div class="line-item-fields">
-        <div class="form-group"><label>Description:</label><input type="text" id="itemDescription_${newItemId}" required></div>
-        <div class="form-group"><label>Qty:</label><input type="number" id="itemQty_${newItemId}" step="0.01" value="1" min="0" oninput="calculateTotals()"></div>
-        <div class="form-group"><label>Rate (R):</label><input type="number" id="itemRate_${newItemId}" step="0.01" value="0.00" min="0" oninput="calculateTotals()"></div>
-        <div class="form-group"><label>Amount (R):</label><input type="number" id="itemAmount_${newItemId}" step="0.01" value="0.00" readonly></div>
-      </div>
-    </div>`;
-  lineItemsContainer.insertAdjacentHTML('beforeend', lineItemHtml);
-}
+            // Function to fetch and display invoices (STILL COMMENTED OUT, BUT HERE FOR CONTEXT)
+            async function fetchUserInvoices(user) {
+              console.log('Fetching user invoices for:', user ? user.id : 'no user');
+              const invoicesContainer = document.getElementById('invoicesContainer');
+              invoicesContainer.innerHTML = '<p class="no-invoices">Loading invoices...</p>';
+              if (!user) {
+                invoicesContainer.innerHTML = '<p class="no-invoices">Please sign in to view your invoices.</p>';
+              } else {
+                 invoicesContainer.innerHTML = '<p class="no-invoices">Invoice data not yet loaded.</p>'; // Placeholder
+              }
+            }
+            
+            // Handle profile update form submission (STILL COMMENTED OUT)
+            // You will re-enable this later.
+            /*
+            document.getElementById('updateProfileForm').addEventListener('submit', async (e) => {
+              e.preventDefault();
+              // ... (Your original updateProfileForm submission code here)
+            });
+            */
+                  // --- Supabase Auth State Change Listener (Full Logic) ---
+            supabaseClient.auth.onAuthStateChange(async (event, session) => {
+                console.log('onAuthStateChange fired:', event, session); // Diagnostic log
 
-function removeLineItem(button) {
-  const itemSection = button.closest('.line-item-section');
-  if (lineItemsContainer.children.length > 1) {
-    itemSection.remove();
-    calculateTotals();
-  } else {
-    showMessage("Cannot remove the last line item.", "error");
-  }
-}
+                if (session && session.user) {
+                    // --- User is Logged In ---
+                    console.log('User is signed in. Session event:', event);
+                    loginLogoutLink.textContent = 'My Account';
+                    loginLogoutLink.href = 'account.html'; // Link to this page
 
-function calculateTotals() {
-  let subtotal = 0;
-  document.querySelectorAll('.line-item-section').forEach(section => {
-    const itemId = section.dataset.itemId;
-    const qty = parseFloat(document.getElementById(`itemQty_${itemId}`).value) || 0;
-    const rate = parseFloat(document.getElementById(`itemRate_${itemId}`).value) || 0;
-    const amountInput = document.getElementById(`itemAmount_${itemId}`);
-    const itemAmount = qty * rate;
-    amountInput.value = itemAmount.toFixed(2);
-    subtotal += itemAmount;
-  });
+                    // Dynamically create and append the logout button
+                    let logoutButton = document.getElementById('dynamicLogoutButton');
+                    if (!logoutButton) { // Create only if it doesn't exist
+                        logoutButton = document.createElement('button');
+                        logoutButton.id = 'dynamicLogoutButton'; // Give it a unique ID
+                        logoutButton.className = 'btn btn-secondary';
+                        logoutButton.textContent = 'Logout';
+                        authStatusDisplay.appendChild(logoutButton);
+                    }
 
-  document.getElementById('subtotal').value = subtotal.toFixed(2);
-  const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
-  const vatRate = parseFloat(document.getElementById('vatRate').value) || 0;
-  const discountAmount = subtotal * (discountRate / 100);
-  const subtotalAfterDiscount = subtotal - discountAmount;
-  const vatAmount = subtotalAfterDiscount * (vatRate / 100);
-  const totalAmountDue = subtotalAfterDiscount + vatAmount;
-  document.getElementById('discountAmount').value = discountAmount.toFixed(2);
-  document.getElementById('vatAmount').value = vatAmount.toFixed(2);
-  document.getElementById('totalAmountDue').value = totalAmountDue.toFixed(2);
-}
+                    logoutButton.onclick = async (e) => {
+                        e.preventDefault();
+                        console.log('Logout button clicked - attempting signOut...'); // Diagnostic log
+                        const { error } = await supabaseClient.auth.signOut();
+                        if (error) {
+                            console.error('Error signing out:', error.message);
+                            // Temporarily using alert as message display is not fully implemented yet
+                            alert('Error signing out: ' + error.message); 
+                        } else {
+                            console.log('Sign out successful, redirecting to login.html'); // Diagnostic log
+                            // The onAuthStateChange listener for SIGNED_OUT will handle the redirect,
+                            // but for immediate feedback/fallback:
+                            window.location.href = 'login.html'; 
+                        }
+                    };
 
-['discountRate', 'vatRate'].forEach(id => document.getElementById(id).addEventListener('input', calculateTotals));
+                    authStatusDisplay.innerHTML = `<p>You are logged in as <strong>${session.user.email}</strong>.</p>`;
+                    authStatusDisplay.appendChild(logoutButton); // Append the button after setting innerHTML
+                    
+                    console.log('Auth status display updated.');
+                                        getProfileData(session.user);
+                  
+                    // Calls to fetch data are COMMENTED OUT for this test, but uncomment if you want to test them next
+                    // await fetchUserData(session.user);
+                    // await fetchUserInvoices(session.user);
 
-async function fetchClientProfiles() {
-  const { data, error } = await supabaseClient.from('profiles')
-    .select('user_id, email, address, phone_number')
-    .eq('role', 'client');
-  if (error) {
-    showMessage(`Error fetching clients: ${error.message}`, 'error');
-    return [];
-  }
-  return data;
-}
+                    // Show authenticated content sections
+                    accountInfoDiv.style.display = 'block';
+                    updateProfileFormDiv.style.display = 'block';
+                    if (invoicesContainer.parentElement) { // Ensure parent exists
+                        invoicesContainer.parentElement.style.display = 'block'; 
+                    }
 
-function populateClientDropdown(clients) {
-  clientSelect.innerHTML = '<option value="">-- Select a client --</option>';
-  allClientProfiles = clients;
-  clients.forEach(client => {
-    const option = document.createElement('option');
-    option.value = client.user_id;
-    option.textContent = client.email; // or company if available
-    clientSelect.appendChild(option);
-  });
-}
+                    // For this test, we are NOT fetching profile data for admin role.
+                    // This section remains as a placeholder.
+                    // If you need to test admin link behavior, you'd need the full profile fetch.
+                    adminLinkContainer.innerHTML = ''; // Hide admin link for now
 
-function autofillClientDetails() {
-  const selectedId = clientSelect.value;
-  const selectedClient = allClientProfiles.find(client => client.user_id === selectedId);
-  if (selectedClient) {
-    selectedUserIdInput.value = selectedClient.user_id;
-    clientEmailInput.value = selectedClient.email || '';
-    clientAddressInput.value = selectedClient.address || '';
-    clientPhoneInput.value = selectedClient.phone_number || '';
-  } else {
-    [selectedUserIdInput, clientEmailInput, clientAddressInput, clientPhoneInput].forEach(input => input.value = '');
-  }
-}
+                } else {
+                    // --- User is Not Logged In (or has just logged out) ---
+                    console.log('User is not signed in or signed out. Session event:', event);
+                    loginLogoutLink.textContent = 'Client Login';
+                    loginLogoutLink.href = 'login.html';
+                    adminLinkContainer.innerHTML = ''; // Hide admin link
 
-clientSelect.addEventListener('change', autofillClientDetails);
+                    authStatusDisplay.innerHTML = '<p>You are not logged in. Please <a href="login.html">log in</a> to access your dashboard.</p>';
+                    
+                    // Hide authenticated content sections
+                    accountInfoDiv.style.display = 'none';
+                    updateProfileFormDiv.style.display = 'none';
+                    if (invoicesContainer.parentElement) {
+                        invoicesContainer.parentElement.style.display = 'none';
+                    }
 
-invoiceForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  showMessage('Saving invoice...', 'info');
+                    // Only redirect for initial sessions without a user.
+                    // The SIGNED_OUT event is typically handled by the logout button's direct redirect now.
+                    if (event === 'INITIAL_SESSION' && !session) {
+                      console.log('Redirecting to login.html due to no initial session.'); // Diagnostic log
+                      window.location.href = 'login.html';
+                    }
+                }
+            });
 
+            // Hamburger menu functionality
+            document.addEventListener('DOMContentLoaded', () => {
+                const hamburger = document.getElementById("hamburger");
+                const navMenu = document.getElementById("navMenu");
+                if (hamburger && navMenu) {
+                    hamburger.addEventListener("click", () => {
+                        navMenu.classList.toggle("active");
+                    });
+                }
+            });
+        async function getProfileData(user) {
   try {
-    const invoiceNumber = document.getElementById('invoiceNumber').value.trim();
-    if (!invoiceNumber) throw new Error("Invoice Number is required.");
-    const userId = document.getElementById('selectedUserId').value;
-    if (!userId) throw new Error("No client selected.");
-
-    const invoiceData = {
-      user_id: userId,
-      invoice_number: invoiceNumber,
-      invoice_date: document.getElementById('invoiceDate').value,
-      issue_date: document.getElementById('issueDate').value,
-      due_date: document.getElementById('dueDate').value,
-      status: document.getElementById('status').value,
-      client_email: clientEmailInput.value,
-      client_phone: clientPhoneInput.value,
-      client_address: clientAddressInput.value,
-      subtotal: parseFloat(document.getElementById('subtotal').value),
-      discount_amount: parseFloat(document.getElementById('discountAmount').value),
-      vat_percentage: parseFloat(document.getElementById('vatRate').value),
-      vat_amount: parseFloat(document.getElementById('vatAmount').value),
-      total_amount_due: parseFloat(document.getElementById('totalAmountDue').value),
-      payment_terms: document.getElementById('paymentTerms').value,
-      purchase_order: document.getElementById('purchaseOrder').value || null,
-      payment_instructions: document.getElementById('paymentInstructions').value,
-      currency: 'ZAR'
-    };
-
-    const { data: existingInvoice } = await supabaseClient
-      .from('invoices')
-      .select('id')
-      .eq('invoice_number', invoiceNumber)
+    // This query now perfectly matches your table's column names.
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      // 1. SELECTING the columns that actually exist: 'full_name', 'company', 'information'
+      .select('full_name, company, information') 
+      // 2. MATCHING against your 'user_id' column
+      .eq('user_id', user.id) 
       .single();
 
-    let invoiceId;
-    if (existingInvoice) {
-      const { data, error } = await supabaseClient
-        .from('invoices')
-        .update(invoiceData)
-        .eq('id', existingInvoice.id)
-        .select('id')
-        .single();
-      if (error) throw new Error(`Failed to update invoice: ${error.message}`);
-      invoiceId = data.id;
-      await supabaseClient.from('invoice_items').delete().eq('invoice_id', invoiceId);
-    } else {
-      const { data, error } = await supabaseClient
-        .from('invoices')
-        .insert(invoiceData)
-        .select('id')
-        .single();
-      if (error) throw new Error(`Failed to create invoice: ${error.message}`);
-      invoiceId = data.id;
+    if (error) {
+      // This error block will now only run if there is a different problem, like RLS.
+      console.error('Supabase error fetching profile:', error.message);
+      document.getElementById('accountName').textContent = 'Could not load profile. Check RLS.';
+      return;
     }
 
-    const lineItemsData = Array.from(document.querySelectorAll('.line-item-section')).map(section => {
-      const itemId = section.dataset.itemId;
-      return {
-        invoice_id: invoiceId,
-        description: document.getElementById(`itemDescription_${itemId}`).value,
-        quantity: parseFloat(document.getElementById(`itemQty_${itemId}`).value),
-        rate: parseFloat(document.getElementById(`itemRate_${itemId}`).value),
-        amount: parseFloat(document.getElementById(`itemAmount_${itemId}`).value),
-      };
-    });
+    // If we get data, update the HTML fields
+    if (data) {
+      console.log("Success! Profile data loaded:", data);
+      document.getElementById('accountName').textContent = data.full_name || 'Not set';
+      // 3. Using data.company to match your table
+      document.getElementById('accountCompany').textContent = data.company || 'Not set';
+      // 4. The 'your_need' column doesn't exist, so we will mark it as 'Not applicable'
+ async function getProfileData(user) {
+  try {
+    // This query now selects all the columns you requested.
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      // SELECTING the columns that actually exist in your table.
+      .select('full_name, company, phone_number, address, information') 
+      // MATCHING against your 'user_id' column.
+      .eq('user_id', user.id) 
+      .single();
 
-    if (lineItemsData.length > 0) {
-      const { error: itemsError } = await supabaseClient.from('invoice_items').insert(lineItemsData);
-      if (itemsError) throw new Error(`Invoice saved, but failed to save line items: ${itemsError.message}`);
+    if (error) {
+      // If this error happens, it's most likely the Row Level Security policy.
+      console.error('Supabase error fetching profile:', error.message);
+      document.getElementById('accountName').textContent = 'Could not load profile. Check RLS Policy.';
+      return;
     }
 
-    showMessage(existingInvoice ? 'Invoice updated successfully!' : 'Invoice created successfully!', 'success');
-    invoiceForm.reset();
-    populateClientDropdown(allClientProfiles);
-    lineItemsContainer.innerHTML = '';
-    addLineItem();
-    calculateTotals();
-  } catch (err) {
-    console.error(err);
-    showMessage(err.message, 'error');
-  }
-});
-
-// --- Initialization ---
-document.addEventListener('DOMContentLoaded', async () => {
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  if (!user) window.location.href = 'login.html';
-
-  const { data: profile } = await supabaseClient.from('profiles').select('role').eq('user_id', user.id).single();
-  if (!profile || profile.role !== 'admin') window.location.href = 'client_dashboard.html';
-
-  document.getElementById('loginLogoutLink').textContent = 'Logout';
-  document.getElementById('loginLogoutLink').href = '#';
-  document.getElementById('loginLogoutLink').onclick = async (e) => {
-    e.preventDefault();
-    await supabaseClient.auth.signOut();
-    window.location.href = 'login.html';
-  };
-  document.getElementById('adminLinkContainer').innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
-
-  const clients = await fetchClientProfiles();
-  populateClientDropdown(clients);
-
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('invoiceDate').value = today;
-  document.getElementById('issueDate').value = today;
-
-  addLineItem();
-
-  const hamburger = document.getElementById("hamburger");
-  const navMenu = document.getElementById("navMenu");
-  if (hamburger && navMenu) hamburger.addEventListener("click", () => navMenu.classList.toggle("active"));
-});
-</script>
-</body>
-</html>
+    // If the query is successful, update all the HTML fields.
+    if (data) {
+      console.log("Success! Profile data has been loaded:", data);
+      
+      document.getElementById('accountName').textContent = data.full_name || 'Not set';
+      document.getElementById('accountCompany').textContent = data.company || 'Not set';
+      document.getElementById('accountPhone').textContent = data.phone_number || 'Not set';
+      document.getElementById('accountAddress').textContent = data.address || 'Not set';
+      document.getElementById('accountInformation').textContent = data.information || 'Not set';
+      
+      // Email always comes from the secure user session object.
+              document.getElementById('accountEmail').textContent = user.email;
+            }
+            
+          } catch (e) {
+            console.error('A critical error occurred in the getProfileData function:', e);
+          }
+        }
+        </script>
+    </body>
+    </html>
