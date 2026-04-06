@@ -3,87 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 2 (Corrected): Sign-In and Redirect</title>
+    <title>Client Account</title>
+    <!-- You MUST include the Supabase library on this page too -->
     <script src="js/supabase.min.js"></script>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; }
-        form { display: flex; flex-direction: column; gap: 10px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-        .message { margin-top: 15px; font-weight: bold; }
-        .error { color: red; }
-        .success { color: green; }
+        body { font-family: sans-serif; padding: 20px; }
+        .loading { font-style: italic; color: #888; }
     </style>
 </head>
 <body>
 
-    <h1>Supabase Sign-In Test (with Redirect)</h1>
+    <div id="account-content" style="display: none;">
+        <h1>Welcome, Client!</h1>
+        <p>This is your account page. You have successfully logged in.</p>
+        <p>Your user information will appear here.</p>
+        <pre id="user-info"></pre>
+        <button id="signOutButton">Sign Out</button>
+    </div>
 
-    <form id="loginForm">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-
-        <button type="submit">Sign In</button>
-    </form>
-
-    <p id="message" class="message"></p>
+    <p id="loading-message" class="loading">Loading and verifying your session...</p>
 
     <script>
-        // 1. Initialize Supabase Client with the CORRECT API KEY
+        // 1. Initialize Supabase Client (same as on the login page)
         const supabaseClient = supabase.createClient(
             'https://tirkqybcedxfusifslim.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
         );
 
-        // 2. Get HTML elements
-        const loginForm = document.getElementById('loginForm');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const messageDiv = document.getElementById('message');
+        const accountContent = document.getElementById('account-content');
+        const loadingMessage = document.getElementById('loading-message');
+        const userInfo = document.getElementById('user-info');
+        const signOutButton = document.getElementById('signOutButton');
 
-        // 3. Listen for form submission
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            messageDiv.textContent = 'Signing in...';
-            messageDiv.className = 'message';
-
-            // 4. Call Supabase sign-in function
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
-
+        // 2. Add an event listener to handle signing out
+        signOutButton.addEventListener('click', async () => {
+            const { error } = await supabaseClient.auth.signOut();
             if (error) {
-                // Handle login error
-                messageDiv.textContent = `Login Failed: ${error.message}`;
-                messageDiv.className = 'message error';
+                alert(`Sign out failed: ${error.message}`);
             } else {
-                // On successful login, check the user's role and redirect.
-                messageDiv.textContent = 'Success! Checking your role...';
-                messageDiv.className = 'message success';
-
-                // Get the user's profile from the 'profiles' table
-                const { data: profile, error: profileError } = await supabaseClient
-                    .from('profiles')
-                    .select('role')
-                    .eq('user_id', data.user.id)
-                    .single();
-
-                if (profileError || !profile) {
-                    messageDiv.textContent = 'Login successful, but could not find your user profile. Please contact support.';
-                    messageDiv.className = 'message error';
-                } else if (profile.role === 'admin') {
-                    // If the role is 'admin', redirect to the admin dashboard
-                    window.location.href = 'admin_dashboard.html';
-                } else {
-                    // For any other role (like 'client'), redirect to the account page
-                    window.location.href = 'account.html';
-                }
+                // On successful sign out, redirect to the login page
+                window.location.href = 'login.html';
             }
         });
+
+        // 3. THE CORE LOGIC: Check the user's session when the page loads
+        async function checkSession() {
+            const { data, error } = await supabaseClient.auth.getSession();
+
+            if (error) {
+                console.error('Error getting session:', error);
+                window.location.href = 'login.html';
+                return;
+            }
+
+            if (data.session) {
+                // If a session exists, the user is logged in!
+                console.log('User is logged in:', data.session.user);
+                
+                // Hide the loading message and show the real page content
+                loadingMessage.style.display = 'none';
+                accountContent.style.display = 'block';
+
+                // Display some user info (optional, but good for testing)
+                userInfo.textContent = JSON.stringify(data.session.user, null, 2);
+
+            } else {
+                // If no session exists, the user is NOT logged in.
+                // Redirect them to the login page.
+                console.log('No active session. Redirecting to login.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // 4. Run the check as soon as the page loads
+        checkSession();
+
     </script>
 
 </body>
