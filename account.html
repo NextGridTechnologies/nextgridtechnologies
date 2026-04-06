@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Account - NextGrid Technologies</title>
 
+    <!-- ✅ KEEPING YOUR LOCAL FILE -->
     <script src="js/supabase.min.js"></script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -39,17 +41,17 @@
             <p>Checking authentication status...</p>
         </div>
 
-        <div class="account-info">
+        <div class="account-info" style="display:none;">
             <h2>Your Profile</h2>
-            <p><strong>Full Name:</strong> <span id="accountName">Loading...</span></p>
-            <p><strong>Company:</strong> <span id="accountCompany">Loading...</span></p>
-            <p><strong>Phone:</strong> <span id="accountPhone">Loading...</span></p>
-            <p><strong>Address:</strong> <span id="accountAddress">Loading...</span></p>
-            <p><strong>Info:</strong> <span id="accountInformation">Loading...</span></p>
-            <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
+            <p><strong>Full Name:</strong> <span id="accountName">-</span></p>
+            <p><strong>Company:</strong> <span id="accountCompany">-</span></p>
+            <p><strong>Phone:</strong> <span id="accountPhone">-</span></p>
+            <p><strong>Address:</strong> <span id="accountAddress">-</span></p>
+            <p><strong>Info:</strong> <span id="accountInformation">-</span></p>
+            <p><strong>Email:</strong> <span id="accountEmail">-</span></p>
         </div>
 
-        <div class="invoice-list">
+        <div class="invoice-list" style="display:none;">
             <h2>Your Invoices</h2>
             <div id="invoicesContainer">
                 <p class="no-invoices">Loading invoices...</p>
@@ -60,70 +62,96 @@
 </section>
 
 <script>
-const supabaseClient = supabase.createClient(
-    'https://tirkqybcedxfusifslim.supabase.co',
-    'YOUR_PUBLIC_KEY'
-);
+/* ================= SUPABASE INIT ================= */
+const supabaseUrl = 'https://tirkqybcedxfusifslim.supabase.co';
+const supabaseKey = 'YOUR_PUBLIC_KEY'; // 🔑 REPLACE THIS
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
+/* ================= ELEMENTS ================= */
 const authStatusDisplay = document.getElementById('auth-status-display');
 const loginLogoutLink = document.getElementById('loginLogoutLink');
 const accountInfoDiv = document.querySelector('.account-info');
+const invoiceSection = document.querySelector('.invoice-list');
 const invoicesContainer = document.getElementById('invoicesContainer');
 
-/* ================= AUTH ================= */
-supabaseClient.auth.onAuthStateChange(async (event, session) => {
+/* ================= INIT (CRITICAL FIX) ================= */
+init();
+
+async function init() {
+    try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+        console.log("Session:", session);
+        console.log("Session error:", error);
+
+        if (session && session.user) {
+            handleLoggedIn(session.user);
+        } else {
+            handleLoggedOut();
+        }
+
+    } catch (err) {
+        console.error("Init error:", err);
+    }
+}
+
+/* ================= AUTH LISTENER ================= */
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    console.log("Auth event:", event);
 
     if (session && session.user) {
-
-        // NAV UPDATE
-        loginLogoutLink.textContent = 'My Account';
-        loginLogoutLink.href = 'account.html';
-
-        // CREATE LOGOUT BUTTON
-        let logoutButton = document.getElementById('logoutBtn');
-
-        if (!logoutButton) {
-            logoutButton = document.createElement('button');
-            logoutButton.id = 'logoutBtn';
-            logoutButton.className = 'btn btn-secondary';
-            logoutButton.textContent = 'Logout';
-
-            logoutButton.onclick = async () => {
-                await supabaseClient.auth.signOut();
-                window.location.href = 'login.html';
-            };
-        }
-
-        // FIXED RENDER (NO INNERHTML WIPE)
-        authStatusDisplay.innerHTML = '';
-        const p = document.createElement('p');
-        p.innerHTML = `Logged in as <strong>${session.user.email}</strong>`;
-        authStatusDisplay.appendChild(p);
-        authStatusDisplay.appendChild(logoutButton);
-
-        // SHOW CONTENT
-        accountInfoDiv.style.display = 'block';
-        invoicesContainer.parentElement.style.display = 'block';
-
-        getProfileData(session.user);
-
+        handleLoggedIn(session.user);
     } else {
-
-        loginLogoutLink.textContent = 'Client Login';
-        loginLogoutLink.href = 'login.html';
-
-        authStatusDisplay.innerHTML = `
-            <p>You are not logged in. <a href="login.html">Login</a></p>
-        `;
-
-        accountInfoDiv.style.display = 'none';
-        invoicesContainer.parentElement.style.display = 'none';
-
-        if (event === 'INITIAL_SESSION') {
-            window.location.href = 'login.html';
-        }
+        handleLoggedOut();
     }
 });
+
+/* ================= LOGGED IN ================= */
+function handleLoggedIn(user) {
+
+    // NAV
+    loginLogoutLink.textContent = 'My Account';
+    loginLogoutLink.href = 'account.html';
+
+    // AUTH STATUS
+    authStatusDisplay.innerHTML = '';
+
+    const p = document.createElement('p');
+    p.innerHTML = `Logged in as <strong>${user.email}</strong>`;
+
+    const logoutButton = document.createElement('button');
+    logoutButton.className = 'btn btn-secondary';
+    logoutButton.textContent = 'Logout';
+
+    logoutButton.onclick = async () => {
+        await supabaseClient.auth.signOut();
+        window.location.href = 'login.html';
+    };
+
+    authStatusDisplay.appendChild(p);
+    authStatusDisplay.appendChild(logoutButton);
+
+    // SHOW CONTENT
+    accountInfoDiv.style.display = 'block';
+    invoiceSection.style.display = 'block';
+
+    // FETCH DATA
+    getProfileData(user);
+    getInvoices(user);
+}
+
+/* ================= LOGGED OUT ================= */
+function handleLoggedOut() {
+    loginLogoutLink.textContent = 'Client Login';
+    loginLogoutLink.href = 'login.html';
+
+    authStatusDisplay.innerHTML = `
+        <p>You are not logged in. <a href="login.html">Login</a></p>
+    `;
+
+    accountInfoDiv.style.display = 'none';
+    invoiceSection.style.display = 'none';
+}
 
 /* ================= PROFILE ================= */
 async function getProfileData(user) {
@@ -134,17 +162,64 @@ async function getProfileData(user) {
             .eq('user_id', user.id)
             .single();
 
-        if (error) return;
+        console.log("Profile Data:", data);
+        console.log("Profile Error:", error);
 
-        document.getElementById('accountName').textContent = data.full_name || '-';
-        document.getElementById('accountCompany').textContent = data.company || '-';
-        document.getElementById('accountPhone').textContent = data.phone_number || '-';
-        document.getElementById('accountAddress').textContent = data.address || '-';
-        document.getElementById('accountInformation').textContent = data.information || '-';
+        if (error) {
+            console.error("Profile fetch error:", error);
+            return;
+        }
+
+        document.getElementById('accountName').textContent = data?.full_name || '-';
+        document.getElementById('accountCompany').textContent = data?.company || '-';
+        document.getElementById('accountPhone').textContent = data?.phone_number || '-';
+        document.getElementById('accountAddress').textContent = data?.address || '-';
+        document.getElementById('accountInformation').textContent = data?.information || '-';
         document.getElementById('accountEmail').textContent = user.email;
 
     } catch (err) {
-        console.error(err);
+        console.error("Unexpected profile error:", err);
+    }
+}
+
+/* ================= INVOICES ================= */
+async function getInvoices(user) {
+    try {
+        const { data, error } = await supabaseClient
+            .from('invoices')
+            .select('*')
+            .eq('user_id', user.id);
+
+        console.log("Invoices:", data);
+        console.log("Invoice Error:", error);
+
+        if (error) {
+            invoicesContainer.innerHTML = "<p>Error loading invoices</p>";
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            invoicesContainer.innerHTML = "<p class='no-invoices'>No invoices found.</p>";
+            return;
+        }
+
+        invoicesContainer.innerHTML = '';
+
+        data.forEach(inv => {
+            const div = document.createElement('div');
+            div.className = 'invoice-card';
+
+            div.innerHTML = `
+                <p><strong>Invoice #:</strong> ${inv.id}</p>
+                <p><strong>Amount:</strong> R${inv.amount || '0.00'}</p>
+                <p><strong>Status:</strong> ${inv.status || 'Pending'}</p>
+            `;
+
+            invoicesContainer.appendChild(div);
+        });
+
+    } catch (err) {
+        console.error("Invoice error:", err);
     }
 }
 
