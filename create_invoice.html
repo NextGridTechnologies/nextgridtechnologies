@@ -49,7 +49,7 @@
       <input type="hidden" id="selectedUserId">
     </div>
 
-    <!-- ===== Autofilled Client Info (without clientName input) ===== -->
+    <!-- ===== Autofilled Client Info ===== -->
     <div class="form-group"><label>Client Email:</label><input type="email" id="clientEmail" readonly></div>
     <div class="form-group"><label>Client Address:</label><input type="text" id="clientAddress" readonly></div>
     <div class="form-group"><label>Client Phone:</label><input type="tel" id="clientPhone" readonly></div>
@@ -207,10 +207,11 @@ function autofillClientDetails() {
 
 clientSelect.addEventListener('change', autofillClientDetails);
 
-// Submission logic remains the same, just remove `client_name` from invoiceData
+// --- Form submission ---
 invoiceForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   showMessage('Saving invoice...', 'info');
+
   try {
     const invoiceNumber = document.getElementById('invoiceNumber').value.trim();
     if (!invoiceNumber) throw new Error("Invoice Number is required.");
@@ -237,17 +238,13 @@ invoiceForm.addEventListener('submit', async (e) => {
       currency: 'ZAR'
     };
 
-    const { data: existingInvoice } = await supabaseClient
-      .from('invoices')
-      .select('id')
-      .eq('invoice_number', invoiceNumber)
-      .single();
+    const { data: existingInvoice } = await supabaseClient.from('invoices')
+      .select('id').eq('invoice_number', invoiceNumber).single();
 
     let invoiceId;
     if (existingInvoice) {
       const { data, error } = await supabaseClient.from('invoices')
-        .update(invoiceData).eq('id', existingInvoice.id)
-        .select('id').single();
+        .update(invoiceData).eq('id', existingInvoice.id).select('id').single();
       if (error) throw new Error(`Failed to update invoice: ${error.message}`);
       invoiceId = data.id;
       await supabaseClient.from('invoice_items').delete().eq('invoice_id', invoiceId);
@@ -286,7 +283,7 @@ invoiceForm.addEventListener('submit', async (e) => {
   }
 });
 
-// Initialization
+// --- Initialization ---
 document.addEventListener('DOMContentLoaded', async () => {
   const { data: { user } } = await supabaseClient.auth.getUser();
   if (!user) window.location.href = 'login.html';
