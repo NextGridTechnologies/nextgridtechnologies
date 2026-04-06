@@ -5,29 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Account</title>
 
-    <!-- CRITICAL: Make sure this path is correct for your file structure. -->
-    <!-- If styles.css is in the root, use "/styles.css" -->
-    <!-- If it's in a subfolder, use "/css/styles.css" -->
     <link rel="stylesheet" href="/styles.css">
-    
     <script src="/js/supabase.min.js"></script>
 
-    <!-- NEW: A special style block to guarantee content is hidden before JS runs -->
     <style>
       #account-content { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- Loading Screen -->
+    <!-- Loading Screen Section -->
     <section class="hero" id="loading-section">
+    
+        <!-- THE FIX: Add the <video> element here -->
+        <video autoplay loop muted playsinline class="hero-video">
+            <!-- Make sure the filename is exactly correct! -->
+            <source src="small-server-room.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="hero-overlay"></div> <!-- This adds the dark gradient over the video -->
+
         <div class="hero-content">
             <h1>Verifying Session...</h1>
         </div>
     </section>
 
     <!-- Main Account Content -->
-    <!-- It now starts hidden because of the <style> block above -->
     <div id="account-content" style="padding: 40px 20px; justify-content: center; align-items: center; min-height: 80vh;">
         <div class="account-wrapper">
             <h2>Your Account Dashboard</h2>
@@ -42,6 +46,7 @@
     </div>
 
     <script>
+        // Your JavaScript remains unchanged.
         document.addEventListener('DOMContentLoaded', function() {
             const supabaseClient = supabase.createClient(
                 'https://tirkqybcedxfusifslim.supabase.co',
@@ -62,7 +67,7 @@
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 if (session) {
                     loadingSection.style.display = 'none';
-                    accountContent.style.display = 'flex'; // Use flex to center it
+                    accountContent.style.display = 'flex';
                     userInfo.textContent = JSON.stringify(session.user, null, 2);
                 } else {
                     window.location.href = '/login.html';
