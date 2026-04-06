@@ -1215,3 +1215,28 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 }
 
 /* All other styles from your original file are assumed to be here */
+/* ===== ACCOUNT PAGE FIXES ===== */
+
+#main-account-dashboard {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.account-wrapper {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.dashboard-content {
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Fix section center override */
+section {
+  text-align: unset;
+}
