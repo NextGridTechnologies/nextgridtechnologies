@@ -95,7 +95,7 @@
 <script>
 const supabaseClient = supabase.createClient(
   'https://tirkqybcedxfusifslim.supabase.co',
-  'YOUR_SUPABASE_KEY_HERE'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
 );
 
 let allClientProfiles = [];
@@ -255,16 +255,17 @@ document.getElementById('invoiceForm').addEventListener('submit', async e=>{
 
 // --- DOM LOAD ---
 document.addEventListener('DOMContentLoaded', async ()=>{
-  const { data:{user} } = await supabaseClient.auth.getUser();
-  if(!user){ window.location.href='login.html'; return; }
-  const { data:profile } = await supabaseClient.from('profiles').select('role').eq('user_id',user.id).single();
-  if(!profile || profile.role!=='admin'){ window.location.href='client_dashboard.html'; return; }
+  const { data:{ session } } = await supabaseClient.auth.getSession();
+  if(!session) { window.location.href='login.html'; return; }
+  const user = session.user;
+  const { data: profile } = await supabaseClient.from('profiles').select('role').eq('user_id',user.id).single();
+  if(!profile) { showMessage('User profile not found', 'error'); return; }
 
-  // Restore logout/admin
+  if(profile.role==='admin') document.getElementById('adminLinkContainer').innerHTML='<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
+
   document.getElementById('loginLogoutLink').textContent='Logout';
   document.getElementById('loginLogoutLink').href='#';
   document.getElementById('loginLogoutLink').onclick=async e=>{ e.preventDefault(); await supabaseClient.auth.signOut(); window.location.href='login.html'; };
-  document.getElementById('adminLinkContainer').innerHTML='<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
 
   const clients = await fetchClients();
   populateClients(clients);
