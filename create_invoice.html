@@ -336,4 +336,37 @@ invoiceForm.addEventListener('submit', async e=>{
             await supabaseClient.from('invoice_items').delete().eq('invoice_id',invoiceId);
         } else {
             const { data: newInv, error } = await supabaseClient.from('invoices').insert(invoiceData).select('id').single();
-            if
+            if(error) throw error;
+            invoiceId = newInv.id;
+        }
+        const lineItems = Array.from(lineItemsContainer.children).map((section,i)=>{
+            const itemId = section.dataset.itemId;
+            return {
+                invoice_id:invoiceId,
+                description:document.getElementById(`itemDescription_${itemId}`).value,
+                quantity:parseFloat(document.getElementById(`itemQty_${itemId}`).value),
+                rate:parseFloat(document.getElementById(`itemRate_${itemId}`).value),
+                amount:parseFloat(document.getElementById(`itemAmount_${itemId}`).value)
+            };
+        });
+        const { error: itemsError } = await supabaseClient.from('invoice_items').insert(lineItems);
+        if(itemsError) throw itemsError;
+
+        showMessage('Invoice saved successfully!','success');
+        invoiceForm.reset();
+        addLineItem();
+        calculateTotals();
+    }catch(err){ showMessage(err.message,'error'); }
+});
+
+// Initialize
+(async function init(){
+    const clients = await fetchClientProfiles();
+    populateClientDropdown(clients);
+    addLineItem();
+})();
+</script>
+
+<script src="js/index.4d3fbb76.js"></script>
+</body>
+</html>
