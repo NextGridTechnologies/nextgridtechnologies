@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,32 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Account</title>
 
-    <!-- THE CRITICAL FIX: Using a root-relative path. -->
-    <!-- This tells the browser to look for styles.css in the top-level root of your site. -->
+    <!-- CRITICAL: Make sure this path is correct for your file structure. -->
+    <!-- If styles.css is in the root, use "/styles.css" -->
+    <!-- If it's in a subfolder, use "/css/styles.css" -->
     <link rel="stylesheet" href="/styles.css">
     
-    <!-- This assumes your 'js' folder is also at the top-level root. -->
     <script src="/js/supabase.min.js"></script>
+
+    <!-- NEW: A special style block to guarantee content is hidden before JS runs -->
+    <style>
+      #account-content { display: none; }
+    </style>
 </head>
 <body>
 
-    <!-- This section is the loading screen -->
+    <!-- Loading Screen -->
     <section class="hero" id="loading-section">
         <div class="hero-content">
             <h1>Verifying Session...</h1>
         </div>
     </section>
 
-    <!-- This is your main account content, hidden by default -->
-    <div id="account-content" style="padding: 40px 20px; display: none; justify-content: center; align-items: center; min-height: 80vh;">
+    <!-- Main Account Content -->
+    <!-- It now starts hidden because of the <style> block above -->
+    <div id="account-content" style="padding: 40px 20px; justify-content: center; align-items: center; min-height: 80vh;">
         <div class="account-wrapper">
             <h2>Your Account Dashboard</h2>
-            
             <div class="account-info">
-                <p>Welcome! You have successfully logged in. Your user details are below.</p>
+                <p>Welcome! You are successfully logged in. Your user details are below.</p>
                 <pre id="user-info"></pre>
             </div>
-            
             <div style="text-align: center; margin-top: 20px;">
                  <button id="signOutButton" class="btn btn-secondary">Sign Out</button>
             </div>
@@ -39,51 +42,35 @@
     </div>
 
     <script>
-        const supabaseClient = supabase.createClient(
-            'https://tirkqybcedxfusifslim.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
-        );
+        document.addEventListener('DOMContentLoaded', function() {
+            const supabaseClient = supabase.createClient(
+                'https://tirkqybcedxfusifslim.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
+            );
 
-        const accountContent = document.getElementById('account-content');
-        const loadingSection = document.getElementById('loading-section');
-        const userInfo = document.getElementById('user-info');
-        const signOutButton = document.getElementById('signOutButton');
+            const accountContent = document.getElementById('account-content');
+            const loadingSection = document.getElementById('loading-section');
+            const userInfo = document.getElementById('user-info');
+            const signOutButton = document.getElementById('signOutButton');
 
-        signOutButton.addEventListener('click', async () => {
-            const { error } = await supabaseClient.auth.signOut();
-            if (error) {
-                alert(`Sign out failed: ${error.message}`);
-            } else {
-                window.location.href = '/login.html'; // Use root-relative path
-            }
-        });
+            signOutButton.addEventListener('click', async () => {
+                await supabaseClient.auth.signOut();
+                window.location.href = '/login.html';
+            });
 
-        async function checkSession() {
-            try {
-                const { data, error } = await supabaseClient.auth.getSession();
-                
-                if (error) {
-                    throw new Error("Error checking session: " + error.message);
-                }
-
-                if (data.session) {
-                    // User is logged in
+            async function checkSession() {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
                     loadingSection.style.display = 'none';
-                    accountContent.style.display = 'flex'; // Use flex to center the wrapper
-                    userInfo.textContent = JSON.stringify(data.session.user, null, 2);
+                    accountContent.style.display = 'flex'; // Use flex to center it
+                    userInfo.textContent = JSON.stringify(session.user, null, 2);
                 } else {
-                    // User is NOT logged in
-                    window.location.href = '/login.html'; // Use root-relative path
+                    window.location.href = '/login.html';
                 }
-            } catch (e) {
-                // If anything in the script fails, show an error message
-                loadingSection.innerHTML = `<div class="hero-content"><h1>Error</h1><p style="color: white; background: #c53030; padding: 10px; border-radius: 5px;">Could not connect to authentication service. Please check the console.</p></div>`;
-                console.error(e);
             }
-        }
-        
-        // Run the check when the document content is fully loaded
-        document.addEventListener('DOMContentLoaded', checkSession);
+            
+            checkSession();
+        });
     </script>
 
 </body>
