@@ -233,27 +233,32 @@
                     });
                 }
             });
-            async function getProfileData(user) {
+        async function getProfileData(user) {
   try {
-    // This is the database query
+    // This query now perfectly matches your table's column names.
     const { data, error } = await supabaseClient
       .from('profiles')
-      .select('full_name, company_name, your_need, information')
-      .eq('id', user.id)
+      // 1. SELECTING the columns that actually exist: 'full_name', 'company', 'information'
+      .select('full_name, company, information') 
+      // 2. MATCHING against your 'user_id' column
+      .eq('user_id', user.id) 
       .single();
 
     if (error) {
-      // Don't crash the site, just log the error and stop.
+      // This error block will now only run if there is a different problem, like RLS.
       console.error('Supabase error fetching profile:', error.message);
-      document.getElementById('accountName').textContent = 'Could not load profile.';
+      document.getElementById('accountName').textContent = 'Could not load profile. Check RLS.';
       return;
     }
 
     // If we get data, update the HTML fields
     if (data) {
+      console.log("Success! Profile data loaded:", data);
       document.getElementById('accountName').textContent = data.full_name || 'Not set';
-      document.getElementById('accountCompany').textContent = data.company_name || 'Not set';
-      document.getElementById('accountNeed').textContent = data.your_need || 'Not set';
+      // 3. Using data.company to match your table
+      document.getElementById('accountCompany').textContent = data.company || 'Not set';
+      // 4. The 'your_need' column doesn't exist, so we will mark it as 'Not applicable'
+      document.getElementById('accountNeed').textContent = 'Not applicable'; 
       document.getElementById('accountInformation').textContent = data.information || 'Not set';
       document.getElementById('accountEmail').textContent = user.email;
     }
