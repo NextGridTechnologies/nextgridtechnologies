@@ -1,231 +1,81 @@
+
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bare Minimum Supabase Logout Test</title>
-        <script src="js/supabase.min.js"></script>
-        <link rel="stylesheet" href="styles.css">
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-C9DS2C71G6');
-        </script>
-        <meta name="description" content="Manage your NextGrid Technologies account, view invoices, update profile details, and access client services.">
-        <meta name="keywords" content="account settings, profile, Microsoft 365, IT support, client dashboard, invoices">
-        <meta name="author" content="NextGrid Technologies">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <!-- Your standard header content -->
-        <header>
-            <div class="container header-flex">
-                <div class="logo-area">
-                    <img src="favicon.ico" alt="NextGrid Technologies Logo" class="logo">
-                    <a href="index.html" class="logo-text">NextGrid Technologies</a>
-                </div>
-                <nav id="navMenu">
-                    <a href="index.html">Home</a>
-                    <a href="services.html">Services</a>
-                    <a href="blog.html">Blog</a>
-                    <div id="adminLinkContainer"></div> <!-- Admin link dynamically populated -->
-                    <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a> <!-- Login/Logout link dynamically updated -->
-                </nav>
-                <button class="hamburger" id="hamburger">&#9776;</button>
-            </div>
-        </header>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bare Minimum Supabase Sign-In</title>
+    <!-- Include the Supabase JS Library -->
+    <script src="js/supabase.min.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; }
+        form { display: flex; flex-direction: column; gap: 10px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        .message { margin-top: 15px; font-weight: bold; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
 
-        <!-- Main dashboard HTML structure -->
-        <section id="main-account-dashboard" class="contact-wrapper account-wrapper">
-            <div class="dashboard-content">
-                <h1>Welcome to your Client Dashboard!</h1>
-                <p>Here you can view all your invoices, update your profile, and access other important information.</p>
+    <h1>Supabase Sign-In Test</h1>
 
-                <div id="auth-status-display">
-                    <!-- This area will dynamically show "checking auth status..." or "Logged in as..." -->
-                    <p>Checking authentication status...</p>
-                </div>
+    <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
 
-                <div class="account-info">
-                    <h2>Your Profile</h2>
-                    <p><strong>Name:</strong> <span id="accountName">Loading...</span></p>
-                    <p><strong>Company:</strong> <span id="accountCompany">Loading...</span></p>
-                    <p><strong>Your Request:</strong> <span id="accountNeed">Loading...</span></p>
-                    <p><strong>Information:</strong> <span id="accountInformation">Loading...</span></p>
-                    <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
-                </div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
 
-                <div class="invoice-list">
-                    <h2>Your Invoices</h2>
-                    <div id="invoicesContainer">
-                        <p class="no-invoices">Loading invoices...</p>
-                    </div>
-                </div>
+        <button type="submit">Sign In</button>
+    </form>
 
-                <div class="update-profile-form">
-                    <h2>Update Your Information</h2>
-                    <form id="updateProfileForm">
-                        <label for="updateName">Name:</label>
-                        <input type="text" id="updateName" placeholder="Your Name">
+    <p id="message" class="message"></p>
 
-                        <label for="updateCompany">Company:</label>
-                        <input type="text" id="updateCompany" placeholder="Your Company">
+    <script>
+        // 1. Initialize the Supabase Client
+        const supabaseClient = supabase.createClient(
+            'https://tirkqybcedxfusifslim.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
+        );
 
-                        <label for="updateInformation">Information:</label>
-                        <textarea id="updateInformation" placeholder="Any additional information"></textarea>
+        // 2. Get references to the HTML elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const messageDiv = document.getElementById('message');
 
-                        <button type="submit" class="btn">Save Changes</button>
-                        <p id="updateMessage" class="message-text"></p>
-                    </form>
-                </div>
-            </div>
-        </section>
+        // 3. Add an event listener to the form
+        loginForm.addEventListener('submit', async (e) => {
+            // Prevent the form from refreshing the page
+            e.preventDefault();
 
-        <!-- NOTE: The <p id="status"> and <button id="logoutButton"> elements below are now redundant. -->
-        <!-- The onAuthStateChange listener will dynamically create the logout button. -->
-        <!-- You can remove these two lines from your HTML for cleaner code. -->
-        <!-- <p id="status">Status: Initializing...</p> -->
-        <!-- <button id="logoutButton">Logout</button> -->
+            // Get the email and password from the form
+            const email = emailInput.value;
+            const password = passwordInput.value;
 
-    
-<script>
-    // Supabase client initialization
-    const supabaseClient = supabase.createClient(
-        'https://tirkqybcedxfusifslim.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
-    );
+            // Display a "loading" message
+            messageDiv.textContent = 'Attempting to sign in...';
+            messageDiv.className = 'message';
 
-    // --- DOM Elements ---
-    const adminLinkContainer = document.getElementById('adminLinkContainer');
-    const loginLogoutLink = document.getElementById('loginLogoutLink');
-    const authStatusDisplay = document.getElementById('auth-status-display');
-    const invoicesContainer = document.getElementById('invoicesContainer');
-    const accountInfoDiv = document.querySelector('.account-info');
-    const updateProfileFormDiv = document.querySelector('.update-profile-form');
-    const updateMessage = document.getElementById('updateMessage');
-
-    // --- Data Fetching & Display Functions ---
-    async function fetchAndDisplayUserData(user) {
-        if (!user) return null;
-        const { data: profile, error } = await supabaseClient.from('profiles').select('full_name, company, need, information, role').eq('user_id', user.id).single();
-        if (error) { console.error('Error fetching profile:', error.message); return null; }
-        if (profile) {
-            document.getElementById('accountName').textContent = profile.full_name || 'N/A';
-            document.getElementById('accountCompany').textContent = profile.company || 'N/A';
-            document.getElementById('accountNeed').textContent = profile.need || 'N/A';
-            document.getElementById('accountInformation').textContent = profile.information || 'N/A';
-            document.getElementById('accountEmail').textContent = user.email;
-            document.getElementById('updateName').value = profile.full_name || '';
-            document.getElementById('updateCompany').value = profile.company || '';
-            document.getElementById('updateInformation').value = profile.information || '';
-        }
-        return profile;
-    }
-
-    async function fetchAndDisplayInvoices(user) {
-        if (!user) return;
-        invoicesContainer.innerHTML = '<p class="no-invoices">Loading invoices...</p>';
-        const { data: invoices, error } = await supabaseClient.from('invoices').select('*').eq('user_id', user.id).order('issue_date', { ascending: false });
-        if (error) { console.error('Error fetching invoices:', error.message); invoicesContainer.innerHTML = `<p class="no-invoices">Error: ${error.message}</p>`; return; }
-        if (!invoices || invoices.length === 0) {
-            invoicesContainer.innerHTML = '<p class="no-invoices">No invoices found.</p>';
-        } else {
-            invoicesContainer.innerHTML = '';
-            invoices.forEach(invoice => {
-                const formattedTotal = new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(invoice.total_amount_due);
-                invoicesContainer.innerHTML += `
-                    <div class="invoice-item">
-                        <div class="invoice-details-text">
-                            <p><strong>#:</strong> ${invoice.invoice_number}</p><p><strong>Total:</strong> ${formattedTotal}</p>
-                            <p><strong>Status:</strong> ${invoice.status}</p><p><strong>Due:</strong> ${new Date(invoice.due_date).toLocaleDateString()}</p>
-                        </div>
-                        <div class="invoice-actions"><a href="invoice.html?id=${invoice.id}" class="btn-secondary">View Details</a></div>
-                    </div>`;
+            // 4. Call the Supabase signInWithPassword function
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password,
             });
-        }
-    }
 
-    // --- Profile Update Form Handler ---
-    document.getElementById('updateProfileForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return;
-        updateMessage.textContent = 'Saving...'; updateMessage.className = 'message-text warning';
-        const { error } = await supabaseClient.from('profiles').update({
-            full_name: document.getElementById('updateName').value,
-            company: document.getElementById('updateCompany').value,
-            information: document.getElementById('updateInformation').value
-        }).eq('user_id', user.id);
-        if (error) { updateMessage.textContent = `Error: ${error.message}`; updateMessage.className = 'message-text error'; }
-        else { updateMessage.textContent = 'Profile updated!'; updateMessage.className = 'message-text success'; await fetchAndDisplayUserData(user); }
-    });
-
-    // ==========================================================
-    // == STABLE AUTH HANDLER BASED ON THE "BARE MINIMUM" TEST ==
-    // ==========================================================
-    supabaseClient.auth.onAuthStateChange(async (event, session) => {
-        if (session && session.user) {
-            // --- USER IS LOGGED IN ---
-            // 1. Show all dashboard content
-            accountInfoDiv.style.display = 'block';
-            updateProfileFormDiv.style.display = 'block';
-            if (invoicesContainer.parentElement) invoicesContainer.parentElement.style.display = 'block';
-            authStatusDisplay.style.display = 'block';
-
-            // 2. Set up main navigation links
-            loginLogoutLink.textContent = 'My Account';
-            loginLogoutLink.href = 'account.html';
-            
-            // 3. Set up Auth Status and Logout Button (THE WORKING, NON-DESTRUCTIVE WAY)
-            const statusTextElement = document.getElementById('statusText');
-            if (!statusTextElement) {
-                const newStatusText = document.createElement('p');
-                newStatusText.id = 'statusText';
-                authStatusDisplay.prepend(newStatusText); // Add to the start of the div
-            }
-            document.getElementById('statusText').innerHTML = `You are logged in as <strong>${session.user.email}</strong>.`;
-
-            let logoutButton = document.getElementById('dynamicLogoutButton');
-            if (!logoutButton) { // Create button ONLY if it doesn't exist
-                logoutButton = document.createElement('button');
-                logoutButton.id = 'dynamicLogoutButton';
-                logoutButton.className = 'btn btn-secondary';
-                logoutButton.textContent = 'Logout';
-                authStatusDisplay.appendChild(logoutButton); // Append it to the end
-            }
-            
-            // ALWAYS re-assign the event listener to ensure it's fresh
-            logoutButton.onclick = async () => {
-                await supabaseClient.auth.signOut();
-            };
-            
-            // 4. Fetch all data
-            const profile = await fetchAndDisplayUserData(session.user);
-            await fetchAndDisplayInvoices(session.user);
-            
-            // 5. Handle Admin Link based on the fetched data
-            if (profile && profile.role === 'admin') {
-                adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
+            // 5. Check the result and display a message
+            if (error) {
+                // If there was an error, display the error message
+                messageDiv.textContent = `Login Failed: ${error.message}`;
+                messageDiv.className = 'message error';
             } else {
-                adminLinkContainer.innerHTML = '';
+                // If login was successful, display a success message
+                messageDiv.textContent = 'Success! You are signed in.';
+                messageDiv.className = 'message success';
+                console.log('Successful sign-in data:', data);
             }
+        });
+    </script>
 
-        } else {
-            // --- USER IS LOGGED OUT or NO SESSION ---
-            // If the user lands on this page without being logged in, send them to the login page.
-            window.location.href = 'login.html';
-        }
-    });
-
-    // Hamburger menu functionality
-    document.addEventListener('DOMContentLoaded', () => {
-        const hamburger = document.getElementById("hamburger");
-        if (hamburger) hamburger.addEventListener("click", () => document.getElementById("navMenu").classList.toggle("active"));
-    });
-</script>
-    </body>
-    </html>
+</body>
+</html>
