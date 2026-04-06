@@ -4,27 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Account</title>
-    <!-- You MUST include the Supabase library on this page too -->
+
+    <!-- 1. Link to your external stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- 2. Link to the Supabase JS library -->
     <script src="js/supabase.min.js"></script>
-    <style>
-        body { font-family: sans-serif; padding: 20px; }
-        .loading { font-style: italic; color: #888; }
-    </style>
 </head>
 <body>
 
-    <div id="account-content" style="display: none;">
-        <h1>Welcome, Client!</h1>
-        <p>This is your account page. You have successfully logged in.</p>
-        <p>Your user information will appear here.</p>
-        <pre id="user-info"></pre>
-        <button id="signOutButton">Sign Out</button>
+    <!-- This section will be shown while the page is checking your login status -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 id="loading-message">Verifying Session...</h1>
+        </div>
+    </section>
+
+    <!-- 3. This is your main account content, hidden by default. -->
+    <!-- It uses the "account-wrapper" class from your CSS file. -->
+    <div id="account-content" class="nav-hidden" style="padding: 40px 20px;">
+        <div class="account-wrapper">
+            <h2>Your Account Dashboard</h2>
+            
+            <div class="account-info">
+                <p>Welcome! You are successfully logged in. Your user details are shown below.</p>
+                <pre id="user-info"></pre>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                 <button id="signOutButton" class="btn btn-secondary">Sign Out</button>
+            </div>
+        </div>
     </div>
 
-    <p id="loading-message" class="loading">Loading and verifying your session...</p>
-
     <script>
-        // 1. Initialize Supabase Client (same as on the login page)
+        // No changes to the JavaScript. It should work as-is.
         const supabaseClient = supabase.createClient(
             'https://tirkqybcedxfusifslim.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
@@ -35,49 +49,43 @@
         const userInfo = document.getElementById('user-info');
         const signOutButton = document.getElementById('signOutButton');
 
-        // 2. Add an event listener to handle signing out
         signOutButton.addEventListener('click', async () => {
             const { error } = await supabaseClient.auth.signOut();
             if (error) {
                 alert(`Sign out failed: ${error.message}`);
             } else {
-                // On successful sign out, redirect to the login page
                 window.location.href = 'login.html';
             }
         });
 
-        // 3. THE CORE LOGIC: Check the user's session when the page loads
         async function checkSession() {
             const { data, error } = await supabaseClient.auth.getSession();
-
+            
             if (error) {
-                console.error('Error getting session:', error);
+                // On error, go to login
                 window.location.href = 'login.html';
                 return;
             }
 
             if (data.session) {
-                // If a session exists, the user is logged in!
-                console.log('User is logged in:', data.session.user);
-                
-                // Hide the loading message and show the real page content
-                loadingMessage.style.display = 'none';
+                // If the user is logged in:
+                // 1. Hide the "Verifying..." message
+                loadingMessage.parentElement.parentElement.style.display = 'none';
+
+                // 2. Show the main account content
+                accountContent.classList.remove('nav-hidden');
                 accountContent.style.display = 'block';
 
-                // Display some user info (optional, but good for testing)
+                // 3. Display the user data
                 userInfo.textContent = JSON.stringify(data.session.user, null, 2);
-
             } else {
-                // If no session exists, the user is NOT logged in.
-                // Redirect them to the login page.
-                console.log('No active session. Redirecting to login.');
+                // If user is NOT logged in, redirect to login page
                 window.location.href = 'login.html';
             }
         }
-
-        // 4. Run the check as soon as the page loads
+        
+        // Run the check as soon as the page loads
         checkSession();
-
     </script>
 
 </body>
