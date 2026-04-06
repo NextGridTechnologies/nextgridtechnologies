@@ -50,14 +50,15 @@
                     <p>Checking authentication status...</p>
                 </div>
 
-                <div class="account-info">
-                    <h2>Your Profile</h2>
-                    <p><strong>Name:</strong> <span id="accountName">Loading...</span></p>
-                    <p><strong>Company:</strong> <span id="accountCompany">Loading...</span></p>
-                    <p><strong>Your Request:</strong> <span id="accountNeed">Loading...</span></p>
-                    <p><strong>Information:</strong> <span id="accountInformation">Loading...</span></p>
-                    <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
-                </div>
+             <div class="account-info">
+                <h2>Your Profile</h2>
+                <p><strong>Full Name:</strong> <span id="accountName">Loading...</span></p>
+                <p><strong>Company:</strong> <span id="accountCompany">Loading...</span></p>
+                <p><strong>Phone Number:</strong> <span id="accountPhone">Loading...</span></p>
+                <p><strong>Address:</strong> <span id="accountAddress">Loading...</span></p>
+                <p><strong>Information:</strong> <span id="accountInformation">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
+            </div>
 
                 <div class="invoice-list">
                     <h2>Your Invoices</h2>
@@ -258,15 +259,42 @@
       // 3. Using data.company to match your table
       document.getElementById('accountCompany').textContent = data.company || 'Not set';
       // 4. The 'your_need' column doesn't exist, so we will mark it as 'Not applicable'
-      document.getElementById('accountNeed').textContent = 'Not applicable'; 
-      document.getElementById('accountInformation').textContent = data.information || 'Not set';
-      document.getElementById('accountEmail').textContent = user.email;
+ async function getProfileData(user) {
+  try {
+    // This query now selects all the columns you requested.
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      // SELECTING the columns that actually exist in your table.
+      .select('full_name, company, phone_number, address, information') 
+      // MATCHING against your 'user_id' column.
+      .eq('user_id', user.id) 
+      .single();
+
+    if (error) {
+      // If this error happens, it's most likely the Row Level Security policy.
+      console.error('Supabase error fetching profile:', error.message);
+      document.getElementById('accountName').textContent = 'Could not load profile. Check RLS Policy.';
+      return;
     }
-    
-  } catch (e) {
-    console.error('A critical error happened trying to get profile data:', e);
-  }
-}
+
+    // If the query is successful, update all the HTML fields.
+    if (data) {
+      console.log("Success! Profile data has been loaded:", data);
+      
+      document.getElementById('accountName').textContent = data.full_name || 'Not set';
+      document.getElementById('accountCompany').textContent = data.company || 'Not set';
+      document.getElementById('accountPhone').textContent = data.phone_number || 'Not set';
+      document.getElementById('accountAddress').textContent = data.address || 'Not set';
+      document.getElementById('accountInformation').textContent = data.information || 'Not set';
+      
+      // Email always comes from the secure user session object.
+              document.getElementById('accountEmail').textContent = user.email;
+            }
+            
+          } catch (e) {
+            console.error('A critical error occurred in the getProfileData function:', e);
+          }
+        }
         </script>
     </body>
     </html>
