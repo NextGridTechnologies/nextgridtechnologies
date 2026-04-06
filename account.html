@@ -232,6 +232,35 @@
                     });
                 }
             });
+            async function getProfileData(user) {
+  try {
+    // This is the database query
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('full_name, company_name, your_need, information')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      // Don't crash the site, just log the error and stop.
+      console.error('Supabase error fetching profile:', error.message);
+      document.getElementById('accountName').textContent = 'Could not load profile.';
+      return;
+    }
+
+    // If we get data, update the HTML fields
+    if (data) {
+      document.getElementById('accountName').textContent = data.full_name || 'Not set';
+      document.getElementById('accountCompany').textContent = data.company_name || 'Not set';
+      document.getElementById('accountNeed').textContent = data.your_need || 'Not set';
+      document.getElementById('accountInformation').textContent = data.information || 'Not set';
+      document.getElementById('accountEmail').textContent = user.email;
+    }
+    
+  } catch (e) {
+    console.error('A critical error happened trying to get profile data:', e);
+  }
+}
         </script>
     </body>
     </html>
