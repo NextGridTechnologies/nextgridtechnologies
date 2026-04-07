@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Create or Edit Invoice - NextGrid Technologies</title>
+<meta name="description" content="Create and manage client invoices for NextGrid Technologies.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="create_invoice.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
@@ -16,98 +19,153 @@
 </head>
 <body>
 
-<header>
-  <div class="container header-flex">
-    <div class="logo-area">
-      <img src="favicon.ico" alt="NextGrid Technologies Logo" class="logo">
-      <a href="index.html" class="logo-text">NextGrid Technologies</a>
+<div id="header"></div>
+
+<section style="padding: 80px 20px;">
+  <div class="container" style="max-width: 900px; margin: 0 auto;">
+    <div class="signin-component">
+      <h2 style="text-align: center; margin-bottom: 8px;">Create / Edit Invoice</h2>
+      <p class="contact-subtext" style="text-align: center;">Generate invoices for your clients</p>
+      
+      <form id="invoiceForm" class="user-form">
+        <div class="form-group">
+          <label>Do you want to edit an existing invoice?</label>
+          <select id="editExistingInvoice" required>
+            <option value="no" selected>No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="clientSelect">Select Client:</label>
+          <select id="clientSelect" required>
+            <option value="">-- Select a client --</option>
+          </select>
+          <input type="hidden" id="selectedUserId">
+        </div>
+
+        <div class="form-group" id="existingInvoiceSelectGroup" style="display:none;">
+          <label for="existingInvoiceSelect">Select Existing Invoice:</label>
+          <select id="existingInvoiceSelect">
+            <option value="">-- Select Invoice --</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label for="clientEmail">Client Email:</label><input type="email" id="clientEmail" readonly></div>
+        <div class="form-group"><label for="clientAddress">Client Address:</label><input type="text" id="clientAddress" readonly></div>
+        <div class="form-group"><label for="clientPhone">Client Phone:</label><input type="tel" id="clientPhone" readonly></div>
+
+        <div class="form-group"><label for="invoiceNumber">Invoice Number:</label><input type="text" id="invoiceNumber" required></div>
+        <div class="form-group"><label for="invoiceDate">Invoice Date:</label><input type="date" id="invoiceDate" required></div>
+        <div class="form-group"><label for="issueDate">Issue Date:</label><input type="date" id="issueDate" required></div>
+        <div class="form-group"><label for="dueDate">Due Date:</label><input type="date" id="dueDate" required></div>
+
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" required>
+            <option value="draft">Draft</option>
+            <option value="sent">Sent</option>
+            <option value="paid">Paid</option>
+            <option value="overdue">Overdue</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label for="paymentTerms">Payment Terms:</label><input type="text" id="paymentTerms" value="Net 15"></div>
+        <div class="form-group"><label for="purchaseOrder">Purchase Order (Optional):</label><input type="text" id="purchaseOrder"></div>
+        <div class="form-group"><label for="paymentInstructions">Payment Instructions:</label><textarea id="paymentInstructions" rows="4"></textarea></div>
+
+        <div class="form-group"><label for="subtotal">Subtotal (calculated):</label><input type="number" id="subtotal" step="0.01" value="0.00" readonly></div>
+        <div class="form-group"><label for="discountRate">Discount Rate (%):</label><input type="number" id="discountRate" step="0.01" value="0.00" min="0" max="100"></div>
+        <div class="form-group"><label for="discountAmount">Discount Amount (R):</label><input type="number" id="discountAmount" step="0.01" value="0.00" readonly></div>
+        <div class="form-group"><label for="vatRate">VAT Rate (%):</label><input type="number" id="vatRate" step="0.01" value="15.00" min="0" max="100"></div>
+        <div class="form-group"><label for="vatAmount">VAT Amount (R):</label><input type="number" id="vatAmount" step="0.01" value="0.00" readonly></div>
+        <div class="form-group"><label for="totalAmountDue">Total Amount Due (calculated):</label><input type="number" id="totalAmountDue" step="0.01" value="0.00" readonly></div>
+
+        <h3 style="margin-top:30px;margin-bottom:15px;">Line Items</h3>
+        <div id="lineItemsContainer"></div>
+        <button type="button" class="btn-primary add-line-item-btn" onclick="addLineItem()" style="margin-bottom:20px;">Add Line Item</button>
+
+        <button type="submit" class="btn-primary">Save Invoice</button>
+        <p id="message" class="form-message" style="margin-top:12px;"></p>
+      </form>
     </div>
-    <nav id="navMenu">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="blog.html">Blog</a>
-      <div id="adminLinkContainer"></div>
-      <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
-    </nav>
-    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
   </div>
-</header>
+</section>
 
-<div class="container">
-<h1>Create / Edit Invoice</h1>
-
-<form id="invoiceForm">
-
-  <div class="form-group">
-    <label>Do you want to edit an existing invoice?</label>
-    <select id="editExistingInvoice" required>
-      <option value="no" selected>No</option>
-      <option value="yes">Yes</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="clientSelect">Select Client:</label>
-    <select id="clientSelect" required>
-      <option value="">-- Select a client --</option>
-    </select>
-    <input type="hidden" id="selectedUserId">
-  </div>
-
-  <div class="form-group" id="existingInvoiceSelectGroup" style="display:none;">
-    <label for="existingInvoiceSelect">Select Existing Invoice:</label>
-    <select id="existingInvoiceSelect">
-      <option value="">-- Select Invoice --</option>
-    </select>
-  </div>
-
-  <div class="form-group"><label for="clientEmail">Client Email:</label><input type="email" id="clientEmail" readonly></div>
-  <div class="form-group"><label for="clientAddress">Client Address:</label><input type="text" id="clientAddress" readonly></div>
-  <div class="form-group"><label for="clientPhone">Client Phone:</label><input type="tel" id="clientPhone" readonly></div>
-
-  <div class="form-group"><label for="invoiceNumber">Invoice Number:</label><input type="text" id="invoiceNumber" required></div>
-  <div class="form-group"><label for="invoiceDate">Invoice Date:</label><input type="date" id="invoiceDate" required></div>
-  <div class="form-group"><label for="issueDate">Issue Date:</label><input type="date" id="issueDate" required></div>
-  <div class="form-group"><label for="dueDate">Due Date:</label><input type="date" id="dueDate" required></div>
-
-  <div class="form-group">
-    <label for="status">Status:</label>
-    <select id="status" required>
-      <option value="draft">Draft</option>
-      <option value="sent">Sent</option>
-      <option value="paid">Paid</option>
-      <option value="overdue">Overdue</option>
-    </select>
-  </div>
-
-  <div class="form-group"><label for="paymentTerms">Payment Terms:</label><input type="text" id="paymentTerms" value="Net 15"></div>
-  <div class="form-group"><label for="purchaseOrder">Purchase Order (Optional):</label><input type="text" id="purchaseOrder"></div>
-  <div class="form-group"><label for="paymentInstructions">Payment Instructions:</label><textarea id="paymentInstructions" rows="4"></textarea></div>
-
-  <div class="form-group"><label for="subtotal">Subtotal (calculated):</label><input type="number" id="subtotal" step="0.01" value="0.00" readonly></div>
-  <div class="form-group"><label for="discountRate">Discount Rate (%):</label><input type="number" id="discountRate" step="0.01" value="0.00" min="0" max="100"></div>
-  <div class="form-group"><label for="discountAmount">Discount Amount (R):</label><input type="number" id="discountAmount" step="0.01" value="0.00" readonly></div>
-  <div class="form-group"><label for="vatRate">VAT Rate (%):</label><input type="number" id="vatRate" step="0.01" value="15.00" min="0" max="100"></div>
-  <div class="form-group"><label for="vatAmount">VAT Amount (R):</label><input type="number" id="vatAmount" step="0.01" value="0.00" readonly></div>
-  <div class="form-group"><label for="totalAmountDue">Total Amount Due (calculated):</label><input type="number" id="totalAmountDue" step="0.01" value="0.00" readonly></div>
-
-  <h2>Line Items</h2>
-  <div id="lineItemsContainer"></div>
-  <button type="button" class="btn-primary add-line-item-btn" onclick="addLineItem()">Add Line Item</button>
-
-  <div class="button-group">
-    <button type="submit" class="btn-primary">Save Invoice</button>
-  </div>
-  <div id="message" class="message"></div>
-</form>
+<div class="bottom-nav">
+<a href="index.html"><span>🏠</span><p>Home</p></a>
+<a href="services.html"><span>🛠</span><p>Services</p></a>
+<a href="blog.html"><span>📰</span><p>Blog</p></a>
+<a href="contact.html"><span>📞</span><p>Contact</p></a>
 </div>
+
+<footer>
+<div class="container">
+<p>© 2026 NextGrid Technologies</p>
+</div>
+</footer>
 
 <script src="js/supabase.min.js"></script>
 <script>
 const supabaseClient = supabase.createClient(
   'https://tirkqybcedxfusifslim.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
+  { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
 );
+
+// Load header
+fetch('header.html')
+  .then(res => res.text())
+  .then(async (data) => {
+    document.getElementById('header').innerHTML = data;
+    
+    document.getElementById('hamburger')?.addEventListener('click', () => {
+      document.getElementById('navMenu')?.classList.toggle('active');
+    });
+    
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollBtn?.classList.add('show');
+      } else {
+        scrollBtn?.classList.remove('show');
+      }
+    });
+    
+    scrollBtn?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Auth state
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const adminLinkContainer = document.getElementById('adminLinkContainer');
+    const loginLogoutLink = document.getElementById('loginLogoutLink');
+
+    if (user && loginLogoutLink) {
+        loginLogoutLink.textContent = 'Logout';
+        loginLogoutLink.href = '#';
+        loginLogoutLink.onclick = async (e) => {
+            e.preventDefault();
+            await supabaseClient.auth.signOut();
+            window.location.href = 'login.html';
+        };
+
+        if (adminLinkContainer) {
+          const { data: profileData } = await supabaseClient
+             .from('profiles')
+             .select('role')
+             .eq('user_id', user.id)
+             .single();
+
+          if (profileData && profileData.role === 'admin') {
+              adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
+          }
+        }
+    } else if (loginLogoutLink) {
+        loginLogoutLink.textContent = 'Client Login';
+        loginLogoutLink.href = 'login.html';
+    }
+  });
 
 let allClients = [];
 let currentLineItemId = 0;
@@ -134,16 +192,16 @@ const messageDiv = document.getElementById('message');
 // =====================
 function showMessage(msg,type='info'){
   messageDiv.textContent=msg;
-  messageDiv.className=`message ${type}`;
-  setTimeout(()=>{messageDiv.textContent='';messageDiv.className='message';},5000);
+  messageDiv.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'orange';
+  setTimeout(()=>{messageDiv.textContent='';},5000);
 }
 
 function addLineItem(description='',qty=1,rate=0){
   const id=currentLineItemId++;
-  const html=`<div class="line-item-section" data-id="${id}">
-    <div class="line-item-header">
-      <h3>Line Item #${id+1}</h3>
-      <button type="button" onclick="removeLineItem(this)">Remove</button>
+  const html=`<div class="line-item-section" data-id="${id}" style="border:1px solid #ddd;padding:15px;border-radius:8px;margin-bottom:15px;">
+    <div class="line-item-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <h4 style="margin:0;">Line Item #${id+1}</h4>
+      <button type="button" onclick="removeLineItem(this)" style="background:#dc3545;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Remove</button>
     </div>
     <div class="line-item-fields">
       <div class="form-group"><label>Description:</label><input type="text" id="itemDescription_${id}" value="${description}" required></div>
@@ -307,7 +365,6 @@ invoiceForm.addEventListener('submit',async e=>{
    const userId = selectedUserIdInput.value;
 if (!userId) throw new Error('Select a client.');
 
-// Get the selected client object to access name/company
 const selectedClient = allClients.find(c => c.user_id === userId);
 if (!selectedClient) throw new Error('Client not found.');
 
@@ -320,10 +377,10 @@ const invNumber = invoiceNumberInput.value || await generateNextInvoiceNumber();
 
 const invoiceData = {
   user_id: userId,
-  client_name: selectedClient.full_name || selectedClient.company, // <- add this
-  client_email: selectedClient.email, // optional but useful
-  client_address: selectedClient.address, // optional but useful
-  client_phone: selectedClient.phone_number, // optional but useful
+  client_name: selectedClient.full_name || selectedClient.company,
+  client_email: selectedClient.email,
+  client_address: selectedClient.address,
+  client_phone: selectedClient.phone_number,
   invoice_number: invNumber,
   invoice_date: invoiceDateInput.value,
   issue_date: issueDateInput.value,
@@ -341,11 +398,11 @@ const invoiceData = {
 };
 
     let insertedInvoice;
-    if(invoiceId){ // update
+    if(invoiceId){
       const {data,error}=await supabaseClient.from('invoices').update(invoiceData).eq('id',invoiceId).select('*');
       if(error) throw new Error(error.message);
       insertedInvoice=data[0];
-    }else{ // insert
+    }else{
       const {data,error}=await supabaseClient.from('invoices').insert(invoiceData).select('*');
       if(error) throw new Error(error.message);
       insertedInvoice=data[0];
@@ -365,7 +422,6 @@ const invoiceData = {
     });
 
     if(lineItems.length>0){
-      // delete old items if editing
       if(invoiceId){
         await supabaseClient.from('invoice_items').delete().eq('invoice_id',invoiceId);
       }
@@ -388,10 +444,6 @@ const invoiceData = {
 // Initialize
 // =====================
 document.addEventListener('DOMContentLoaded',async ()=>{
-  const {data:user}=await supabaseClient.auth.getUser();
-  if(!user){ document.getElementById('loginLogoutLink').textContent='Client Login'; }
-  else{ document.getElementById('loginLogoutLink').textContent='Logout'; }
-
   const clients=await fetchClientProfiles();
   populateClients(clients);
   addLineItem();
