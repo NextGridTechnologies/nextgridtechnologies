@@ -382,23 +382,25 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const adminLinkContainer = document.getElementById('adminLinkContainer');
-        const loginLogoutLink = document.getElementById('loginLogoutLink');
-        const authNavWrapper = document.getElementById('authNavWrapper');
+    // Initialize header and auth state AFTER header loads
+    async function initHeaderAndAuth() {
+      // Check user session
+      const { data: { user }, error } = await supabaseClient.auth.getUser();
+      
+      const adminLinkContainer = document.getElementById('adminLinkContainer');
+      const loginLogoutLink = document.getElementById('loginLogoutLink');
+      const authNavWrapper = document.getElementById('authNavWrapper');
 
-        // Check user session
-        const { data: { user }, error } = await supabaseClient.auth.getUser();
+      if (user && loginLogoutLink) {
+          loginLogoutLink.textContent = 'Logout';
+          loginLogoutLink.href = '#';
+          loginLogoutLink.onclick = async (e) => {
+              e.preventDefault();
+              await supabaseClient.auth.signOut();
+              window.location.href = 'login.html';
+          };
 
-        if (user) {
-            loginLogoutLink.textContent = 'Logout';
-            loginLogoutLink.href = '#';
-            loginLogoutLink.onclick = async (e) => {
-                e.preventDefault();
-                await supabaseClient.auth.signOut();
-                window.location.href = 'login.html';
-            };
-
+          if (adminLinkContainer) {
             const { data: profileData, error: profileError } = await supabaseClient
                .from('profiles')
                .select('role')
@@ -410,29 +412,62 @@
             } else {
                 adminLinkContainer.innerHTML = '';
             }
-        } else {
-            loginLogoutLink.textContent = 'Client Login';
-            loginLogoutLink.href = 'login.html';
-            adminLinkContainer.innerHTML = '';
-            if (window.location.pathname.includes('client_dashboard.html') ||
-                window.location.pathname.includes('admin_dashboard.html') ||
-                window.location.pathname.includes('create_invoice.html')) {
-                window.location.href = 'login.html';
-                return;
-            }
-        }
+          }
+      } else if (loginLogoutLink) {
+          loginLogoutLink.textContent = 'Client Login';
+          loginLogoutLink.href = 'login.html';
+          if (adminLinkContainer) adminLinkContainer.innerHTML = '';
+          
+          if (window.location.pathname.includes('client_dashboard.html') ||
+              window.location.pathname.includes('admin_dashboard.html') ||
+              window.location.pathname.includes('create_invoice.html')) {
+              window.location.href = 'login.html';
+              return;
+          }
+      }
 
-        if (authNavWrapper) {
-            authNavWrapper.classList.remove('nav-hidden');
-        }
+      if (authNavWrapper) {
+          authNavWrapper.classList.remove('nav-hidden');
+      }
 
-        const hamburger = document.getElementById("hamburger");
-        const navMenu = document.getElementById("navMenu");
-        if (hamburger && navMenu) {
-            hamburger.addEventListener("click", () => {
-                navMenu.classList.toggle("active");
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.getElementById("navMenu");
+      if (hamburger && navMenu) {
+          hamburger.addEventListener("click", () => {
+              navMenu.classList.toggle("active");
+          });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Load header first
+        fetch('header.html')
+          .then(res => res.text())
+          .then(async (data) => {
+            document.getElementById('header').innerHTML = data;
+            
+            // Hamburger toggle
+            document.getElementById('hamburger')?.addEventListener('click', () => {
+              document.getElementById('navMenu')?.classList.toggle('active');
             });
-        }
+            
+            // Back to top shows after scrolling 300px
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            window.addEventListener('scroll', () => {
+              if (window.scrollY > 300) {
+                scrollBtn?.classList.add('show');
+              } else {
+                scrollBtn?.classList.remove('show');
+              }
+            });
+            
+            scrollBtn?.addEventListener('click', () => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // NOW init auth - header elements exist
+            await initHeaderAndAuth();
+          });
 
         // Load signin.html and THEN initialize the form handler
         fetch('signin.html')
@@ -446,7 +481,7 @@
           })
           .catch(err => {
             console.error('Failed to load signin.html:', err);
-            document.getElementById('signin-container').innerHTML = '<p style="color:red;">Error loading form. Check console.</p>';
+            document.getElementById('signin-container').innerHTML = '<p style="color:red;">Error loading form. Make sure signin.html exists and you are using a local server.</p>';
           });
     });
 </script>
