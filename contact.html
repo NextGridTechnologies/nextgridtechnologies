@@ -157,7 +157,7 @@
               email: formData.email,
               phone_number: formData.phone_number,
               address: formData.address,
-              information: formData.information,
+              service_request: formData.information,
               role: 'client'
             }, { onConflict: 'user_id' }); // This tells Supabase to update if user_id exists
           if (profileError) throw profileError;
