@@ -304,33 +304,41 @@ invoiceForm.addEventListener('submit',async e=>{
   showMessage('Saving invoice...','info');
 
   try{
-    const userId=selectedUserIdInput.value;
-    if(!userId) throw new Error('Select a client.');
+   const userId = selectedUserIdInput.value;
+if (!userId) throw new Error('Select a client.');
 
-    let invoiceId=null;
-    if(editExistingInvoiceSelect.value==='yes'){
-      invoiceId=existingInvoiceSelect.value||null;
-    }
+// Get the selected client object to access name/company
+const selectedClient = allClients.find(c => c.user_id === userId);
+if (!selectedClient) throw new Error('Client not found.');
 
-    const invNumber=invoiceNumberInput.value || await generateNextInvoiceNumber();
+let invoiceId = null;
+if (editExistingInvoiceSelect.value === 'yes') {
+  invoiceId = existingInvoiceSelect.value || null;
+}
 
-    const invoiceData={
-      user_id:userId,
-      invoice_number:invNumber,
-      invoice_date:invoiceDateInput.value,
-      issue_date:issueDateInput.value,
-      due_date:dueDateInput.value,
-      status:document.getElementById('status').value,
-      subtotal:parseFloat(document.getElementById('subtotal').value),
-      discount_amount:parseFloat(document.getElementById('discountAmount').value),
-      vat_percentage:parseFloat(document.getElementById('vatRate').value),
-      vat_amount:parseFloat(document.getElementById('vatAmount').value),
-      total_amount_due:parseFloat(document.getElementById('totalAmountDue').value),
-      payment_terms:document.getElementById('paymentTerms').value,
-      purchase_order:document.getElementById('purchaseOrder').value || null,
-      payment_instructions:document.getElementById('paymentInstructions').value,
-      currency:'ZAR'
-    };
+const invNumber = invoiceNumberInput.value || await generateNextInvoiceNumber();
+
+const invoiceData = {
+  user_id: userId,
+  client_name: selectedClient.full_name || selectedClient.company, // <- add this
+  client_email: selectedClient.email, // optional but useful
+  client_address: selectedClient.address, // optional but useful
+  client_phone: selectedClient.phone_number, // optional but useful
+  invoice_number: invNumber,
+  invoice_date: invoiceDateInput.value,
+  issue_date: issueDateInput.value,
+  due_date: dueDateInput.value,
+  status: document.getElementById('status').value,
+  subtotal: parseFloat(document.getElementById('subtotal').value),
+  discount_amount: parseFloat(document.getElementById('discountAmount').value),
+  vat_percentage: parseFloat(document.getElementById('vatRate').value),
+  vat_amount: parseFloat(document.getElementById('vatAmount').value),
+  total_amount_due: parseFloat(document.getElementById('totalAmountDue').value),
+  payment_terms: document.getElementById('paymentTerms').value,
+  purchase_order: document.getElementById('purchaseOrder').value || null,
+  payment_instructions: document.getElementById('paymentInstructions').value,
+  currency: 'ZAR'
+};
 
     let insertedInvoice;
     if(invoiceId){ // update
