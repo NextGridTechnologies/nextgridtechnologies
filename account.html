@@ -41,15 +41,21 @@
             <p>Checking authentication status...</p>
         </div>
 
-        <div class="account-info" style="display:none;">
-            <h2>Your Profile</h2>
-            <p><strong>Full Name:</strong> <span id="accountName">-</span></p>
-            <p><strong>Company:</strong> <span id="accountCompany">-</span></p>
-            <p><strong>Phone:</strong> <span id="accountPhone">-</span></p>
-            <p><strong>Address:</strong> <span id="accountAddress">-</span></p>
-            <p><strong>Info:</strong> <span id="accountInformation">-</span></p>
-            <p><strong>Email:</strong> <span id="accountEmail">-</span></p>
-        </div>
+<div class="account-info" style="display:none;">
+    <h2>Your Profile</h2>
+    <form class="user-form" data-mode="update">
+      <input type="text" name="full_name" placeholder="Your Full Name" required>
+      <input type="text" name="company" placeholder="Company Name" required>
+      <input type="email" name="email" placeholder="Business Email" required>
+      <input type="tel" name="phone_number" placeholder="Phone Number" required>
+      <input type="text" name="address" placeholder="Business Address" required>
+      <textarea name="service_request" placeholder="What kind of service/request are you looking for?" required></textarea>
+      <input type="password" name="password" placeholder="New Password - leave blank to keep current">
+      <input type="password" name="password_confirm" placeholder="Confirm New Password">
+      <button type="submit" class="btn-primary">Update Profile</button>
+      <p class="form-message" style="margin-top:12px;"></p>
+    </form>
+</div>
 
         <div class="invoice-list" style="display:none;">
             <h2>Your Invoices</h2>
@@ -136,7 +142,7 @@ function handleLoggedIn(user) {
     invoiceSection.style.display = 'block';
 
     // FETCH DATA
-    getProfileData(user);
+    populateAccountForm(user);
     getInvoices(user);
 }
 
@@ -153,8 +159,8 @@ function handleLoggedOut() {
     invoiceSection.style.display = 'none';
 }
 
-/* ================= PROFILE ================= */
-async function getProfileData(user) {
+/* ================= POPULATE PROFILE FORM ================= */
+async function populateAccountForm(user) {
     try {
         const { data, error } = await supabaseClient
             .from('profiles')
@@ -162,20 +168,20 @@ async function getProfileData(user) {
             .eq('user_id', user.id)
             .single();
 
-        console.log("Profile Data:", data);
-        console.log("Profile Error:", error);
-
         if (error) {
             console.error("Profile fetch error:", error);
             return;
         }
 
-        document.getElementById('accountName').textContent = data?.full_name || '-';
-        document.getElementById('accountCompany').textContent = data?.company || '-';
-        document.getElementById('accountPhone').textContent = data?.phone_number || '-';
-        document.getElementById('accountAddress').textContent = data?.address || '-';
-        document.getElementById('accountInformation').textContent = data?.information || '-';
-        document.getElementById('accountEmail').textContent = user.email;
+        const form = document.querySelector('.user-form[data-mode="update"]');
+        form.querySelector('[name="full_name"]').value = data?.full_name || '';
+        form.querySelector('[name="company"]').value = data?.company || '';
+        form.querySelector('[name="email"]').value = user.email || '';
+        form.querySelector('[name="phone_number"]').value = data?.phone_number || '';
+        form.querySelector('[name="address"]').value = data?.address || '';
+        form.querySelector('[name="service_request"]').value = data?.information || '';
+        form.querySelector('[name="password"]').value = '';
+        form.querySelector('[name="password_confirm"]').value = '';
 
     } catch (err) {
         console.error("Unexpected profile error:", err);
@@ -227,6 +233,75 @@ async function getInvoices(user) {
 document.getElementById("hamburger").onclick = () => {
     document.getElementById("navMenu").classList.toggle("active");
 };
+// Form handler for profile update
+document.addEventListener('DOMContentLoaded', () => {
+  const updateForm = document.querySelector('.user-form[data-mode="update"]');
+  if (!updateForm) return;
+  
+  updateForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const messageEl = updateForm.querySelector('.form-message');
+    const formData = Object.fromEntries(new FormData(updateForm).entries());
+    
+    if (formData.password || formData.password_confirm) {
+      if (formData.password !== formData.password_confirm) {
+        messageEl.textContent = 'Passwords do not match';
+        messageEl.style.color = 'red';
+        return;
+      }
+      if (formData.password.length < 8) {
+        messageEl.textContent = 'Password must be at least 8 characters';
+        messageEl.style.color = 'red';
+        return;
+      }
+    }
+    
+    if (!formData.password) delete formData.password;
+    delete formData.password_confirm;
+    
+    if (formData.service_request) {
+      formData.information = formData.service_request;
+      delete formData.service_request;
+    }
+
+    messageEl.textContent = 'Updating...';
+    messageEl.style.color = 'orange';
+
+    try {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) throw new Error('Not logged in');
+      
+      const authUpdates = {};
+      if (formData.email !== user.email) authUpdates.email = formData.email;
+      if (formData.password) authUpdates.password = formData.password;
+      if (Object.keys(authUpdates).length) {
+        const { error: authErr } = await supabaseClient.auth.updateUser(authUpdates);
+        if (authErr) throw authErr;
+      }
+      
+      const { error: updateErr } = await supabaseClient
+        .from('profiles')
+        .update({
+          full_name: formData.full_name,
+          company: formData.company,
+          phone_number: formData.phone_number,
+          address: formData.address,
+          information: formData.information,
+          email: formData.email
+        })
+        .eq('user_id', user.id);
+      if (updateErr) throw updateErr;
+      
+      messageEl.textContent = 'Profile updated!';
+      messageEl.style.color = 'green';
+      
+    } catch (err) {
+      messageEl.textContent = err.message || 'Error saving data';
+      messageEl.style.color = 'red';
+    }
+  });
+});
+
 </script>
 
 </body>
