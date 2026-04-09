@@ -1410,15 +1410,20 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 }
 /* ========= WOOOSHHH GRID ANIMATIONS ========= */
 
-/* Start hidden + offset */
+/* Start hidden + offset - REMOVED .testimonial-card from here */
 .service-card,
 .process-card,
 .check-list li,
-.results-grid > div,
-.testimonial-card {
+.results-grid > div {
   opacity: 0;
   transform: translateY(40px) scale(0.95);
   filter: blur(4px);
+}
+
+/* Testimonials animate separately so they don't disappear */
+.testimonial-card {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 /* The actual animation */
@@ -1440,9 +1445,20 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   }
 }
 
+@keyframes wooosh-simple {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Class we’ll add with JS when it’s visible */
 .animate-wooosh {
   animation: wooosh 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-testimonial {
+  animation: wooosh-simple 0.6s ease-out forwards;
 }
 
 /* Stagger the cards so they cascade in */
@@ -1466,12 +1482,51 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 .results-grid > div:nth-child(3) { animation-delay: 0.3s; }
 .results-grid > div:nth-child(4) { animation-delay: 0.4s; }
 
+/* ========= WHAT WE DO FOR YOU - 3 TOP + 1 BOTTOM ========= */
+.services-snapshot .section-intro {
+  font-style: italic !important;
+}
+
+.services-snapshot .service-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 28px !important;
+}
+
+/* First 3 cards fill the top row */
+.services-snapshot .service-card:nth-child(-n+3) {
+  grid-column: auto;
+}
+
+/* 4th card spans full width centered below */
+.services-snapshot .service-card:nth-child(4) {
+  grid-column: 2 / 3; /* Centers it in the middle column */
+}
+
+/* Tablet: 2x2 grid */
+@media (max-width: 992px) {
+  .services-snapshot .service-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .services-snapshot .service-card:nth-child(4) {
+    grid-column: auto; /* Reset for 2x2 */
+  }
+}
+
+/* Mobile: 1 column stack */
+@media (max-width: 600px) {
+  .services-snapshot .service-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Respect users who hate motion */
 @media (prefers-reduced-motion: reduce) {
   .service-card,
   .process-card,
   .check-list li,
-  .results-grid > div {
+  .results-grid > div,
+  .testimonial-card {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
