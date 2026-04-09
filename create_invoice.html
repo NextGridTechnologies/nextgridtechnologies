@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,8 +214,8 @@ const supabaseClient = supabase.createClient(
 
 // Load header
 fetch('header.html')
- .then(res => res.text())
- .then(async (data) => {
+.then(res => res.text())
+.then(async (data) => {
     document.getElementById('header').innerHTML = data;
     document.getElementById('hamburger')?.addEventListener('click', () => {
       document.getElementById('navMenu')?.classList.toggle('active');
@@ -357,4 +358,221 @@ async function fetchInvoicesForClient(clientId){
   if(!clientId) return [];
   const {data,error}=await supabaseClient.from('invoices').select('*').eq('user_id',clientId);
   if(error){ showMessage(error.message,"error"); return []; }
-  return data||
+  return data||[];
+}
+
+async function populateExistingInvoices(clientId){
+  const invoices=await fetchInvoicesForClient(clientId);
+  existingInvoiceSelect.innerHTML='<option value="">-- Select Invoice --</option>';
+  invoices.forEach(inv=>{
+    const option=document.createElement('option');
+    option.value=inv.id;
+    option.textContent=inv.invoice_number;
+    existingInvoiceSelect.appendChild(option);
+  });
+}
+
+async function generateNextInvoiceNumber(){
+  const {data,error}=await supabaseClient.from('invoices').select('invoice_number').order('id',{ascending:false}).limit(1);
+  if(error){ console.error(error); return 'NGT-2026-0001'; }
+  if(data && data.length>0){
+    const lastNum=parseInt(data[0].invoice_number.split('-')[2]||'0')+1;
+    return 'NGT-2026-'+String(lastNum).padStart(4,'0');
+  }else return 'NGT-2026-0001';
+}
+
+clientSelect.addEventListener('change',async ()=>{
+  autofillClientDetails();
+  if(editExistingInvoiceSelect.value==='yes'){
+    existingInvoiceSelectGroup.style.display='block';
+    await populateExistingInvoices(clientSelect.value);
+  }
+});
+
+editExistingInvoiceSelect.addEventListener('change',async ()=>{
+  if(editExistingInvoiceSelect.value==='yes'){
+    existingInvoiceSelectGroup.style.display='block';
+    if(clientSelect.value) await populateExistingInvoices(clientSelect.value);
+  }else{
+    existingInvoiceSelectGroup.style.display='none';
+    invoiceNumberInput.value=await generateNextInvoiceNumber();
+  }
+});
+
+existingInvoiceSelect.addEventListener('change',async ()=>{
+  const invoiceId=existingInvoiceSelect.value;
+  if(!invoiceId) return;
+  const {data,error}=await supabaseClient.from('invoices').select('*').eq('id',invoiceId).single();
+  if(error) { showMessage(error.message,'error'); return; }
+  const inv=data;
+  invoiceNumberInput.value=inv.invoice_number;
+  invoiceDateInput.value=inv.invoice_date;
+  issueDateInput.value=inv.issue_date;
+  dueDateInput.value=inv.due_date;
+  document.getElementById('status').value=inv.status;
+  document.getElementById('paymentTerms').value=inv.payment_terms||'Net 15';
+  document.getElementById('purchaseOrder').value=inv.purchase_order||'';
+  document.getElementById('paymentInstructions').value=inv.payment_instructions||'';
+  const {data:items}=await supabaseClient.from('invoice_items').select('*').eq('invoice_id',invoiceId);
+  lineItemsContainer.innerHTML='';
+  currentLineItemId=0;
+  items.forEach(it=>addLineItem(it.description,it.quantity,it.rate));
+  calculateTotals();
+});
+
+async function saveInvoice() {
+  const userId = selectedUserIdInput.value;
+  if (!userId) throw new Error('Select a client.');
+  const selectedClient = allClients.find(c => c.user_id === userId);
+  if (!selectedClient) throw new Error('Client not found.');
+  let invoiceId = null;
+  if (editExistingInvoiceSelect.value === 'yes') {
+    invoiceId = existingInvoiceSelect.value || null;
+  }
+  const invNumber = invoiceNumberInput.value || await generateNextInvoiceNumber();
+  const invoiceData = {
+    user_id: userId,
+    client_name: selectedClient.full_name || selectedClient.company,
+    client_email: selectedClient.email,
+    client_address: selectedClient.address,
+    client_phone: selectedClient.phone_number,
+    invoice_number: invNumber,
+    invoice_date: invoiceDateInput.value,
+    issue_date: issueDateInput.value,
+    due_date: dueDateInput.value,
+    status: document.getElementById('status').value,
+    subtotal: parseFloat(document.getElementById('subtotal').value),
+    discount_amount: parseFloat(document.getElementById('discountAmount').value),
+    vat_percentage: parseFloat(document.getElementById('vatRate').value),
+    vat_amount: parseFloat(document.getElementById('vatAmount').value),
+    total_amount_due: parseFloat(document.getElementById('totalAmountDue').value),
+    payment_terms: document.getElementById('paymentTerms').value,
+    purchase_order: document.getElementById('purchaseOrder').value || null,
+    payment_instructions: document.getElementById('paymentInstructions').value,
+    currency: 'ZAR'
+  };
+  let insertedInvoice;
+  if (invoiceId) {
+    const { data, error } = await supabaseClient.from('invoices').update(invoiceData).eq('id', invoiceId).select('*');
+    if (error) throw new Error(error.message);
+    insertedInvoice = data[0];
+  } else {
+    const { data, error } = await supabaseClient.from('invoices').insert(invoiceData).select('*');
+    if (error) throw new Error(error.message);
+    insertedInvoice = data[0];
+  }
+  const lineItems = [];
+  document.querySelectorAll('.line-item-section').forEach(section => {
+    const id = section.dataset.id;
+    lineItems.push({
+      invoice_id: insertedInvoice.id,
+      description: document.getElementById(`itemDescription_${id}`).value,
+      quantity: parseFloat(document.getElementById(`itemQty_${id}`).value),
+      rate: parseFloat(document.getElementById(`itemRate_${id}`).value),
+      amount: parseFloat(document.getElementById(`itemAmount_${id}`).value)
+    });
+  });
+  if (lineItems.length > 0) {
+    if (invoiceId) {
+      await supabaseClient.from('invoice_items').delete().eq('invoice_id', invoiceId);
+    }
+    const { error } = await supabaseClient.from('invoice_items').insert(lineItems);
+    if (error) throw new Error(error.message);
+  }
+  insertedInvoiceId = insertedInvoice.id;
+  return insertedInvoice;
+}
+
+function populateInvoiceTemplate() {
+  const doc = document.getElementById('invoiceTemplate');
+  const selectedClient = allClients.find(c => c.user_id === selectedUserIdInput.value);
+  doc.querySelector('#clientName').textContent = selectedClient?.full_name || selectedClient?.company || '';
+  doc.querySelector('#clientAddr').textContent = clientAddressInput.value || '';
+  doc.querySelector('#clientVat').textContent = selectedClient?.vat_number || 'N/A';
+  doc.querySelector('#invNumber').textContent = invoiceNumberInput.value;
+  doc.querySelector('#invDate').textContent = invoiceDateInput.value;
+  doc.querySelector('#dueDateInv').textContent = dueDateInput.value;
+  const itemsBody = doc.querySelector('#itemsBody');
+  itemsBody.innerHTML = '';
+  document.querySelectorAll('.line-item-section').forEach(section => {
+    const id = section.dataset.id;
+    const desc = document.getElementById(`itemDescription_${id}`).value;
+    const qty = document.getElementById(`itemQty_${id}`).value;
+    const rate = parseFloat(document.getElementById(`itemRate_${id}`).value).toFixed(2);
+    const amt = parseFloat(document.getElementById(`itemAmount_${id}`).value).toFixed(2);
+    itemsBody.insertAdjacentHTML('beforeend', `<tr><td>${desc}</td><td>${qty}</td><td>R ${rate}</td><td>R ${amt}</td></tr>`);
+  });
+  const discountAmt = parseFloat(document.getElementById('discountAmount').value);
+  doc.querySelector('#subtotalInv').textContent = parseFloat(document.getElementById('subtotal').value).toFixed(2);
+  doc.querySelector('#vatInv').textContent = parseFloat(document.getElementById('vatAmount').value).toFixed(2);
+  doc.querySelector('#totalInv').textContent = parseFloat(document.getElementById('totalAmountDue').value).toFixed(2);
+  if (discountAmt > 0) {
+    doc.querySelector('#discountRow').style.display = 'flex';
+    doc.querySelector('#discountInv').textContent = discountAmt.toFixed(2);
+  } else {
+    doc.querySelector('#discountRow').style.display = 'none';
+  }
+}
+
+invoiceForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  showMessage('Saving invoice...', 'info');
+  try {
+    await saveInvoice();
+    showMessage('Invoice saved successfully!', 'success');
+    invoiceForm.reset();
+    lineItemsContainer.innerHTML = '';
+    addLineItem();
+    invoiceNumberInput.value = await generateNextInvoiceNumber();
+  } catch (err) {
+    console.error(err);
+    showMessage(err.message, 'error');
+  }
+});
+
+document.getElementById('emailInvoiceBtn').addEventListener('click', async () => {
+  const userId = selectedUserIdInput.value;
+  if (!userId) {
+    showMessage('Select a client first', 'error');
+    return;
+  }
+  showMessage('Generating invoice PDF...', 'info');
+  try {
+    await saveInvoice();
+    if (!insertedInvoiceId) throw new Error('Could not save invoice.');
+    populateInvoiceTemplate();
+    const element = document.getElementById('invoiceTemplate');
+    const opt = {
+      margin: 10,
+      filename: `${invoiceNumberInput.value}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    showMessage('Creating PDF...', 'info');
+    const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+    const fileName = `invoices/${invoiceNumberInput.value}_${Date.now()}.pdf`;
+    const { data: uploadData, error: uploadError } = await supabaseClient.storage.from('invoice-pdfs').upload(fileName, pdfBlob, { contentType: 'application/pdf' });
+    if (uploadError) throw uploadError;
+    const { data: { publicUrl } } = supabaseClient.storage.from('invoice-pdfs').getPublicUrl(fileName);
+    showMessage('Sending email...', 'info');
+    const { data, error } = await supabaseClient.functions.invoke('email-invoice', {
+      body: { invoice_id: insertedInvoiceId, pdf_url: publicUrl }
+    });
+    if (error) throw error;
+    showMessage('Invoice emailed successfully!', 'success');
+  } catch (err) {
+    console.error(err);
+    showMessage(err.message || 'Failed to email invoice', 'error');
+  }
+});
+
+document.addEventListener('DOMContentLoaded',async ()=>{
+  const clients=await fetchClientProfiles();
+  populateClients(clients);
+  addLineItem();
+  invoiceNumberInput.value=await generateNextInvoiceNumber();
+});
+</script>
+</body>
+</html>
