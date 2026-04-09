@@ -1685,3 +1685,17 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
     height: 200px;
   }
 }
+/* ========= FIX FOR PAGES WITHOUT WOOOSH JS ========= */
+/* Make service cards visible by default */
+.service-card {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Only hide them if the wooosh script is present and ready */
+.js-wooosh-enabled .service-card {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  filter: blur(4px);
+}
