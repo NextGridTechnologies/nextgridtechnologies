@@ -1,11 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -13,11 +10,8 @@
   gtag('js', new Date());
   gtag('config', 'G-C9DS2C71G6');
 </script>
-  
 <title>NextGrid Technologies: Client Login</title>
-<meta name="description" content="Securely log in to your NextGrid Technologies client account. Manage services, access support, and view your profile.">
-<meta name="keywords" content="client login, secure login, IT support login, Microsoft 365 access, NextGrid Technologies">
-<meta name="author" content="NextGrid Technologies">
+<meta name="description" content="Securely log in to your NextGrid Technologies client account.">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -33,7 +27,6 @@
         <span class="logo-line-2">Technologies</span>
       </a>
     </div>
-
     <nav id="navMenu">
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
@@ -41,12 +34,6 @@
       <div id="adminLinkContainer"></div>
       <a href="login.html" class="nav-cta" id="loginLogoutLink">Client Login</a>
     </nav>
-
-    <div class="header-contact">
-      <a href="tel:+27680330794" class="btn-phone">📞 Call</a>
-      <a href="https://wa.me/27680330794" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
-    </div>
-
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
   </div>
 </header>
@@ -66,13 +53,6 @@
   </div>
 </section>
 
-<div class="bottom-nav">
-<a href="index.html"><span>🏠</span><p>Home</p></a>
-<a href="services.html"><span>🛠</span><p>Services</p></a>
-<a href="blog.html"><span>📰</span><p>Blog</p></a>
-<a href="contact.html"><span>📞</span><p>Contact</p></a>
-</div>
-
 <footer>
 <div class="container">
 <p>© 2026 NextGrid Technologies</p>
@@ -81,7 +61,6 @@
 
 <script src="js/supabase.min.js"></script>
 <script>
-// Initialize Supabase Client
 const supabaseClient = supabase.createClient(
     'https://tirkqybcedxfusifslim.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
@@ -95,15 +74,13 @@ function displayMessage(divElement, text, type) {
     divElement.className = `message-text ${type}`;
 }
 
-// --- Global Auth State Listener ---
 supabaseClient.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user && window.location.pathname.includes('login.html')) {
-        const { data: profile } = await supabaseClient.from('profiles').select('role').eq('user_id', session.user.id).single();
-        window.location.href = (profile && profile.role === 'admin') ? 'admin_dashboard.html' : 'account.html';
+        const { data: profile } = await supabaseClient.from('profiles').select('role').eq('user_id', session.user.id).single(); // FIXED
+        window.location.href = (profile && profile.role === 'admin') ? 'admin_dashboard.html' : 'client_dashboard.html';
     }
 });
 
-// --- Login Form Submission ---
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     displayMessage(messageDiv, 'Signing in...', 'warning');
@@ -114,12 +91,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     if (error) displayMessage(messageDiv, `Login failed: ${error.message}`, 'error');
 });
 
-// --- Forgot Password Link Click ---
 document.getElementById('forgotPasswordLink').addEventListener('click', async (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value;
   if (!email) { displayMessage(messageDiv, 'Please enter your email address first.', 'warning'); return; }
-
   displayMessage(messageDiv, 'Sending password reset email...', 'warning');
   const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
     redirectTo: 'https://nextgridtechnologies.co.za/reset-password.html',
@@ -128,16 +103,11 @@ document.getElementById('forgotPasswordLink').addEventListener('click', async (e
   else { displayMessage(messageDiv, 'Password reset email sent! Check your inbox.', 'success'); }
 });
 
-// Hamburger menu + header auth state
 document.addEventListener('DOMContentLoaded', async () => {
-    const hamburger = document.getElementById("hamburger");
-    if (hamburger) {
-        hamburger.addEventListener("click", () => {
-            document.getElementById("navMenu").classList.toggle("active");
-        });
-    }
+    document.getElementById("hamburger")?.addEventListener("click", () => {
+        document.getElementById("navMenu").classList.toggle("active");
+    });
 
-    // Update header login/logout link
     const { data: { user } } = await supabaseClient.auth.getUser();
     const adminLinkContainer = document.getElementById('adminLinkContainer');
     const loginLogoutLink = document.getElementById('loginLogoutLink');
@@ -155,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           const { data: profileData } = await supabaseClient
              .from('profiles')
              .select('role')
-             .eq('user_id', user.id)
+             .eq('user_id', user.id) // FIXED
              .single();
 
           if (profileData && profileData.role === 'admin') {
