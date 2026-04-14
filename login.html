@@ -76,8 +76,8 @@ function displayMessage(divElement, text, type) {
 
 supabaseClient.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user && window.location.pathname.includes('login.html')) {
-        const { data: profile } = await supabaseClient.from('profiles').select('role').eq('user_id', session.user.id).single(); // FIXED
-        window.location.href = (profile && profile.role === 'admin') ? 'admin_dashboard.html' : 'client_dashboard.html';
+        const { data: profile } = await supabaseClient.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle(); // FIXED
+        window.location.href = (profile && profile.role === 'admin') ? 'admin_dashboard.html' : 'account.html';
     }
 });
 
