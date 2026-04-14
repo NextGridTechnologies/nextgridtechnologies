@@ -172,7 +172,7 @@
                 detailsDiv.innerHTML = `
                     <h3>Invoice Details:</h3>
                     <p><strong>Invoice #:</strong> ${invoice.invoice_number || 'N/A'}</p>
-                    <p><strong>Issue Date:</strong> ${formatDate(invoice.issue_date)}</p>
+                    <p><strong>Issue Date:</strong> ${formatDate(invoice.invoice_date)}</p>
                     <p><strong>Due Date:</strong> ${formatDate(invoice.due_date)}</p>
                     <p><strong>Payment Terms:</strong> ${invoice.payment_terms || 'N/A'}</p>
                     ${invoice.purchase_order ? `<p><strong>Purchase Order:</strong> ${invoice.purchase_order}</p>` : ''}
