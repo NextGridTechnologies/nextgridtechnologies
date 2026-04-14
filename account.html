@@ -164,22 +164,37 @@ async function populateAccountForm(user) {
     try {
         const { data, error } = await supabaseClient
             .from('profiles')
-            .select('full_name, company, phone_number, address, service_request')
+            .select('full_name, company, phone_number, address, service_request, vat_number')
             .eq('user_id', user.id)
-            .single();
+            .maybeSingle(); // <-- changed from .single() to .maybeSingle()
 
-        if (error) {
-            console.error("Profile fetch error:", error);
-            return;
+        // If no profile exists, create one
+        if (!data) {
+            console.log('No profile found, creating one...');
+            const { error: insertError } = await supabaseClient
+                .from('profiles')
+                .insert({
+                    user_id: user.id,
+                    email: user.email,
+                    role: 'client'
+                });
+            
+            if (insertError) {
+                console.error("Profile create error:", insertError);
+                return;
+            }
         }
 
+        // Now fetch again or use the data we have
+        const profileData = data || { email: user.email };
+        
         const form = document.querySelector('.user-form[data-mode="update"]');
-        form.querySelector('[name="full_name"]').value = data?.full_name || '';
-        form.querySelector('[name="company"]').value = data?.company || '';
+        form.querySelector('[name="full_name"]').value = profileData?.full_name || '';
+        form.querySelector('[name="company"]').value = profileData?.company || '';
         form.querySelector('[name="email"]').value = user.email || '';
-        form.querySelector('[name="phone_number"]').value = data?.phone_number || '';
-        form.querySelector('[name="address"]').value = data?.address || '';
-        form.querySelector('[name="service_request"]').value = data?.service_request || '';
+        form.querySelector('[name="phone_number"]').value = profileData?.phone_number || '';
+        form.querySelector('[name="address"]').value = profileData?.address || '';
+        form.querySelector('[name="service_request"]').value = profileData?.service_request || '';
         form.querySelector('[name="password"]').value = '';
         form.querySelector('[name="password_confirm"]').value = '';
 
