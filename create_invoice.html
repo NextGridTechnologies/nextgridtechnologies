@@ -8,81 +8,25 @@
 <link rel="stylesheet" href="styles.css">
 <style>
     body { font-family: 'Poppins', sans-serif; background: #f4f4f4; margin: 0; }
-  .container { max-width: 1000px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+   .container { max-width: 1000px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
     h1 { color: #007bff; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .form-group { margin-bottom: 15px; }
+   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+   .form-group { margin-bottom: 15px; }
     label { display: block; font-weight: 600; margin-bottom: 5px; }
     input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-  .line-items { margin-top: 30px; }
-  .line-item-row { display: grid; grid-template-columns: 3fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
-  .btn { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-  .btn:hover { background: #0056b3; }
-  .btn-danger { background: #dc3545; }
-  .totals { margin-top: 20px; text-align: right; }
-  .totals div { margin: 5px 0; }
-  .total-final { font-size: 1.2em; font-weight: bold; }
+   .line-items { margin-top: 30px; }
+   .line-item-row { display: grid; grid-template-columns: 3fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
+   .btn { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+   .btn:hover { background: #0056b3; }
+   .btn-danger { background: #dc3545; }
+   .totals { margin-top: 20px; text-align: right; }
+   .totals div { margin: 5px 0; }
+   .total-final { font-size: 1.2em; font-weight: bold; }
 </style>
 </head>
+<body>
 
 <div id="header"></div>
-<!-- your page content -->
-
-<script src="js/supabase.min.js"></script>
-<script>
-const supabaseClient = supabase.createClient(
-    'https://tirkqybcedxfusifslim.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
-);
-
-async function initHeader() {
-    const res = await fetch('header.html');
-    const data = await res.text();
-    document.getElementById('header').innerHTML = data;
-
-    // Now that header is in DOM, run the logic
-    document.getElementById('hamburger')?.addEventListener('click', () => {
-        document.getElementById('navMenu')?.classList.toggle('active');
-    });
-
-    document.getElementById('scrollTopBtn')?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    const adminLinkContainer = document.getElementById('adminLinkContainer');
-    const loginLogoutLink = document.getElementById('loginLogoutLink');
-
-    if (user && loginLogoutLink) {
-        loginLogoutLink.textContent = 'Sign Out';
-        loginLogoutLink.href = '#';
-        loginLogoutLink.onclick = async (e) => {
-            e.preventDefault();
-            await supabaseClient.auth.signOut();
-            window.location.href = 'login.html';
-        };
-
-        if (adminLinkContainer) {
-            const { data: profileData } = await supabaseClient
-                .from('profiles')
-                .select('role')
-                .eq('user_id', user.id)
-                .single();
-
-            if (profileData && profileData.role === 'admin') {
-                adminLinkContainer.innerHTML = '<a href="admin_dashboard.html">Admin Portal</a>';
-            }
-        }
-    } else if (loginLogoutLink) {
-        loginLogoutLink.textContent = 'Client Login';
-        loginLogoutLink.href = 'login.html';
-    }
-}
-
-initHeader();
-</script>
-    
-<body>
 
 <div class="container">
     <h1>Create New Invoice</h1>
@@ -149,13 +93,55 @@ Ref: Invoice Number</textarea>
 <script>
 const supabaseClient = supabase.createClient(
     'https://tirkqybcedxfusifslim.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
+    { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
 );
 
 let lineItemCount = 0;
 let selectedClient = null;
 
+async function initHeader() {
+    const res = await fetch('header.html');
+    const data = await res.text();
+    document.getElementById('header').innerHTML = data;
+
+    document.getElementById('hamburger')?.addEventListener('click', () => {
+        document.getElementById('navMenu')?.classList.toggle('active');
+    });
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const adminLinkContainer = document.getElementById('adminLinkContainer');
+    const loginLogoutLink = document.getElementById('loginLogoutLink');
+
+    if (user && loginLogoutLink) {
+        loginLogoutLink.textContent = 'Sign Out';
+        loginLogoutLink.href = '#';
+        loginLogoutLink.onclick = async (e) => {
+            e.preventDefault();
+            await supabaseClient.auth.signOut();
+            window.location.href = 'login.html';
+        };
+
+        if (adminLinkContainer) {
+            const { data: profileData } = await supabaseClient
+               .from('profiles')
+               .select('role')
+               .eq('user_id', user.id)
+               .single();
+
+            if (profileData && profileData.role === 'admin') {
+                adminLinkContainer.innerHTML = '<a href="admin_dashboard.html">Admin Portal</a>';
+            }
+        }
+    } else if (loginLogoutLink) {
+        loginLogoutLink.textContent = 'Client Login';
+        loginLogoutLink.href = 'login.html';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    await initHeader();
+
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('invoiceDate').value = today;
     document.getElementById('dueDate').value = today;
@@ -169,28 +155,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    loadClients();
+    await loadClients();
     addLineItem();
     generateInvoiceNumber();
 });
 
 async function loadClients() {
-    const { data: clients, error } = await supabaseClient
-      .from('profiles')
-      .select('user_id, full_name, company, email, address, phone_number, vat_number')
-      .neq('role', 'admin')
-      .order('full_name');
-
     const select = document.getElementById('clientSelect');
+
+    const { data: clients, error } = await supabaseClient
+     .from('profiles')
+     .select('user_id, full_name, company, email, address, phone_number, vat_number')
+     .neq('role', 'admin')
+     .order('full_name');
+
     if (error) {
+        console.error('Error loading clients:', error);
         select.innerHTML = '<option value="">Error loading clients</option>';
         return;
-        const urlParams = new URLSearchParams(window.location.search);
-const preSelectClient = urlParams.get('client');
-if (preSelectClient) {
-    document.getElementById('clientSelect').value = preSelectClient;
-    document.getElementById('clientSelect').dispatchEvent(new Event('change'));
-}
     }
 
     select.innerHTML = '<option value="">-- Select a Client --</option>';
@@ -215,6 +197,14 @@ if (preSelectClient) {
             details.style.display = 'none';
         }
     };
+
+    // Handle pre-select from URL param
+    const urlParams = new URLSearchParams(window.location.search);
+    const preSelectClient = urlParams.get('client');
+    if (preSelectClient) {
+        select.value = preSelectClient;
+        select.dispatchEvent(new Event('change'));
+    }
 }
 
 function generateInvoiceNumber() {
@@ -302,8 +292,8 @@ document.getElementById('invoiceForm').onsubmit = async (e) => {
 
     try {
         const { data: invoice, error: invError } = await supabaseClient
-          .from('invoices')
-          .insert({
+         .from('invoices')
+         .insert({
                 invoice_number: document.getElementById('invoiceNumber').value,
                 user_id: selectedClient.user_id,
                 client_name: selectedClient.full_name,
@@ -323,8 +313,8 @@ document.getElementById('invoiceForm').onsubmit = async (e) => {
                 payment_instructions: document.getElementById('paymentInstructions').value,
                 status: 'Sent'
             })
-          .select()
-          .single();
+         .select()
+         .single();
 
         if (invError) throw invError;
 
