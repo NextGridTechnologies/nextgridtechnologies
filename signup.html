@@ -88,76 +88,73 @@
         }
       });
 
-    document.querySelector('.user-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const messageEl = document.querySelector('.form-message');
-      const submitBtn = document.getElementById('submitBtn');
-      const formData = Object.fromEntries(new FormData(e.target).entries());
-      
-      if (formData.password !== formData.password_confirm) {
-        messageEl.textContent = 'Passwords do not match';
-        messageEl.style.color = 'red';
-        return;
-      }
-      if (formData.password.length < 8) {
-        messageEl.textContent = 'Password must be at least 8 characters';
-        messageEl.style.color = 'red';
-        return;
-      }
-      
-      const password = formData.password;
-      delete formData.password_confirm;
-      delete formData.password;
+document.querySelector('.user-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const messageEl = document.querySelector('.form-message');
+  const submitBtn = document.getElementById('submitBtn');
+  const formData = Object.fromEntries(new FormData(e.target).entries());
+  
+  if (formData.password !== formData.password_confirm) {
+    messageEl.textContent = 'Passwords do not match';
+    messageEl.style.color = 'red';
+    return;
+  }
+  if (formData.password.length < 8) {
+    messageEl.textContent = 'Password must be at least 8 characters';
+    messageEl.style.color = 'red';
+    return;
+  }
+  
+  const password = formData.password;
+  delete formData.password_confirm;
+  delete formData.password;
 
-      messageEl.textContent = 'Creating account...';
-      messageEl.style.color = 'orange';
-      submitBtn.disabled = true;
+  messageEl.textContent = 'Creating account...';
+  messageEl.style.color = 'orange';
+  submitBtn.disabled = true;
 
-      try {
-        // 1. Create auth user
-        const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
-          email: formData.email, 
-          password: password,
-          options: {
-            data: {
-              full_name: formData.full_name
-            }
-          }
-        });
-        if (authError) throw authError;
-        
-        console.log('Auth user created:', authData.user.id);
-
-        // 2. Insert into profiles table with all custom fields
-       // After auth.signUp succeeds:
-const { error: profileError } = await supabaseClient
-  .from('profiles')
-  .update({
-    company: formData.company,
-    phone_number: formData.phone_number,
-    address: formData.address,
-    service_request: formData.service_request
-  })
-  .eq('user_id', authData.user.id);
-        
-
-        if (profileError) {
-          console.error('Profile insert error:', profileError);
-          throw new Error('Account created but profile save failed: ' + profileError.message);
-        }
-        
-        messageEl.textContent = 'Success! Check your email to confirm your account.';
-        messageEl.style.color = 'green';
-        e.target.reset();
-        
-      } catch (err) {
-        console.error('Signup error:', err);
-        messageEl.textContent = err.message || 'Error saving data';
-        messageEl.style.color = 'red';
-      } finally {
-        submitBtn.disabled = false;
+  try {
+    // 1. Create auth user - trigger auto-creates profile with name/email
+    const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
+      email: formData.email, 
+      password: password,
+      options: {
+        data: { full_name: formData.full_name }
       }
     });
+    if (authError) throw authError;
+    
+    console.log('Auth user created:', authData.user.id);
+
+    // 2. UPDATE the profile row the trigger just created with remaining fields
+    const { error: profileError } = await supabaseClient
+      .from('profiles')
+      .update({
+        company: formData.company,
+        phone_number: formData.phone_number,
+        address: formData.address,
+        service_request: formData.service_request
+      })
+      .eq('user_id', authData.user.id);
+
+    if (profileError) {
+      console.error('Profile update error:', profileError);
+      throw new Error('Account created but profile update failed: ' + profileError.message);
+    }
+    
+    messageEl.textContent = 'Success! Check your email to confirm your account.';
+    messageEl.style.color = 'green';
+    e.target.reset();
+    
+  } catch (err) {
+    console.error('Signup error:', err);
+    messageEl.textContent = err.message || 'Error saving data';
+    messageEl.style.color = 'red';
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+  
 </script>
   
 </body>
