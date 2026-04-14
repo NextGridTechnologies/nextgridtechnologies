@@ -40,11 +40,11 @@ async function loadAndInitHeader() {
             };
 
             // Check admin role
-            const { data: profileData, error } = await supabaseClient
-                .from('profiles')
-                .select('role')
-                .eq('user_id', user.id)
-                .single();
+          const { data: profileData } = await supabaseClient
+            .from('profiles')
+            .select('role')
+            .eq('user_id', user.id)
+            .maybeSingle();
 
             console.log('Profile data:', profileData, error);
 
