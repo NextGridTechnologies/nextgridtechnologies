@@ -127,6 +127,12 @@ async function loadClients() {
     if (error) {
         select.innerHTML = '<option value="">Error loading clients</option>';
         return;
+        const urlParams = new URLSearchParams(window.location.search);
+const preSelectClient = urlParams.get('client');
+if (preSelectClient) {
+    document.getElementById('clientSelect').value = preSelectClient;
+    document.getElementById('clientSelect').dispatchEvent(new Event('change'));
+}
     }
 
     select.innerHTML = '<option value="">-- Select a Client --</option>';
