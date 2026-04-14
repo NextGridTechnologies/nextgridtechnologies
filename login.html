@@ -182,12 +182,12 @@
                 .from('profiles')
                 .select('role')
                 .eq('user_id', authData.user.id)
-                .single();
+                .maybeSingle();
 
             if (profile && profile.role === 'admin') {
                 window.location.href = 'admin_dashboard.html';
             } else {
-                window.location.href = 'client_dashboard.html';
+                window.location.href = 'account.html';
             }
         });
     </script>
