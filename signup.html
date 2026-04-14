@@ -129,18 +129,17 @@
         console.log('Auth user created:', authData.user.id);
 
         // 2. Insert into profiles table with all custom fields
-        const { error: profileError } = await supabaseClient
-          .from('profiles')
-          .insert({
-            user_id: authData.user.id,
-            email: formData.email,
-            full_name: formData.full_name,
-            company: formData.company,
-            phone_number: formData.phone_number,
-            address: formData.address,
-            service_request: formData.service_request,
-            role: 'client'
-          });
+       // After auth.signUp succeeds:
+const { error: profileError } = await supabaseClient
+  .from('profiles')
+  .update({
+    company: formData.company,
+    phone_number: formData.phone_number,
+    address: formData.address,
+    service_request: formData.service_request
+  })
+  .eq('user_id', authData.user.id);
+        
 
         if (profileError) {
           console.error('Profile insert error:', profileError);
