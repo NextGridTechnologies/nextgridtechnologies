@@ -294,7 +294,7 @@ document.getElementById('invoiceForm').onsubmit = async (e) => {
         const { data: invoice, error: invError } = await supabaseClient
          .from('invoices')
          .insert({
-                invoice_number: document.getElementById('invoiceNumber').value,
+                invoice_id: document.getElementById('invoiceNumber').value,
                 user_id: selectedClient.user_id,
                 client_name: selectedClient.full_name,
                 client_email: selectedClient.email,
