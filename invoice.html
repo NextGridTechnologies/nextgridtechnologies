@@ -171,7 +171,7 @@
                 const detailsDiv = document.getElementById('invoiceDetails');
                 detailsDiv.innerHTML = `
                     <h3>Invoice Details:</h3>
-                    <p><strong>Invoice #:</strong> ${invoice.invoice_number || 'N/A'}</p>
+                    <p><strong>Invoice #:</strong> ${invoice.invoice_id || 'N/A'}</p>
                     <p><strong>Issue Date:</strong> ${formatDate(invoice.invoice_date)}</p>
                     <p><strong>Due Date:</strong> ${formatDate(invoice.due_date)}</p>
                     <p><strong>Payment Terms:</strong> ${invoice.payment_terms || 'N/A'}</p>
