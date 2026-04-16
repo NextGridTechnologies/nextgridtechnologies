@@ -44,9 +44,21 @@ async function initHeader() {
         document.getElementById('navMenu')?.classList.toggle('active');
     });
 
-    document.getElementById('scrollTopBtn')?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // Back to top button logic
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+    }
 
     const { data: { user } } = await supabaseClient.auth.getUser();
     const adminLinkContainer = document.getElementById('adminLinkContainer');
@@ -407,6 +419,11 @@ initHeader();
     <a href="contact.html" class="btn-primary" style="font-size: 18px; padding: 16px 32px;">Request IT Support</a>
   </div>
 </section>
+
+<!-- Floating Back to Top Button -->
+<button id="scrollTopBtn" class="back-to-top" aria-label="Back to top">
+  ↑
+</button>
 
 <div class="bottom-nav">
 <a href="index.html"><span>🏠</span><p>Home</p></a>
