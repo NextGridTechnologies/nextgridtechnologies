@@ -35,7 +35,7 @@
   <div class="container">
     <div class="form-wrapper">
 
-      <!-- ZOHO FORM (UNCHANGED CORE) -->
+      <!-- ZOHO FORM -->
       <div id='crmWebToEntityForm' class='zcwf_lblLeft crmWebToEntityForm' style='background-color:white;color:black;max-width:700px;margin:auto;'>
 
         <form id='webform7375442000000750502'
@@ -53,27 +53,31 @@
 
           <h2 style="text-align:center;margin-bottom:20px;">Get IT Help Fast</h2>
 
-          <!-- FIELDS -->
+          <!-- COMPANY -->
           <div class='zcwf_row'>
             <div class='zcwf_col_lab'><label>Company *</label></div>
             <div class='zcwf_col_fld'><input type='text' name='Company' required></div>
           </div>
 
+          <!-- FIRST NAME -->
           <div class='zcwf_row'>
             <div class='zcwf_col_lab'><label>First Name *</label></div>
             <div class='zcwf_col_fld'><input type='text' name='First Name' required></div>
           </div>
 
+          <!-- LAST NAME -->
           <div class='zcwf_row'>
             <div class='zcwf_col_lab'><label>Last Name *</label></div>
             <div class='zcwf_col_fld'><input type='text' name='Last Name' required></div>
           </div>
 
+          <!-- PHONE -->
           <div class='zcwf_row'>
             <div class='zcwf_col_lab'><label>Phone *</label></div>
             <div class='zcwf_col_fld'><input type='text' name='Phone' required></div>
           </div>
 
+          <!-- ISSUE -->
           <div class='zcwf_row'>
             <div class='zcwf_col_lab'><label>What’s the issue? *</label></div>
             <div class='zcwf_col_fld'>
@@ -87,7 +91,23 @@
             </div>
           </div>
 
-          <!-- BUTTON -->
+          <!-- LEAD SOURCE (ADDED) -->
+          <div class='zcwf_row'>
+            <div class='zcwf_col_lab'><label>Lead Source</label></div>
+            <div class='zcwf_col_fld'>
+              <select name='Lead_Source'>
+                <option value='-None-'>Select...</option>
+                <option>Website</option>
+                <option>Google</option>
+                <option>WhatsApp</option>
+                <option>Referral</option>
+                <option>Facebook</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
           <div style="text-align:center;margin-top:20px;">
             <input type='submit' class='btn-primary' value='Request Support'>
           </div>
@@ -97,7 +117,7 @@
 
       <!-- EXTRA CTA -->
       <p style="text-align:center;margin-top:20px;">
-        Prefer quick help? 
+        Prefer quick help?
         <a href="https://wa.me/27680330794?text=Hi NextGrid, I need IT support">Chat on WhatsApp</a>
       </p>
 
