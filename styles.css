@@ -2094,23 +2094,25 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   display: block;
 }
 .checklist-col h2 {
-  font-size: 28px; /* Reduced to guarantee 1 line */
+  font-size: 28px;
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 16px 0;
   color: #fff;
   white-space: nowrap;
+  text-align: center; /* Add this */
 }
 .checklist-col p {
-  font-size: 18px; /* Larger font = fewer words per line */
+  font-size: 18px;
   line-height: 1.6;
-  margin: 0 0 28px 0;
+  margin: 0 auto 28px auto; /* Change to margin: 0 auto */
   color: #fff;
   opacity: 0.95;
-  max-width: 650px; /* This width forces ~2 lines for your text */
+  max-width: 650px;
+  text-align: center; /* Add this */
 }
 .cta-center {
-  text-align: left;
+  text-align: center; /* Change from left to center */
 }
 .cta-center.btn-primary {
   display: inline-block;
