@@ -93,6 +93,7 @@ initHeader();
 </script>
 
 
+
 <section class="hero">
   <video class="hero-video" autoplay muted loop playsinline loading="lazy">
     <source src="small-server-room.mp4" type="video/mp4">
@@ -113,7 +114,7 @@ initHeader();
       <p class="hero-note">Secured M365 for 60-user manufacturer in 3 days • Built by experienced IT professionals</p>
     </div>
 
-    <!-- RIGHT: CLEAN ZOHO FORM -->
+    <!-- RIGHT: CLEAN ZOHO FORM - ONLY ONE DIV -->
     <div class="hero-form-wrap">
       <h3>Get Your Free Network Assessment</h3>
       <p>Local engineer responds in under 1 hour</p>
@@ -141,9 +142,8 @@ initHeader();
             <option value='Just comparing options for now'>Just comparing options for now</option>
           </select>
 
-          <input type='submit' id='formsubmit' class='formsubmit' value='Get My Free Assessment'>
-          <input type='reset' style='display:none;' name='reset' value='Reset'>
-
+          <input type='submit' id='formsubmit' value='Get My Free Assessment'>
+          
           <script>
             function checkMandatory7375442000000750502(){
               var mndFileds = new Array('Company','First Name','Last Name','Phone','LEADCF4');
@@ -159,8 +159,7 @@ initHeader();
                     }
                   }
                 }
-              }
-              document.querySelector('#webform7375442000000750502.formsubmit').setAttribute('disabled',true);
+              document.querySelector('#webform7375442000000750502 input[type=submit]').setAttribute('disabled',true);
               return true;
             }
           </script>
@@ -168,6 +167,12 @@ initHeader();
         </form>
       </div>
 
+      <p class="hero-form-note">
+        Or <a href="https://wa.me/27680330794?text=Hi NextGrid, I need IT support">WhatsApp us now</a> • No lock-in
+      </p>
+    </div>
+  </div>
+</section>
       <p class="hero-form-note">
         Or <a href="https://wa.me/27680330794?text=Hi NextGrid, I need IT support">WhatsApp us now</a> • No lock-in
       </p>
