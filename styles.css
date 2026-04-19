@@ -2072,7 +2072,7 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   }
 }
 
-/* === POPIA CHECKLIST CARD - WIDE HORIZONTAL === */
+/* === POPIA CHECKLIST CARD - FINAL FIX === */
 .support-section {
   padding: 60px 20px;
 }
@@ -2087,19 +2087,19 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   padding: 40px 48px;
   color: #fff;
   box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
-  width: 100%; /* Full width of container */
+  width: 100%;
+  box-sizing: border-box; /* This stops overflow */
 }
 .checklist-row {
   display: block;
-  text-align: left; /* Left align instead of center */
 }
 .checklist-col h2 {
-  font-size: 32px; /* Slightly smaller to fit one line */
+  font-size: 30px; /* Dropped to 30px to fit 1200px container */
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 16px 0;
   color: #fff;
-  white-space: nowrap; /* Forces heading onto one line */
+  white-space: nowrap;
 }
 .checklist-col p {
   font-size: 16px;
@@ -2107,7 +2107,7 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   margin: 0 0 28px 0;
   color: #fff;
   opacity: 0.95;
-  max-width: 800px; /* Controls width so it wraps to ~3 lines */
+  max-width: 900px; /* Wider so it's ~3 lines */
 }
 .cta-center {
   text-align: left;
@@ -2127,10 +2127,10 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(2, 121, 255, 0.4);
 }
-/* Tablet */
-@media (max-width: 900px) {
+/* Below 1100px allow heading to wrap so it never spills */
+@media (max-width: 1100px) {
   .checklist-col h2 {
-    white-space: normal; /* Allow wrap on smaller screens */
+    white-space: normal;
     font-size: 28px;
   }
 }
