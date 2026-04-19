@@ -1,89 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact | NextGrid Technologies</title>
-
-<style>
-  body {font-family: Arial,sans-serif; background:#0f172a; color:white; padding:50px;}
-  h2 {text-align:center; margin-bottom:20px;}
-  .form-container {max-width:500px; margin:auto;}
-  form {display:flex; flex-direction:column; gap:15px; background:rgba(255,255,255,0.05); padding:30px; border-radius:12px;}
-  input, textarea, button {padding:12px; border-radius:6px; border:none; font-size:14px;}
-  textarea {min-height:100px; resize:vertical;}
-  button {background:#3b82f6; color:white; cursor:pointer;}
-  button:hover {background:#2563eb;}
-  .success {display:none; text-align:center; background:rgba(0,0,0,0.3); padding:30px; border-radius:12px;}
-  .success a {display:inline-block; margin-top:15px; padding:10px 15px; background:#25D366; color:white; border-radius:6px; text-decoration:none;}
-  .error {display:none; color:red; text-align:center; margin-top:10px;}
-</style>
-
+<html><head><title>Thanks - NextGrid</title>
+<script>gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/LEAD'});</script>
 </head>
-<body>
-
-<div class="form-container">
-
-  <h2>Get Your Free Security Check</h2>
-
-  <!-- FORM -->
-  <form id="contact-form">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <input type="text" name="company" placeholder="Company Name">
-    <textarea name="message" placeholder="Tell us about your IT environment..." required></textarea>
-    <button type="submit">Submit</button>
-    <p class="error" id="errorMsg">Oops! Something went wrong. Try again.</p>
-  </form>
-
-  <!-- SUCCESS MESSAGE -->
-  <div class="success" id="successMsg">
-    <h2>✅ You're All Set!</h2>
-    <p>Your request has been received.</p>
-    <p>We’ll contact you shortly.</p>
-    <a href="https://wa.me/27680330794?text=Hi%20I%20just%20submitted%20a%20request" target="_blank">
-      💬 Chat With Us Now
-    </a>
-  </div>
-
-</div>
-
-<script>
-  const form = document.getElementById("contact-form");
-  const successMsg = document.getElementById("successMsg");
-  const errorMsg = document.getElementById("errorMsg");
-
-  // Replace with your Formspree form endpoint
-  const endpoint = "https://formspree.io/f/maqdkqyg";
-
-  form.addEventListener("submit", async function(e) {
-    e.preventDefault(); // STOP default form submission (no redirect)
-
-    errorMsg.style.display = "none"; // reset error
-
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        form.style.display = "none";
-        successMsg.style.display = "block";
-      } else {
-        errorMsg.style.display = "block";
-      }
-
-    } catch (err) {
-      errorMsg.style.display = "block";
-    }
-  });
-</script>
-
-</body>
-</html>
+<body style="font-family:Poppins;text-align:center;padding:80px 20px;">
+  <h1>Thanks! We got it.</h1>
+  <p>An engineer will WhatsApp or call you within 10 minutes during business hours.</p>
+  <p>Urgent? <a href="https://wa.me/27680330794">WhatsApp us now</a></p>
+  <a href="/">Back to homepage</a>
+</body></html>
