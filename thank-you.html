@@ -1,10 +1,166 @@
+
 <!DOCTYPE html>
-<html><head><title>Thanks - NextGrid</title>
-<script>gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/LEAD'});</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanks — We'll Contact You Soon | NextGrid Technologies</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C9DS2C71G6');
+  // Fire conversion event
+  gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/LEAD'});
+</script>
+
+<style>
+.thank-you-section {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 0;
+  text-align: center;
+}
+.check-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 3px solid #22c55e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+  font-size: 2.5rem;
+}
+.thank-you-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: #fff;
+}
+.thank-you-section .subhead {
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.next-steps {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: left;
+}
+.next-steps h3 {
+  color: #38bdf8;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.step-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: start;
+}
+.step-item:last-child {
+  margin-bottom: 0;
+}
+.step-number {
+  background: #38bdf8;
+  color: #020617;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.step-text strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 4px;
+}
+.step-text p {
+  color: #cbd5e1;
+  margin: 0;
+  font-size: 0.95rem;
+}
+</style>
 </head>
-<body style="font-family:Poppins;text-align:center;padding:80px 20px;">
-  <h1>Thanks! We got it.</h1>
-  <p>An engineer will WhatsApp or call you within 10 minutes during business hours.</p>
-  <p>Urgent? <a href="https://wa.me/27680330794">WhatsApp us now</a></p>
-  <a href="/">Back to homepage</a>
-</body></html>
+<body>
+<div id="header"></div>
+
+<section class="thank-you-section">
+  <div class="container">
+    <div class="check-icon">✓</div>
+    <h1>Request Received</h1>
+    <p class="subhead">Thanks for reaching out. We've got your details and will contact you within 1 business hour.</p>
+    
+    <div class="hero-buttons">
+      <a href="https://wa.me/27680330794?text=Hi NextGrid, I just submitted the contact form. My issue is urgent." class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'Thank You Page'});">Need it faster? WhatsApp Us</a>
+    </div>
+
+    <div class="next-steps">
+      <h3>What Happens Next</h3>
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-text">
+          <strong>We review your request</strong>
+          <p>A technician checks your issue details and preps for the call. Usually takes 5-10 mins.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-text">
+          <strong>We call or WhatsApp you</strong>
+          <p>Within 1 business hour 8am-5pm Mon-Fri. We’ll diagnose on the call and book a fix slot if needed.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-text">
+          <strong>Problem solved</strong>
+          <p>Most issues fixed remotely same-day. On-site in Pretoria/Centurion next business day if needed.</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="color: #94a3b8; margin-top: 40px;">
+      Not urgent? Feel free to close this page. We'll be in touch soon.<br>
+      <a href="index.html" style="color: #38bdf8;">← Back to Home</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant</p>
+  </div>
+</footer>
+
+<script>
+fetch('header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header').innerHTML = data;
+    document.getElementById('hamburger')?.addEventListener('click', () => {
+      document.getElementById('navMenu')?.classList.toggle('active');
+    });
+  });
+</script>
+</body>
+</html>
