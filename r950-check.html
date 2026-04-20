@@ -3,79 +3,223 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R950 IT Health Check | NextGrid Technologies Pretoria</title>
-<meta name="description" content="Book your R950 IT Health Check. We audit your Microsoft 365, backups, security & Wi-Fi in 90 minutes. Flat fee, no obligation. Serving Pretoria & Gauteng.">
+<title>R950 IT Health Check | Find IT Risks in 90 Minutes | NextGrid Pretoria</title>
+<meta name="description" content="Book your R950 IT Health Check. We audit Microsoft 365 security, backups, Wi-Fi & devices in 90 minutes. Flat fee, no obligation. Get your Red/Amber/Green report.">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C9DS2C71G6');
+</script>
+
+<style>
+/* ========= R950 PAGE SPECIFIC ========= */
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+}
+.check-card {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+.check-card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.check-card h3 {
+  color: #38bdf8;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.check-card p {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.price-badge {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  color: #020617;
+  font-size: 2.5rem;
+  font-weight: 700;
+  padding: 8px 24px;
+  border-radius: 12px;
+  display: inline-block;
+  margin: 16px 0;
+}
+.urgency-bar {
+  background: #dc2626;
+  color: #fff;
+  text-align: center;
+  padding: 12px;
+  font-weight: 600;
+}
+</style>
 </head>
 <body>
 <div id="header"></div>
 
-<section class="hero services-hero" style="min-height:60vh;">
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  ⚡ LAUNCH SPECIAL: First 2 clients this week pay R750 — 2 slots left
+</div>
+
+<section class="hero services-hero" style="min-height:80vh;">
   <video autoplay muted loop playsinline class="hero-video" loading="lazy">
     <source src="computer-repair.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="container hero-content">
-    <h1>R950 IT Health Check</h1>
-    <p class="section-intro">Find your biggest IT risks in 90 minutes — before they become expensive problems.</p>
+    <div class="price-badge">R950</div>
+    <h1>Find Your Biggest IT Risks in 90 Minutes</h1>
+    <p class="section-intro">We audit your Microsoft 365, backups, Wi-Fi & devices. Get a 1-page Red/Amber/Green report. No obligation to continue.</p>
+    <div class="hero-buttons">
+      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check for my business" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'R950 Hero'});">Book on WhatsApp Now</a>
+      <a href="tel:+27680330794" class="btn-secondary">Or Call: 068 033 0794</a>
+    </div>
+    <p class="hero-note">✓ Flat fee. No surprises. ✓ Report is yours forever. ✓ 7/10 businesses ask us to fix what we find</p>
   </div>
 </section>
 
-<section class="support-section">
-<div class="container">
-<div class="checklist-row">
-  <div class="checklist-col">
-    <h2>What You Get for R950</h2>
-    <p>This is a fixed-fee, no-surprise audit. We check the 4 things that kill SME productivity:</p>
-  </div>
-  <div class="checklist-col">
-    <ul style="font-size:18px; line-height:1.8; margin:0;">
-      <li><strong>Microsoft 365 Security Scan</strong> – MFA, risky logins, admin access, sharing settings</li>
-      <li><strong>Backup Test</strong> – Are your files actually restorable? We test 1 folder live</li>
-      <li><strong>Network & Wi-Fi Check</strong> – Speed test, dead zones, rogue devices</li>
-      <li><strong>Device Health</strong> – We spot-check 3 staff PCs for malware, updates, disk health</li>
-    </ul>
-  </div>
-</div>
+<!-- WHAT WE CHECK -->
+<section class="services-snapshot">
+  <div class="container">
+    <h2>We Check The 4 Things That Kill SME Productivity</h2>
+    <p class="section-intro">Stop ransomware, email hacks, and downtime before they happen.</p>
+    
+    <div class="check-grid">
+      <div class="check-card">
+        <div class="icon">🔒</div>
+        <h3>Microsoft 365 Security</h3>
+        <p>MFA enabled? Risky logins from Nigeria? Admin accounts exposed? Safe Links configured? We scan it all.</p>
+      </div>
+      <div class="check-card">
+        <div class="icon">☁️</div>
+        <h3>Backup Test</h3>
+        <p>Are your files actually restorable? We test-restore 1 folder live on the call. Most “backups” fail when you need them.</p>
+      </div>
+      <div class="check-card">
+        <div class="icon">📶</div>
+        <h3>Network & Wi-Fi</h3>
+        <p>Speed test, dead zones, rogue devices, guest network isolated? We check why your internet is slow.</p>
+      </div>
+      <div class="check-card">
+        <div class="icon">💻</div>
+        <h3>Device Health</h3>
+        <p>We spot-check 3 staff PCs: malware, Windows updates, disk health, encryption. Find the ticking time bombs.</p>
+      </div>
+    </div>
 
-<div style="text-align:center; margin:40px 0;">
-  <a href="https://wa.me/27680330794?text=Hi NextGrid Technologies, I want the R950 IT Health Check for my business" class="btn-primary" style="font-size:20px; padding:16px 32px;" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'R950 Check'});">Book on WhatsApp Now</a>
-  <p style="margin-top:16px;">Or call: <a href="tel:+27680330794">+27 68 033 0794</a></p>
-</div>
-</div>
+    <div class="cta-center" style="margin-top: 40px;">
+      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check" class="btn-primary btn-large">Book My R950 Check — WhatsApp</a>
+      <p class="cta-note-small">90 minutes. Remote or on-site in Pretoria/Centurion.</p>
+    </div>
+  </div>
 </section>
 
-<section class="blog-value">
-<div class="container">
-<h2>How It Works</h2>
-<div class="checklist-row">
-  <div class="checklist-col">
-    <h3>1. Remote or On-site — Your Choice</h3>
-    <p>Pretoria & Centurion: We come to you. Anywhere else in SA: Secure remote session. 90 minutes max.</p>
-    <h3>2. You Get a 1-Page Report</h3>
-    <p>Red/Amber/Green score for each area. No jargon. We show you exactly what to fix first.</p>
+<!-- HOW IT WORKS -->
+<section class="process-section">
+  <div class="container">
+    <h2>How The R950 Check Works</h2>
+    <p class="section-intro">Simple. Fast. No pushy sales.</p>
+    
+    <div class="process-grid">
+      <div class="process-card">
+        <h3>1. Book (2 mins)</h3>
+        <p>WhatsApp us. We send a calendar link. Pick a 90-min slot this week. Pay R950 via EFT or card.</p>
+      </div>
+      <div class="process-card">
+        <h3>2. We Audit (90 mins)</h3>
+        <p>Remote screen-share or on-site. We run our 12-point checklist live. You watch us test everything.</p>
+      </div>
+      <div class="process-card">
+        <h3>3. Get Report (Same Day)</h3>
+        <p>1-page PDF: Red/Amber/Green scores + “Fix This First” list. Plain English. No jargon.</p>
+      </div>
+      <div class="process-card">
+        <h3>4. You Decide</h3>
+        <p>Zero obligation. Fix it yourself, hire us, or hire someone else. Report is yours forever.</p>
+      </div>
+    </div>
   </div>
-  <div class="checklist-col">
-    <h3>3. Zero Obligation</h3>
-    <p>Pay R950. Get the report. You choose if you want us to fix anything. No pushy sales.</p>
-    <h3>4. Why So Cheap?</h3>
-    <p>It’s our foot-in-the-door. 7/10 businesses ask us to fix what we find. But you’re not obliged to.</p>
-  </div>
-</div>
-</div>
 </section>
 
-<section class="support-section" style="background:#f8fafc;">
-<div class="container" style="text-align:center;">
-<h2>“We secured a 60-user M365 tenant in 3 days”</h2>
-<p style="max-width:700px; margin:0 auto 30px;">That started with an audit like this. We found 7 risky logins and no backups. Fixed in 3 days. An R950 check would have caught it 6 months earlier.</p>
-<a href="https://wa.me/27680330794?text=Hi NextGrid Technologies, I want the R950 IT Health Check" class="btn-primary">Book My R950 Check</a>
-</div>
+<!-- SOCIAL PROOF -->
+<section class="trust-section">
+  <div class="container">
+    <h2>What Happens After The Check</h2>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <h3>Law Firm, 17 Users</h3>
+        <p><strong>Found:</strong> No MFA, shared passwords, no backups<br>
+        <strong>Fixed:</strong> Full M365 lockdown in 5 days<br>
+        <strong>Result:</strong> Zero incidents 18 months. Cyber insurance approved.</p>
+      </div>
+      <div class="trust-card">
+        <h3>Accounting, 32 Users</h3>
+        <p><strong>Found:</strong> Backups failing silently for 4 months<br>
+        <strong>Fixed:</strong> New backup, tested restore, daily alerts<br>
+        <strong>Result:</strong> Survived server crash 2 months later. Restored in 3hrs.</p>
+      </div>
+      <div class="trust-card">
+        <h3>Manufacturer, 48 Users</h3>
+        <p><strong>Found:</strong> Wi-Fi dead zones, infected PCs, no asset list<br>
+        <strong>Fixed:</strong> Site survey, EDR rollout, asset register<br>
+        <strong>Result:</strong> 90% fewer IT tickets. Staff productivity up.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<footer><div class="container"><p>© 2026 NextGrid Technologies</p></div></footer>
+<!-- FAQ -->
+<section class="topics-section">
+  <div class="container">
+    <h2>Common Questions</h2>
+    <div class="grid" style="max-width: 900px; margin: 30px auto 0;">
+      <div class="card tech-card">
+        <h3>Why is it only R950?</h3>
+        <p>It’s our foot-in-the-door. We lose money on the audit itself. But 7/10 businesses ask us to fix what we find, and we earn it back. You’re not obliged to continue.</p>
+      </div>
+      <div class="card tech-card">
+        <h3>What if you find nothing wrong?</h3>
+        <p>Great! You get a clean bill of health and sleep better. We’ll still give you the report for your records. Happens ~10% of the time.</p>
+      </div>
+      <div class="card tech-card">
+        <h3>Do you need admin passwords?</h3>
+        <p>For M365 checks, yes — but we use secure screen-share and you can watch everything. We never store passwords. On-site, we use your login.</p>
+      </div>
+      <div class="card tech-card">
+        <h3>Is this just a sales pitch?</h3>
+        <p>No. The audit is real work. We run 23 automated + manual checks. The report is yours whether you hire us or not. No pushy follow-ups.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section final-cta">
+  <div class="container">
+    <h2>Stop Guessing. Know Your IT Risks.</h2>
+    <p>Book your R950 check this week. Get your Red/Amber/Green report in 90 minutes.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'R950 Final CTA'});">Book on WhatsApp</a>
+      <a href="tel:+27680330794" class="btn-secondary">Call: 068 033 0794</a>
+    </div>
+    <p class="cta-note">First 2 clients this week: R750. 2 slots left.</p>
+  </div>
+</section>
+
+<footer><div class="container"><p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant</p></div></footer>
 
 <!-- Header + Hamburger Script -->
 <script>
@@ -84,17 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.text())
     .then(data => {
       document.getElementById('header').innerHTML = data;
-      
-      // Now that header.html is in the DOM, grab the hamburger
       const hamburger = document.getElementById('hamburger');
       const navMenu = document.getElementById('navMenu');
-      
       hamburger?.addEventListener('click', () => {
         hamburger.classList.toggle('is-active');
         navMenu?.classList.toggle('active');
       });
-
-      // Close menu when a nav link is clicked on mobile
       navMenu?.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
           hamburger?.classList.remove('is-active');
