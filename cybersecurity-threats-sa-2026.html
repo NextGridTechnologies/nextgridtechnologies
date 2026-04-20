@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-C9DS2C71G6');</script>
+
+<title>Top 3 Ransomware Attacks Hitting SA SMEs in 2026 | NextGrid</title>
+<meta name="description" content="Phishing, RDP brute-force, and fake invoice scams cost SA businesses R2.2bn last year. Learn how to block each one in under 30 minutes with Microsoft 365.">
+<link rel="canonical" href="https://www.nextgridtechnologies.co.za/cybersecurity-threats-sa-2026.html">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Top 3 Ransomware Attacks Hitting SA SMEs in 2026",
+  "author": {"@type": "Organization", "name": "NextGrid Technologies"},
+  "datePublished": "2026-03-20",
+  "description": "Phishing, RDP brute-force, and fake invoice scams. How to block each in 30 minutes."
+}
+</script>
+
+<style>
+.article-hero{padding:100px 0 40px;background:linear-gradient(180deg,#020617 0%,#0b1220 100%)}
+.article-hero h1{font-size:2.5rem;margin-bottom:16px;color:#fff}
+.article-meta{color:#94a3b8;margin-bottom:24px;font-size:0.95rem}
+.article-content{max-width:800px;margin:0 auto;padding:60px 24px}
+.article-content p{color:#cbd5e1;line-height:1.8;margin-bottom:24px;font-size:1.05rem}
+.article-content h2{color:#fff;margin:48px 0 24px;font-size:1.75rem}
+.article-content h3{color:#38bdf8;margin:32px 0 16px;font-size:1.25rem}
+.threat-card{background:#1e293b;border-left:4px solid #ef4444;border-radius:8px;padding:24px;margin:32px 0}
+.threat-card h3{margin-top:0;color:#f87171}
+.fix-box{background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:20px;margin:20px 0}
+.fix-box strong{color:#4ade80}
+.cta-box{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border:2px solid #38bdf8;border-radius:16px;padding:40px 32px;text-align:center;margin:48px 0}
+@media (max-width:600px){.article-hero h1{font-size:1.75rem}}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<script>fetch('header.html').then(res=>res.text()).then(data=>{document.getElementById('header').innerHTML=data;document.getElementById('hamburger')?.addEventListener('click',()=>{document.getElementById('navMenu')?.classList.toggle('active');});});</script>
+
+<section class="article-hero"><div class="container">
+<h1>Top 3 Ransomware Attacks Hitting SA SMEs in 2026</h1>
+<p class="article-meta">Published March 2026 | 6 min read | Updated with SAPS data</p>
+</div></section>
+
+<article class="article-content">
+<p><strong>R2.2 billion.</strong> That’s what South African businesses lost to cybercrime in 2025, according to SAPS. 90% started with one of these 3 attacks.</p>
+<p>We responded to 47 incidents last year. Here’s exactly how they got in, and how to block them in 30 minutes.</p>
+
+<div class="threat-card">
+<h3>Threat #1: Phishing + MFA Fatigue (60% of cases)</h3>
+<p><strong>How it works:</strong> You get a real-looking “Microsoft: Unusual sign-in” email. You click, enter password + approve the MFA push because you’re busy. Attacker is in.</p>
+<p><strong>Real SA example:</strong> Pretoria accounting firm, March 2026. Attacker logged in at 2am, created inbox rule to delete invoices, sent fake EFT details to 3 clients. Lost R380k before detection.</p>
+<div class="fix-box">
+<strong>30-Minute Fix:</strong><br>
+1. Azure AD > Security > Authentication methods > Disable SMS/Voice. Force Authenticator app only.<br>
+2. Conditional Access > Block logins outside SA if you don’t operate internationally.<br>
+3. Enable “Number matching” in MFA. User must type 2-digit code from screen. Stops fatigue attacks.
+</div>
+
+<div class="threat-card">
+<h3>Threat #2: RDP Brute-Force (25% of cases)</h3>
+<p><strong>How it works:</strong> Your server/firewall has Remote Desktop exposed to internet on port 3389. Bots try 10,000 passwords/day. Eventually one works.</p>
+<p><strong>Real SA example:</strong> Centurion manufacturer. RDP open for “work from home”. Attacker in, encrypted entire server, R850k ransom. No backups. 3 weeks downtime.</p>
+<div class="fix-box">
+<strong>30-Minute Fix:</strong><br>
+1. Close port 3389 on firewall immediately. Use VPN + RDP or Azure Virtual Desktop.<br>
+2. If you must use RDP: Change port, restrict to SA IP ranges, enable account lockout after 3 failures.<br>
+3. Check: shodan.io search “port:3389 country:ZA” to see if you’re exposed.
+</div>
+</div>
+
+<div class="threat-card">
+<h3>Threat #3: Fake Invoice / CEO Fraud (15% of cases)</h3>
+<p><strong>How it works:</strong> Attacker compromises supplier OR your email. Sends invoice with their banking details. Your finance pays it. Only caught at month-end.</p>
+<p><strong>Real SA example:</strong> Midrand logistics. Attacker spoofed CEO email, told finance “urgent payment to new supplier”. R120k gone. Bank couldn’t reverse.</p>
+<div class="fix-box">
+<strong>30-Minute Fix:</strong><br>
+1. Exchange Admin > Mail flow > Create rule: If sender = CEO but from outside org, quarantine + alert IT.<br>
+2. Finance policy: Any change of banking details requires phone call to known number. No exceptions.<br>
+3. Enable SPF/DKIM/DMARC on your domain. Blocks 90% of spoofing.
+</div>
+</div>
+
+<h2>The 1 Setting That Stops 90% of This</h2>
+<p><strong>Conditional Access + MFA with number matching.</strong> If an attacker has your password but can’t pass MFA, they’re locked out. Takes 15 minutes to configure.</p>
+<p>Don’t have Azure AD P1? You get it with Microsoft 365 Business Premium. If you’re on Business Basic/Standard, you’re exposed.</p>
+
+<div class="cta-box">
+<h3 style="color:#fff;margin:0 0 12px;">Not Sure If You’re Protected?</h3>
+<p style="color:#cbd5e1;margin-bottom:24px;">We’ll run a free 15-minute scan: check RDP exposure, MFA gaps, and phishing risk. No sales pitch.</p>
+<a href="r950-check.html" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'CTA', 'event_label': 'Post2 R950'});">Book Free R950 Security Check</a>
+</div>
+
+<p>Want the full checklist? <a href="m365-security-checklist-2026.html" style="color:#38bdf8;">Download the 12-point M365 Security PDF</a> with PowerShell scripts to verify your setup.</p>
+</article>
+
+<div class="bottom-nav"><a href="index.html"><span>🏠</span><p>Home</p></a><a href="services.html"><span>🛠</span><p>Services</p></a><a href="blog.html"><span>📰</span><p>Blog</p></a><a href="contact.html"><span>📞</span><p>Contact</p></a></div>
+<footer><div class="container"><p>© 2026 NextGrid Technologies</p></div></footer>
+</body>
+</html>
