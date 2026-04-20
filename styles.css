@@ -2274,8 +2274,7 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
 }
 
 
-/* ========= BLOG QUICK OVERRIDE: 3 TOP + 1 BOTTOM ========= */
-/* ========= BLOG QUICK OVERRIDE: 3 TOP + 1 CENTERED BOTTOM ========= */
+/* ========= BLOG QUICK OVERRIDE: AUTO-BALANCING ========= */
 .blog-page .grid,
 .blog-page .services-grid,
 .blog-page .service-grid {
@@ -2293,13 +2292,38 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   box-sizing: border-box !important;
 }
 
-/* Put the 4th card in the middle column only */
-.blog-page .card.tech-card:nth-child(4),
-.blog-page .service-card:nth-child(4) {
-  grid-column: 2 / 3 !important; /* middle column of 3 */
+/* 4 items: 3 top + 1 centered */
+.blog-page .card.tech-card:nth-child(4):last-child,
+.blog-page .service-card:nth-child(4):last-child {
+  grid-column: 2 / 3 !important;
 }
 
-/* Tablet: 2 columns, center the 3rd and 4th cards */
+/* 5 items: 3 top + 2 bottom left-aligned */
+.blog-page .card.tech-card:nth-child(4):nth-last-child(2),
+.blog-page .service-card:nth-child(4):nth-last-child(2) {
+  grid-column: 1 / 2 !important;
+}
+.blog-page .card.tech-card:nth-child(5):last-child,
+.blog-page .service-card:nth-child(5):last-child {
+  grid-column: 2 / 3 !important;
+}
+
+/* 7 items: 3+3+1 centered, 8 items: 3+3+2, etc */
+.blog-page .card.tech-card:nth-child(7):last-child,
+.blog-page .service-card:nth-child(7):last-child {
+  grid-column: 2 / 3 !important;
+}
+
+.blog-page .card.tech-card:nth-child(7):nth-last-child(2),
+.blog-page .service-card:nth-child(7):nth-last-child(2) {
+  grid-column: 1 / 2 !important;
+}
+.blog-page .card.tech-card:nth-child(8):last-child,
+.blog-page .service-card:nth-child(8):last-child {
+  grid-column: 2 / 3 !important;
+}
+
+/* Tablet: 2 columns, everything stacks normally */
 @media (max-width: 968px) {
   .blog-page .grid,
   .blog-page .services-grid,
@@ -2307,16 +2331,13 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
     grid-template-columns: repeat(2, 1fr) !important;
   }
   
-  /* On 2-col layout, can't center a single card, so make them stack */
-  .blog-page .card.tech-card:nth-child(3),
-  .blog-page .service-card:nth-child(3),
-  .blog-page .card.tech-card:nth-child(4),
-  .blog-page .service-card:nth-child(4) {
+  .blog-page .card.tech-card,
+  .blog-page .service-card {
     grid-column: auto !important;
   }
 }
 
-/* Mobile: everything stacks */
+/* Mobile: 1 column */
 @media (max-width: 640px) {
   .blog-page .grid,
   .blog-page .services-grid,
