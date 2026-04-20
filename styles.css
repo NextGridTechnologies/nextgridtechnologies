@@ -2272,3 +2272,61 @@ footer { background: var(--bg-dark); color: #94a3b8; text-align: center; padding
   font-size: 16px;
   border-radius: 8px;
 }
+
+
+/* ========= BLOG QUICK OVERRIDE: 3 TOP + 1 BOTTOM ========= */
+.blog-page .grid,
+.blog-page .services-grid,
+.blog-page .service-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px !important;
+  max-width: 1100px;
+  margin: 30px auto 0 auto;
+}
+
+.blog-page .card.tech-card,
+.blog-page .service-card {
+  width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Force the 4th card to span all 3 columns */
+.blog-page .card.tech-card:nth-child(4),
+.blog-page .service-card:nth-child(4) {
+  grid-column: 1 / -1 !important; /* span from first to last column */
+}
+
+/* Tablet: 2 top + 1 bottom */
+@media (max-width: 968px) {
+  .blog-page .grid,
+  .blog-page .services-grid,
+  .blog-page .service-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* 3rd card goes full width on tablet */
+  .blog-page .card.tech-card:nth-child(3),
+  .blog-page .service-card:nth-child(3),
+  .blog-page .card.tech-card:nth-child(4),
+  .blog-page .service-card:nth-child(4) {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* Mobile: everything stacks */
+@media (max-width: 640px) {
+  .blog-page .grid,
+  .blog-page .services-grid,
+  .blog-page .service-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .blog-page .card.tech-card:nth-child(3),
+  .blog-page .service-card:nth-child(3),
+  .blog-page .card.tech-card:nth-child(4),
+  .blog-page .service-card:nth-child(4) {
+    grid-column: auto !important;
+  }
+}
