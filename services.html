@@ -99,6 +99,53 @@ section.process-section .process-card p {
   margin: 0 !important;
   line-height: 1.6 !important;
 }
+  /* ========= PRICING CARD BUTTON OVERLAP FIX ========= */
+#pricing .m365-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 24px !important;
+}
+
+#pricing .m365-card {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #0f172a !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 16px !important;
+  padding: 28px 24px 32px 24px !important; /* extra bottom padding */
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+#pricing .m365-card.highlight {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+  border: 2px solid #38bdf8 !important;
+}
+
+#pricing .m365-card ul {
+  flex-grow: 1 !important; /* pushes button to bottom */
+  margin-bottom: 24px !important; /* space above button */
+}
+
+#pricing .m365-card .btn-primary,
+#pricing .m365-card .btn-small {
+  position: relative !important;
+  bottom: auto !important;
+  margin-top: auto !important; /* pins to bottom */
+  align-self: stretch !important;
+  text-align: center !important;
+  display: block !important;
+}
+
+#pricing .m365-card h3,
+#pricing .m365-card .price-tag {
+  color: #38bdf8 !important;
+}
+
+#pricing .m365-card p,
+#pricing .m365-card li {
+  color: #cbd5e1 !important;
+}
 </style>
 </head>
 </head>
