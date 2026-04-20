@@ -66,67 +66,102 @@
 }
 </style>
   
+
 <style>
-/* ========= R950 CHECK PROCESS SECTION FIX ========= */
-.process-section {
+/* ========= NUCLEAR OVERRIDE - FORCE PROCESS SECTION VISIBLE ========= */
+section.process-section {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
   background: #0b1220 !important;
   padding: 80px 0 !important;
+  margin: 0 !important;
+  transform: none !important;
 }
 
-.process-section .container {
+section.process-section .container {
+  display: block !important;
   max-width: 1200px !important;
   margin: 0 auto !important;
   padding: 0 24px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-.process-section h2 {
+section.process-section h2 {
+  display: block !important;
   color: #ffffff !important;
   text-align: center !important;
   font-size: 2rem !important;
   margin-bottom: 16px !important;
+  opacity: 1 !important;
 }
 
-.process-section .section-intro {
+section.process-section .section-intro {
+  display: block !important;
   color: #cbd5e1 !important;
   text-align: center !important;
   max-width: 600px !important;
   margin: 0 auto 40px !important;
+  opacity: 1 !important;
 }
 
-.process-section .process-grid {
+section.process-section .process-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
   gap: 24px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-.process-section .process-card {
+section.process-section .process-card {
+  display: block !important;
   background: #1e293b !important;
   border: 2px solid #38bdf8 !important;
   border-radius: 16px !important;
   padding: 28px 24px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-filter: none !important;
+  transform: none !important;
 }
 
-.process-section .process-card h3 {
+section.process-section .process-card h3 {
+  display: block !important;
   color: #38bdf8 !important;
   font-size: 1.25rem !important;
   margin: 0 0 12px 0 !important;
+  opacity: 1 !important;
 }
 
-.process-section .process-card p {
+section.process-section .process-card p {
+  display: block !important;
   color: #cbd5e1 !important;
   margin: 0 !important;
   line-height: 1.6 !important;
+  opacity: 1 !important;
 }
 
-/* Kill any blur on this page */
-.process-section,
-.process-section * {
+/* Kill EVERYTHING that could hide it */
+section.process-section,
+section.process-section * {
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* If your styles.css has .process-section { display: none } this will beat it */
+body .process-section {
+  display: block !important;
 }
 </style>
 </head>
