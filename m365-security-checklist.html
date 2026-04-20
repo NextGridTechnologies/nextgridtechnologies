@@ -3,79 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M365 Security Checklist 2026: 12 Steps to POPIA Compliance | NextGrid Technologies</title>
-<meta name="description" content="Download the free M365 Security Checklist 2026 for South African businesses. 12 steps to lock down Microsoft 365, stop email hacks, and meet POPIA requirements.">
-<meta name="keywords" content="m365 security south africa, microsoft 365 security checklist, popla compliance m365, office 365 security, secure m365 small business">
+
+<!-- Google tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-C9DS2C71G6');
+</script>
+
+<title>M365 Security Checklist 2026: 12 Steps to POPIA Compliance | NextGrid</title>
+<meta name="description" content="Free M365 Security Checklist 2026 for SA businesses. 12 steps to lock down Microsoft 365, stop email hacks, and meet POPIA. Used by 60-user manufacturers.">
+<meta name="keywords" content="m365 security south africa, microsoft 365 security checklist, popia compliance m365, office 365 security, secure m365 small business">
+<link rel="canonical" href="https://www.nextgridtechnologies.co.za/m365-security-checklist-2026.html">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+
+<!-- Article Schema for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "M365 Security Checklist 2026: 12 Steps to POPIA Compliance",
+  "description": "12 steps to lock down Microsoft 365, stop email hacks, and meet POPIA requirements for South African businesses.",
+  "author": {
+    "@type": "Organization",
+    "name": "NextGrid Technologies"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NextGrid Technologies",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nextgridtechnologies.co.za/favicon.ico"
+    }
+  },
+  "datePublished": "2026-04-01",
+  "dateModified": "2026-04-01"
+}
+</script>
+
+<style>
+.article-hero {
+  padding: 100px 0 40px;
+  background: linear-gradient(180deg, #020617 0%, #0b1220 100%);
+}
+.article-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: #fff;
+}
+.article-meta {
+  color: #94a3b8;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+.article-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+.article-content p {
+  color: #cbd5e1;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  font-size: 1.05rem;
+}
+.article-content h2 {
+  color: #fff;
+  margin: 48px 0 24px;
+  font-size: 1.75rem;
+}
+.checklist-table {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+.checklist-item {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 20px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+}
+.checklist-item:last-child {
+  border-bottom: none;
+}
+.checklist-num {
+  background: #38bdf8;
+  color: #020617;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.checklist-text strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+.checklist-text span {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.checklist-text .popia-tag {
+  display: inline-block;
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+.download-box {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 2px solid #38bdf8;
+  border-radius: 16px;
+  padding: 40px 32px;
+  text-align: center;
+  margin: 48px 0;
+}
+.download-box .icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+.risk-box {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 40px 0;
+}
+.risk-box h3 {
+  color: #f87171;
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+  .article-hero h1 { font-size: 1.75rem; }
+  .checklist-item { grid-template-columns: 40px 1fr; gap: 16px; padding: 16px; }
+}
+</style>
 </head>
 <body>
 <div id="header"></div>
 <script>
   fetch('header.html').then(res => res.text()).then(data => {
     document.getElementById('header').innerHTML = data;
+    document.getElementById('hamburger')?.addEventListener('click', () => {
+      document.getElementById('navMenu')?.classList.toggle('active');
+    });
   });
 </script>
 
-<section class="support-section" style="padding-top:60px;">
-<div class="container">
-<h1>M365 Security Checklist 2026: 12 Steps to POPIA Compliance</h1>
-<p class="post-date">Published April 2026 | 4 min read</p>
-<p>Microsoft 365 is the #1 target for SA cyber attacks. Business Email Compromise cost South African companies R2.2 billion last year, and POPIA fines now reach R10 million. Most breaches we see could’ve been stopped with 30 minutes of settings.</p>
-<p>We secured a 60-user manufacturer’s M365 tenant in 3 days using this exact checklist. Use it to audit your own setup, or send it to your IT guy.</p>
-
-<h2>The 12-Point M365 Lockdown Checklist</h2>
-<ol>
-  <li><strong>Enforce MFA for all users, no exceptions</strong> – Use Microsoft Authenticator app. SMS is not secure. POPIA: You must protect account access.</li>
-  <li><strong>Block legacy authentication</strong> – Old mail apps bypass MFA. Attackers use this daily. Disable in Azure AD.</li>
-  <li><strong>Create separate admin accounts</strong> – Never use your daily email as Global Admin. One breach = total takeover.</li>
-  <li><strong>Set up Conditional Access</strong> – Block logins from Nigeria, Russia, China if you don’t operate there. Require compliant devices.</li>
-  <li><strong>Enable mailbox auditing</strong> – Turned off by default. You need this for POPIA breach investigations.</li>
-  <li><strong>Configure Safe Links & Safe Attachments</strong> – Stops 99% of phishing emails. Part of Defender for Office 365.</li>
-  <li><strong>Disable auto-forwarding to external emails</strong> – Common ex-employee/attacker tactic to steal data silently.</li>
-  <li><strong>Set up data loss prevention (DLP)</strong> – Auto-block ID numbers, bank details, CVs from being emailed externally. POPIA requirement.</li>
-  <li><strong>Review OAuth app permissions</strong> – Revoke “Mail.ReadWrite” access from dodgy apps. Attackers buy access tokens.</li>
-  <li><strong>Enable Unified Audit Log for 1 year</strong> – Default is 90 days. You need 1 year for POPIA compliance.</li>
-  <li><strong>Turn on Alerts: “Elevation of privilege” + “New global admin”</strong> – Get SMS/email if someone makes themselves admin.</li>
-  <li><strong>Immutable cloud backups for Email/OneDrive/SharePoint</strong> – Microsoft 365 recycle bin ≠ backup. Ransomware can delete it. Use third-party backup.</li>
-</ol>
-
-<div class="card tech-card highlight" style="width:100%; margin:40px 0; background:#f0f9ff; border:2px solid #0ea5e9;">
-  
-  <div class="checklist-row">
-    <div class="checklist-col">
-      <div class="icon" style="font-size:48px; margin-bottom:16px;">📥</div>
-      <h3 style="margin-top:0;">Get the Printable PDF + Bonus Scripts</h3>
-    </div>
-    <div class="checklist-col">
-      <p style="margin-top:0;">Download the 1-page PDF checklist to share with your team. We’ve added PowerShell snippets to check #2, #5, and #7 in 60 seconds.</p>
-    </div>
+<section class="article-hero">
+  <div class="container">
+    <h1>M365 Security Checklist 2026: 12 Steps to POPIA Compliance</h1>
+    <p class="article-meta">Published April 2026 | 8 min read | Updated for SA businesses</p>
   </div>
-  
-</div>
-  <!-- Button + disclaimer centered below -->
-  <div style="text-align:center; margin-top:32px;">
-    <a href="M365-Security-Checklist-2026-NextGrid.pdf" class="btn-primary" onclick="gtag('event', 'download', {'event_category': 'Lead Magnet', 'event_label': 'M365 Checklist'});">Download Free PDF</a>
-    <p style="font-size:14px; margin-top:16px; color:#64748b;">We’ll email you once per month with M365 security updates. Unsubscribe anytime.</p>
-  </div>
-
-</div>
-
-<h2>What if you fail more than 3?</h2>
-<p>If you’re missing MFA, legacy auth is on, or you have no backups, you’re at high risk. We do a <strong>3-day M365 Hardening Sprint</strong> for Gauteng businesses — zero downtime. <a href="contact.html">Book a 15-min call</a> and we’ll scan your tenant for free.</p>
-
-<p><strong>POPIA note:</strong> This checklist helps meet Section 19 of POPIA: “Secure the integrity and confidentiality of personal information.” But it’s not legal advice. Pair this with staff training and policies.</p>
-</div>
 </section>
 
+<article class="article-content">
+  <p><strong>Microsoft 365 is the #1 target for SA cyber attacks.</strong> Business Email Compromise cost South African companies R2.2 billion last year, and POPIA fines now reach R10 million. Most breaches we see could’ve been stopped with 30 minutes of settings.</p>
+  
+  <p>We secured a 60-user manufacturer’s M365 tenant in 3 days using this exact checklist. Use it to audit your own setup, or send it to your IT guy.</p>
+
+  <h2>The 12-Point M365 Lockdown Checklist</h2>
+  
+  <div class="checklist-table">
+    <div class="checklist-item">
+      <div class="checklist-num">1</div>
+      <div class="checklist-text">
+        <strong>Enforce MFA for all users, no exceptions</strong>
+        <span>Use Microsoft Authenticator app. SMS is not secure. <span class="popia-tag">POPIA</span> You must protect account access.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">2</div>
+      <div class="checklist-text">
+        <strong>Block legacy authentication</strong>
+        <span>Old mail apps bypass MFA. Attackers use this daily. Disable in Azure AD > Security > Authentication methods.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">3</div>
+      <div class="checklist-text">
+        <strong>Create separate admin accounts</strong>
+        <span>Never use your daily email as Global Admin. One breach = total takeover. Create admin@company.onmicrosoft.com</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">4</div>
+      <div class="checklist-text">
+        <strong>Set up Conditional Access</strong>
+        <span>Block logins from Nigeria, Russia, China if you don’t operate there. Require compliant devices only.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">5</div>
+      <div class="checklist-text">
+        <strong>Enable mailbox auditing</strong>
+        <span>Turned off by default. You need this for POPIA breach investigations. <span class="popia-tag">POPIA</span></span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">6</div>
+      <div class="checklist-text">
+        <strong>Configure Safe Links & Safe Attachments</strong>
+        <span>Stops 99% of phishing emails. Requires Defender for Office 365 Plan 1 or Business Premium.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">7</div>
+      <div class="checklist-text">
+        <strong>Disable auto-forwarding to external emails</strong>
+        <span>Common ex-employee/attacker tactic to steal data silently. Block in Exchange Admin > Mail flow.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">8</div>
+      <div class="checklist-text">
+        <strong>Set up Data Loss Prevention (DLP)</strong>
+        <span>Auto-block ID numbers, bank details, CVs from being emailed externally. <span class="popia-tag">POPIA</span> Required.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">9</div>
+      <div class="checklist-text">
+        <strong>Review OAuth app permissions</strong>
+        <span>Revoke “Mail.ReadWrite” access from dodgy apps. Attackers buy access tokens on dark web.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">10</div>
+      <div class="checklist-text">
+        <strong>Enable Unified Audit Log for 1 year</strong>
+        <span>Default is 90 days. You need 1 year for POPIA compliance. <span class="popia-tag">POPIA</span></span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">11</div>
+      <div class="checklist-text">
+        <strong>Turn on Alerts: “Elevation of privilege” + “New global admin”</strong>
+        <span>Get SMS/email if someone makes themselves admin. Security & Compliance Center > Alerts.</span>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-num">12</div>
+      <div class="checklist-text">
+        <strong>Immutable cloud backups for Email/OneDrive/SharePoint</strong>
+        <span>Microsoft 365 recycle bin ≠ backup. Ransomware can delete it. Use third-party backup like Veeam/Acronis.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="download-box">
+    <div class="icon">📥</div>
+    <h3 style="color:#fff; margin:0 0 12px;">Get the Printable PDF + PowerShell Scripts</h3>
+    <p style="color:#cbd5e1; margin-bottom:24px;">Download the 1-page PDF checklist to share with your team. Includes PowerShell snippets to verify items #2, #5, and #7 in 60 seconds.</p>
+    <a href="M365-Security-Checklist-2026-NextGrid.pdf" class="btn-primary btn-large" onclick="gtag('event', 'download', {'event_category': 'Lead Magnet', 'event_label': 'M365 Checklist'});">Download Free PDF</a>
+    <p style="font-size:0.85rem; margin-top:16px; color:#64748b;">We’ll email you once per month with M365 security updates. Unsubscribe anytime.</p>
+  </div>
+
+  <div class="risk-box">
+    <h3>What if you fail more than 3?</h3>
+    <p style="color:#cbd5e1; margin-bottom:16px;">If you’re missing MFA, legacy auth is on, or you have no backups, you’re at high risk. We do a <strong>3-day M365 Hardening Sprint</strong> for Gauteng businesses — zero downtime.</p>
+    <a href="r950-check.html" class="btn-primary" onclick="gtag('event', 'click', {'event_category': 'CTA', 'event_label': 'Checklist to R950'});">Get Your R950 Security Check</a>
+  </div>
+
+  <h2>POPIA Compliance Note</h2>
+  <p>This checklist helps meet Section 19 of POPIA: “Secure the integrity and confidentiality of personal information.” Items marked <span style="background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">POPIA</span> are directly referenced in the Act. But this is not legal advice. Pair this with staff training and documented policies.</p>
+
+  <p>Questions? <a href="https://wa.me/27680330794?text=Hi NextGrid, I read the M365 checklist and have a question" style="color:#38bdf8;">WhatsApp us</a> or <a href="contact.html" style="color:#38bdf8;">book a 15-min call</a> — we’ll scan your tenant for free.</p>
+</article>
+
 <div class="bottom-nav">
-<a href="index.html"><span>🏠</span><p>Home</p></a>
-<a href="services.html"><span>🛠</span><p>Services</p></a>
-<a href="blog.html"><span>📰</span><p>Blog</p></a>
-<a href="contact.html"><span>📞</span><p>Contact</p></a>
+  <a href="index.html"><span>🏠</span><p>Home</p></a>
+  <a href="services.html"><span>🛠</span><p>Services</p></a>
+  <a href="blog.html"><span>📰</span><p>Blog</p></a>
+  <a href="contact.html"><span>📞</span><p>Contact</p></a>
 </div>
 
-<footer><div class="container"><p>© 2026 NextGrid Technologies</p></div></footer>
+<footer><div class="container"><p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant</p></div></footer>
 </body>
 </html>
