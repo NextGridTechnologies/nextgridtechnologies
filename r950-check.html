@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R950 IT Health Check | Find IT Risks in 90 Minutes | NextGrid Pretoria</title>
-<meta name="description" content="Book your R950 IT Health Check. We audit Microsoft 365 security, backups, Wi-Fi & devices in 90 minutes. Flat fee, no obligation. Get your Red/Amber/Green report.">
+<title>R950 IT Health Check | 23-Point Microsoft 365 Audit | NextGrid Pretoria</title>
+<meta name="description" content="Book your R950 IT Health Check. We run 23 automated + manual security checks on Microsoft 365, backups & devices in 90 minutes. Flat fee, no obligation. Get your Red/Amber/Green report.">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -64,9 +64,89 @@
   padding: 12px;
   font-weight: 600;
 }
+.checklist-23 {
+  columns: 2;
+  column-gap: 40px;
+  margin: 40px 0;
+  text-align: left;
+}
+.checklist-23 li {
+  background: #1e293b;
+  border-left: 3px solid #38bdf8;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  break-inside: avoid;
+  list-style: none;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+}
+.checklist-23 li strong {
+  color: #38bdf8;
+}
+@media (max-width: 768px) {
+  .checklist-23 { columns: 1; }
+}
+.booking-form {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 600px;
+  margin: 40px auto;
+}
+.booking-form h3 {
+  color: #38bdf8;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  color: #e2e8f0;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 12px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+.risk-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 20px 0 40px;
+  flex-wrap: wrap;
+}
+.risk-legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+.risk-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.risk-high { background: #dc2626; }
+.risk-med { background: #ea580c; }
+.risk-low { background: #38bdf8; }
 </style>
   
-
 <style>
 /* ========= NUCLEAR OVERRIDE - FORCE PROCESS SECTION VISIBLE ========= */
 section.process-section {
@@ -83,7 +163,6 @@ section.process-section {
   margin: 0 !important;
   transform: none !important;
 }
-
 section.process-section .container {
   display: block !important;
   max-width: 1200px !important;
@@ -92,7 +171,6 @@ section.process-section .container {
   opacity: 1 !important;
   visibility: visible !important;
 }
-
 section.process-section h2 {
   display: block !important;
   color: #ffffff !important;
@@ -101,7 +179,6 @@ section.process-section h2 {
   margin-bottom: 16px !important;
   opacity: 1 !important;
 }
-
 section.process-section .section-intro {
   display: block !important;
   color: #cbd5e1 !important;
@@ -110,7 +187,6 @@ section.process-section .section-intro {
   margin: 0 auto 40px !important;
   opacity: 1 !important;
 }
-
 section.process-section .process-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
@@ -118,7 +194,6 @@ section.process-section .process-grid {
   visibility: visible !important;
   opacity: 1 !important;
 }
-
 section.process-section .process-card {
   display: block !important;
   background: #1e293b !important;
@@ -132,7 +207,6 @@ section.process-section .process-card {
   -webkit-filter: none !important;
   transform: none !important;
 }
-
 section.process-section .process-card h3 {
   display: block !important;
   color: #38bdf8 !important;
@@ -140,7 +214,6 @@ section.process-section .process-card h3 {
   margin: 0 0 12px 0 !important;
   opacity: 1 !important;
 }
-
 section.process-section .process-card p {
   display: block !important;
   color: #cbd5e1 !important;
@@ -148,18 +221,13 @@ section.process-section .process-card p {
   line-height: 1.6 !important;
   opacity: 1 !important;
 }
-
-/* Kill EVERYTHING that could hide it */
-section.process-section,
-section.process-section * {
+section.process-section, section.process-section * {
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-filter: none !important;
   animation: none !important;
   transition: none !important;
 }
-
-/* If your styles.css has .process-section { display: none } this will beat it */
 body .process-section {
   display: block !important;
 }
@@ -180,48 +248,88 @@ body .process-section {
   <div class="hero-overlay"></div>
   <div class="container hero-content">
     <div class="price-badge">R950</div>
-    <h1>Find Your Biggest IT Risks in 90 Minutes</h1>
-    <p class="section-intro">We audit your Microsoft 365, backups, Wi-Fi & devices. Get a 1-page Red/Amber/Green report. No obligation to continue.</p>
+    <h1>23-Point IT Health Check in 90 Minutes</h1>
+    <p class="section-intro">We run the same audit checklist used by enterprise consultants. You get a Red/Amber/Green report + exact fixes. Flat fee. No obligation.</p>
     <div class="hero-buttons">
-      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check for my business" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'R950 Hero'});">Book on WhatsApp Now</a>
-      <a href="tel:+27680330794" class="btn-secondary">Or Call: 068 033 0794</a>
+      <a href="#book" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'CTA', 'event_label': 'R950 Hero Book'});">Book My R950 Check</a>
+      <a href="#checks" class="btn-secondary">See All 23 Checks</a>
     </div>
-    <p class="hero-note">✓ Flat fee. No surprises. ✓ Report is yours forever. ✓ 7/10 businesses ask us to fix what we find</p>
+    <p class="hero-note">✓ Automated PowerShell + manual verification. ✓ Report is yours forever. ✓ 7/10 businesses ask us to fix what we find</p>
   </div>
 </section>
 
 <!-- WHAT WE CHECK -->
 <section class="services-snapshot">
   <div class="container">
-    <h2>We Check The 4 Things That Kill SME Productivity</h2>
-    <p class="section-intro">Stop ransomware, email hacks, and downtime before they happen.</p>
+    <h2>We Check The 4 Areas That Kill SME Productivity</h2>
+    <p class="section-intro">Each area has multiple tests. Total: 23 checks across security, compliance, and uptime.</p>
     
     <div class="check-grid">
       <div class="check-card">
         <div class="icon">🔒</div>
         <h3>Microsoft 365 Security</h3>
-        <p>MFA enabled? Risky logins from Nigeria? Admin accounts exposed? Safe Links configured? We scan it all.</p>
+        <p>MFA, legacy auth, admin sprawl, risky sign-ins, forwarding rules, DKIM/SPF, Safe Links. 10 checks.</p>
       </div>
       <div class="check-card">
         <div class="icon">☁️</div>
-        <h3>Backup Test</h3>
-        <p>Are your files actually restorable? We test-restore 1 folder live on the call. Most “backups” fail when you need them.</p>
+        <h3>Data & Backups</h3>
+        <p>Immutable backup test, OneDrive retention, mailbox auditing, DLP for ID numbers. 5 checks.</p>
+      </div>
+      <div class="check-card">
+        <div class="icon">👥</div>
+        <h3>Users & Devices</h3>
+        <p>Guest users, unused licenses, BitLocker keys, Intune enrollment, mailbox delegation. 5 checks.</p>
       </div>
       <div class="check-card">
         <div class="icon">📶</div>
-        <h3>Network & Wi-Fi</h3>
-        <p>Speed test, dead zones, rogue devices, guest network isolated? We check why your internet is slow.</p>
-      </div>
-      <div class="check-card">
-        <div class="icon">💻</div>
-        <h3>Device Health</h3>
-        <p>We spot-check 3 staff PCs: malware, Windows updates, disk health, encryption. Find the ticking time bombs.</p>
+        <h3>Access & Sharing</h3>
+        <p>SharePoint external sharing, Teams external access, Conditional Access policies. 3 checks.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- THE 23 CHECKS -->
+<section class="services-snapshot" id="checks" style="background:#0b1220;">
+  <div class="container">
+    <h2>Your 23-Point Checklist</h2>
+    <p class="section-intro">Every check below is run live during your 90-min session. You watch the results appear.</p>
+    
+    <div class="risk-legend">
+      <span><div class="risk-dot risk-high"></div>High Risk: POPIA fine / Ransomware</span>
+      <span><div class="risk-dot risk-med"></div>Medium Risk: Downtime / Productivity</span>
+      <span><div class="risk-dot risk-low"></div>Low Risk: Cost / Hygiene</span>
+    </div>
+
+    <ul class="checklist-23">
+      <li><strong>1. MFA enforced for all users</strong> — High Risk</li>
+      <li><strong>2. Legacy authentication blocked</strong> — High Risk</li>
+      <li><strong>3. Global Admin accounts ≤4</strong> — Medium Risk</li>
+      <li><strong>4. All admins have MFA</strong> — High Risk</li>
+      <li><strong>5. Self-service password reset enabled</strong> — Low Risk</li>
+      <li><strong>6. Password expiry disabled</strong> — Low Risk</li>
+      <li><strong>7. External forwarding rules</strong> — High Risk</li>
+      <li><strong>8. Mailbox auditing enabled</strong> — High Risk</li>
+      <li><strong>9. DKIM/SPF/DMARC configured</strong> — High Risk</li>
+      <li><strong>10. Safe Links/Attachments enabled</strong> — Medium Risk</li>
+      <li><strong>11. SharePoint external sharing restricted</strong> — Medium Risk</li>
+      <li><strong>12. OneDrive deleted item retention 90+ days</strong> — Medium Risk</li>
+      <li><strong>13. Guest users reviewed</strong> — Low Risk</li>
+      <li><strong>14. Unused licenses identified</strong> — Low Risk</li>
+      <li><strong>15. Conditional Access policies exist</strong> — Medium Risk</li>
+      <li><strong>16. Sign-in risk policies enabled</strong> — Medium Risk</li>
+      <li><strong>17. Intune device enrollment coverage</strong> — Medium Risk</li>
+      <li><strong>18. Immutable backups exist + tested</strong> — High Risk</li>
+      <li><strong>19. BitLocker keys escrowed to Azure AD</strong> — High Risk</li>
+      <li><strong>20. DLP policy for SA ID numbers</strong> — High Risk</li>
+      <li><strong>21. Mailbox delegation audit</strong> — Medium Risk</li>
+      <li><strong>22. Teams external access restricted</strong> — Medium Risk</li>
+      <li><strong>23. Last successful backup test date</strong> — High Risk</li>
+    </ul>
 
     <div class="cta-center" style="margin-top: 40px;">
-      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check" class="btn-primary btn-large">Book My R950 Check — WhatsApp</a>
-      <p class="cta-note-small">90 minutes. Remote or on-site in Pretoria/Centurion.</p>
+      <a href="#book" class="btn-primary btn-large">Book My R950 Check — See My Score</a>
+      <p class="cta-note-small">Remote or on-site in Pretoria/Centurion/JHB.</p>
     </div>
   </div>
 </section>
@@ -235,21 +343,66 @@ body .process-section {
     <div class="process-grid">
       <div class="process-card">
         <h3>1. Book (2 mins)</h3>
-        <p>WhatsApp us. We send a calendar link. Pick a 90-min slot this week. Pay R950 via EFT or card.</p>
+        <p>Fill the form below or WhatsApp us. Pick a 90-min slot this week. Pay R950 via EFT/card.</p>
       </div>
       <div class="process-card">
         <h3>2. We Audit (90 mins)</h3>
-        <p>Remote screen-share or on-site. We run our 12-point checklist live. You watch us test everything.</p>
+        <p>Remote screen-share or on-site. We run 17 automated PowerShell checks + 6 manual verifications live.</p>
       </div>
       <div class="process-card">
         <h3>3. Get Report (Same Day)</h3>
-        <p>1-page PDF: Red/Amber/Green scores + “Fix This First” list. Plain English. No jargon.</p>
+        <p>Branded HTML report + PDF with screenshots. Red/Amber/Green scores + exact remediation steps.</p>
       </div>
       <div class="process-card">
         <h3>4. You Decide</h3>
-        <p>Zero obligation. Fix it yourself, hire us, or hire someone else. Report is yours forever.</p>
+        <p>Zero obligation. Fix it yourself, hire us, or hire someone else. Report + share link is yours for 90 days.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section class="services-snapshot" id="book">
+  <div class="container">
+    <h2>Book Your R950 Health Check</h2>
+    <p class="section-intro">Fill this in. We’ll WhatsApp you within 2 hours to confirm your 90-min slot.</p>
+    
+    <form class="booking-form" id="r950Form">
+      <h3>Your Details</h3>
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="company">Company Name *</label>
+        <input type="text" id="company" name="company" required>
+      </div>
+      <div class="form-group">
+        <label for="users">Number of Users *</label>
+        <select id="users" name="users" required>
+          <option value="">Select...</option>
+          <option value="1-5">1-5 users</option>
+          <option value="6-15">6-15 users</option>
+          <option value="16-30">16-30 users</option>
+          <option value="31-50">31-50 users</option>
+          <option value="50+">50+ users</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="phone">WhatsApp Number *</label>
+        <input type="tel" id="phone" name="phone" placeholder="068 033 0794" required>
+      </div>
+      <div class="form-group">
+        <label for="domain">Microsoft 365 Domain</label>
+        <input type="text" id="domain" name="domain" placeholder="yourcompany.co.za">
+      </div>
+      <div class="form-group">
+        <label for="concern">Biggest IT Concern Right Now</label>
+        <textarea id="concern" name="concern" rows="3" placeholder="e.g. Worried about ransomware, email hacks, slow internet..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary btn-large" style="width:100%;" onclick="gtag('event', 'submit', {'event_category': 'Form', 'event_label': 'R950 Booking'});">Send to WhatsApp & Book Slot</button>
+      <p class="cta-note-small" style="text-align:center; margin-top:16px;">Pay R950 after we confirm your slot. EFT or card.</p>
+    </form>
   </div>
 </section>
 
@@ -260,21 +413,24 @@ body .process-section {
     <div class="trust-grid">
       <div class="trust-card">
         <h3>Law Firm, 17 Users</h3>
-        <p><strong>Found:</strong> No MFA, shared passwords, no backups<br>
+        <p><strong>Score: 9/23</strong><br>
+        <strong>Found:</strong> No MFA, shared passwords, no backups<br>
         <strong>Fixed:</strong> Full M365 lockdown in 5 days<br>
         <strong>Result:</strong> Zero incidents 18 months. Cyber insurance approved.</p>
       </div>
       <div class="trust-card">
         <h3>Accounting, 32 Users</h3>
-        <p><strong>Found:</strong> Backups failing silently for 4 months<br>
+        <p><strong>Score: 14/23</strong><br>
+        <strong>Found:</strong> Backups failing silently for 4 months<br>
         <strong>Fixed:</strong> New backup, tested restore, daily alerts<br>
         <strong>Result:</strong> Survived server crash 2 months later. Restored in 3hrs.</p>
       </div>
       <div class="trust-card">
         <h3>Manufacturer, 48 Users</h3>
-        <p><strong>Found:</strong> Wi-Fi dead zones, infected PCs, no asset list<br>
-        <strong>Fixed:</strong> Site survey, EDR rollout, asset register<br>
-        <strong>Result:</strong> 90% fewer IT tickets. Staff productivity up.</p>
+        <p><strong>Score: 11/23</strong><br>
+        <strong>Found:</strong> External forwarding rules, infected PCs, no DLP<br>
+        <strong>Fixed:</strong> EDR rollout, DLP for ID numbers, rule cleanup<br>
+        <strong>Result:</strong> 90% fewer IT tickets. POPIA compliant.</p>
       </div>
     </div>
   </div>
@@ -291,15 +447,15 @@ body .process-section {
       </div>
       <div class="card tech-card">
         <h3>What if you find nothing wrong?</h3>
-        <p>Great! You get a clean bill of health and sleep better. We’ll still give you the report for your records. Happens ~10% of the time.</p>
+        <p>Great! You get a clean bill of health and sleep better. Happens ~10% of the time. You still get the full 23-point report for your records.</p>
       </div>
       <div class="card tech-card">
         <h3>Do you need admin passwords?</h3>
-        <p>For M365 checks, yes — but we use secure screen-share and you can watch everything. We never store passwords. On-site, we use your login.</p>
+        <p>For M365 checks, yes — but we use secure screen-share and you watch everything. We never store passwords. On-site, we use your login. Can be done read-only for most checks.</p>
       </div>
       <div class="card tech-card">
         <h3>Is this just a sales pitch?</h3>
-        <p>No. The audit is real work. We run 23 automated + manual checks. The report is yours whether you hire us or not. No pushy follow-ups.</p>
+        <p>No. The audit is real work: 17 PowerShell checks + 6 manual screenshots. Takes us 90 min. The HTML + PDF reports are yours whether you hire us or not.</p>
       </div>
     </div>
   </div>
@@ -308,21 +464,22 @@ body .process-section {
 <!-- FINAL CTA -->
 <section class="cta-section final-cta">
   <div class="container">
-    <h2>Stop Guessing. Know Your IT Risks.</h2>
+    <h2>Stop Guessing. Know Your Score Out of 23.</h2>
     <p>Book your R950 check this week. Get your Red/Amber/Green report in 90 minutes.</p>
     <div class="cta-buttons">
-      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'R950 Final CTA'});">Book on WhatsApp</a>
-      <a href="tel:+27680330794" class="btn-secondary">Call: 068 033 0794</a>
+      <a href="#book" class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'CTA', 'event_label': 'R950 Final Book'});">Book My Slot Now</a>
+      <a href="https://wa.me/27680330794?text=Hi NextGrid, I want the R950 IT Health Check" class="btn-secondary">WhatsApp: 068 033 0794</a>
     </div>
     <p class="cta-note">First 2 clients this week: R750. 2 slots left.</p>
   </div>
 </section>
 
-<footer><div class="container"><p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant</p></div></footer>
+<footer><div class="container"><p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant | Gauteng, South Africa</p></div></footer>
 
-<!-- Header + Hamburger Script -->
+<!-- Header + Form + Hamburger Script -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Load header
   fetch('header.html')
     .then(res => res.text())
     .then(data => {
@@ -340,6 +497,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     });
+
+  // Handle form submission to WhatsApp
+  const form = document.getElementById('r950Form');
+  form?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const company = document.getElementById('company').value;
+    const users = document.getElementById('users').value;
+    const phone = document.getElementById('phone').value;
+    const domain = document.getElementById('domain').value || 'Not provided';
+    const concern = document.getElementById('concern').value || 'General check';
+    
+    const message = `Hi NextGrid, I want the R950 IT Health Check.\n\nName: ${name}\nCompany: ${company}\nUsers: ${users}\nDomain: ${domain}\nPhone: ${phone}\nMain concern: ${concern}\n\nPlease send me available slots.`;
+    const whatsappUrl = `https://wa.me/27680330794?text=${encodeURIComponent(message)}`;
+    
+    gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/r950_booking'});
+    window.open(whatsappUrl, '_blank');
+  });
 });
 </script>
 </body>
