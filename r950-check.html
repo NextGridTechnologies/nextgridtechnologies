@@ -477,6 +477,8 @@ body .process-section {
 <footer><div class="container"><p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant | Gauteng, South Africa</p></div></footer>
 
 <!-- Header + Form + Hamburger Script -->
+
+<!-- Header + Form + Hamburger Script -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   // Load header
@@ -498,22 +500,42 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-  // Handle form submission to WhatsApp
+  // Handle form submission to WhatsApp only
   const form = document.getElementById('r950Form');
   form?.addEventListener('submit', function(e) {
     e.preventDefault();
+    
     const name = document.getElementById('name').value;
     const company = document.getElementById('company').value;
     const users = document.getElementById('users').value;
     const phone = document.getElementById('phone').value;
     const domain = document.getElementById('domain').value || 'Not provided';
-    const concern = document.getElementById('concern').value || 'General check';
+    const concern = document.getElementById('concern').value || 'General 23-point check';
     
+    // Build WhatsApp message
     const message = `Hi NextGrid, I want the R950 IT Health Check.\n\nName: ${name}\nCompany: ${company}\nUsers: ${users}\nDomain: ${domain}\nPhone: ${phone}\nMain concern: ${concern}\n\nPlease send me available slots.`;
     const whatsappUrl = `https://wa.me/27680330794?text=${encodeURIComponent(message)}`;
     
     gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/r950_booking'});
-    window.open(whatsappUrl, '_blank');
+    
+    // Clear form FIRST, then open WhatsApp
+    form.reset();
+    document.activeElement.blur(); // Force commit on mobile
+    
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+    }, 100);
+    
+    // Visual feedback
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sent! Check WhatsApp...';
+    submitBtn.disabled = true;
+    
+    setTimeout(() => {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }, 3000);
   });
 });
 </script>
