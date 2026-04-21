@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thanks — We'll Contact You Soon | NextGrid Technologies</title>
-<meta name="robots" content="noindex">
+<title id="pageTitle">Thanks — We'll Contact You Soon | NextGrid Technologies</title>
+<meta name="robots" content="noindex, follow">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -17,8 +16,17 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-C9DS2C71G6');
-  // Fire conversion event
-  gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/LEAD'});
+  
+  // Detect if this is R950 or general lead
+  const isR950 = new URLSearchParams(window.location.search).get('src') === 'r950';
+  
+  // Fire correct conversion event
+  if (isR950) {
+    gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/r950_booking_complete'});
+    document.title = 'Booked — Your R950 IT Health Check | NextGrid';
+  } else {
+    gtag('event', 'conversion', {'send_to': 'G-C9DS2C71G6/LEAD'});
+  }
 </script>
 
 <style>
@@ -107,15 +115,80 @@
 <section class="thank-you-section">
   <div class="container">
     <div class="check-icon">✓</div>
-    <h1>Request Received</h1>
-    <p class="subhead">Thanks for reaching out. We've got your details and will contact you within 1 business hour.</p>
+    <h1 id="mainHeading">Request Received</h1>
+    <p class="subhead" id="subHeading">Thanks for reaching out. We've got your details and will contact you within 1 business hour.</p>
     
     <div class="hero-buttons">
-      <a href="https://wa.me/27680330794?text=Hi NextGrid, I just submitted the contact form. My issue is urgent." class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'Thank You Page'});">Need it faster? WhatsApp Us</a>
+      <a id="whatsappBtn" href="https://wa.me/27680330794?text=Hi NextGrid, I just submitted the contact form. My issue is urgent." class="btn-primary btn-large" onclick="gtag('event', 'click', {'event_category': 'WhatsApp', 'event_label': 'Thank You Page'});">Need it faster? WhatsApp Us</a>
     </div>
 
     <div class="next-steps">
       <h3>What Happens Next</h3>
+      <div id="stepsContainer">
+        <!-- Steps injected by JS -->
+      </div>
+    </div>
+
+    <p style="color: #94a3b8; margin-top: 40px;">
+      <span id="footerNote">Not urgent? Feel free to close this page. We'll be in touch soon.</span><br>
+      <a id="backLink" href="index.html" style="color: #38bdf8;">← Back to Home</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant</p>
+  </div>
+</footer>
+
+<script>
+// Content swapper for R950 vs General
+document.addEventListener('DOMContentLoaded', () => {
+  const isR950 = new URLSearchParams(window.location.search).get('src') === 'r950';
+  
+  const mainHeading = document.getElementById('mainHeading');
+  const subHeading = document.getElementById('subHeading');
+  const whatsappBtn = document.getElementById('whatsappBtn');
+  const stepsContainer = document.getElementById('stepsContainer');
+  const footerNote = document.getElementById('footerNote');
+  const backLink = document.getElementById('backLink');
+  
+  if (isR950) {
+    // R950 specific content
+    mainHeading.textContent = 'R950 Check Booked';
+    subHeading.textContent = 'Thanks. We\'ve got your details. Richard will WhatsApp you within 1 business hour to confirm your 90-min slot and payment.';
+    whatsappBtn.href = 'https://wa.me/27680330794?text=Hi Richard, I just booked the R950 Health Check. When can we do the 90-min slot?';
+    whatsappBtn.textContent = 'Message Richard Now';
+    backLink.href = 'r950-check.html';
+    backLink.textContent = '← Back to R950 Details';
+    footerNote.textContent = 'Questions before we contact you? WhatsApp us above.';
+    
+    stepsContainer.innerHTML = `
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-text">
+          <strong>We confirm your slot</strong>
+          <p>Richard will WhatsApp you with available 90-min slots this week. Pick one. Usually same-day or next-day.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-text">
+          <strong>You pay R950</strong>
+          <p>EFT or card link. Once paid, we send the calendar invite + prep checklist for your 23-point audit.</p>
+        </div>
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-text">
+          <strong>We run the audit live</strong>
+          <p>90 minutes on screen-share. You watch all 23 checks. Report delivered same day with Red/Amber/Green scores.</p>
+        </div>
+      </div>
+    `;
+  } else {
+    // General contact form content
+    stepsContainer.innerHTML = `
       <div class="step-item">
         <div class="step-number">1</div>
         <div class="step-text">
@@ -137,22 +210,11 @@
           <p>Most issues fixed remotely same-day. On-site in Pretoria/Centurion next business day if needed.</p>
         </div>
       </div>
-    </div>
+    `;
+  }
+});
 
-    <p style="color: #94a3b8; margin-top: 40px;">
-      Not urgent? Feel free to close this page. We'll be in touch soon.<br>
-      <a href="index.html" style="color: #38bdf8;">← Back to Home</a>
-    </p>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p>© 2026 NextGrid Technologies | POPIA & GDPR Compliant</p>
-  </div>
-</footer>
-
-<script>
+// Load header
 fetch('header.html')
   .then(res => res.text())
   .then(data => {
