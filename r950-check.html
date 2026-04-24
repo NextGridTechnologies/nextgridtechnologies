@@ -580,15 +580,15 @@ document.addEventListener('DOMContentLoaded', () => {
     form.reset();
     document.activeElement.blur(); // Force commit on mobile
     
-    setTimeout(() => {
-      window.open(whatsappUrl, '_blank');
-    }, 100);
-    
-    // Visual feedback
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sent! Check WhatsApp...';
-    submitBtn.disabled = true;
+   setTimeout(() => {
+  window.open(whatsappUrl, '_blank'); // Opens WhatsApp
+  window.location.href = 'thank-you-r950.html'; // Redirects current tab
+}, 100);
+
+// Visual feedback - optional now since page redirects
+const submitBtn = form.querySelector('button[type="submit"]');
+submitBtn.textContent = 'Redirecting...';
+submitBtn.disabled = true;
     
     setTimeout(() => {
       submitBtn.textContent = originalText;
