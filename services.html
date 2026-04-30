@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,207 +14,322 @@
   gtag('config', 'G-C9DS2C71G6');
 </script>
     
-<!-- Refined Title Tag -->
 <title>Managed IT Services & M365 Security | NextGrid Technologies Pretoria</title>
-
-<!-- Refined Meta Description -->
-<meta name="description" content="Stop losing R18,000/year to IT downtime. Fixed-cost IT support, Microsoft 365 security, cloud backup & network solutions for Gauteng SMEs. No contracts. Start with R950 Check.">
-
+<meta name="description" content="Stop losing R1,500/month to IT downtime. Fixed-cost IT support, Microsoft 365 security, cloud backup & network solutions for Gauteng SMEs. No contracts. Start with R950 Check.">
 <meta name="keywords" content="managed IT services Pretoria, IT support Gauteng, Microsoft 365 security, business IT support, cloud backup South Africa, network security solutions">
 <meta name="author" content="NextGrid Technologies">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
 <style>
-/* ========= SERVICES PAGE OVERRIDES - LOAD LAST ========= */
-
-/* Process Section Fixes */
-section.process-section {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  height: auto !important;
-  overflow: visible !important;
-  background: #0b1220 !important;
-  padding: 80px 0 !important;
+/* ========= DESIGN SYSTEM ========= */
+:root {
+  --bg-dark: #020617;
+  --bg-card: #1e293b;
+  --bg-card-glass: rgba(30, 41, 59, 0.7);
+  --accent: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.15);
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-heading: #ffffff;
+  --border: rgba(56, 189, 248, 0.2);
 }
 
-section.process-section .container {
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-  padding: 0 24px !important;
+* { box-sizing: border-box; }
+body { 
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
 }
 
-section.process-section h2 {
-  display: block !important;
-  color: #ffffff !important;
-  text-align: center !important;
-  font-size: 2rem !important;
-  margin-bottom: 16px !important;
+.section { padding: 100px 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ========= TYPOGRAPHY ========= */
+h1 { 
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-heading);
+  margin-bottom: 24px;
+}
+h2 { 
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 16px;
+}
+h3 { 
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+}
+.section-intro {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 65ch;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+.accent-text { color: var(--accent); font-weight: 600; }
+
+/* ========= HERO WITH GRADIENT MESH ========= */
+.hero {
+  min-height: 90vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: radial-gradient(at 20% 30%, #1e40af 0px, transparent 50%),
+              radial-gradient(at 80% 70%, #1e3a8a 0px, transparent 50%),
+              var(--bg-dark);
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  mix-blend-mode: luminosity;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
 }
 
-section.process-section .section-intro {
-  display: block !important;
-  color: #cbd5e1 !important;
-  text-align: center !important;
-  max-width: 600px !important;
-  margin: 0 auto 40px !important;
+/* ========= BUTTONS ========= */
+.btn-primary, .btn-secondary {
+  padding: 16px 36px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-dark);
+  box-shadow: 0 10px 30px var(--accent-glow);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px var(--accent-glow);
+}
+.btn-primary:active { transform: scale(0.98); }
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.btn-secondary:hover {
+  background: rgba(56, 189, 248, 0.1);
 }
 
-section.process-section .process-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  gap: 24px !important;
-  visibility: visible !important;
+/* ========= STATS BAR ========= */
+.stats-bar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  text-align: center;
+}
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.stat-label {
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
-section.process-section .process-card {
-  display: block !important;
-  background: #1e293b !important;
-  border: 2px solid #38bdf8 !important;
-  border-radius: 16px !important;
-  padding: 28px 24px !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-filter: none !important;
-  transform: none !important;
+/* ========= GLASSMORPHISM CARDS ========= */
+.glass-card {
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 20px 60px var(--accent-glow);
+  transform: translateY(-4px);
 }
 
-section.process-section .process-card h3 {
-  display: block !important;
-  color: #38bdf8 !important;
-  font-size: 1.25rem !important;
-  margin: 0 0 12px 0 !important;
+/* ========= ZIG-ZAG FEATURES ========= */
+.feature-split {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 120px;
+}
+.feature-split:nth-child(even) {
+  grid-template-columns: 1fr 1.1fr;
+}
+.feature-split:nth-child(even) .feature-image { order: 2; }
+.feature-image img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.feature-content .badge {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.feature-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.feature-content li {
+  padding-left: 32px;
+  position: relative;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.feature-content li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+.testimonial-inline {
+  margin: 32px 0;
+  padding: 20px;
+  border-left: 3px solid var(--accent);
+  background: rgba(56, 189, 248, 0.05);
+  border-radius: 8px;
 }
 
-section.process-section .process-card p {
-  display: block !important;
-  color: #cbd5e1 !important;
-  margin: 0 !important;
-  line-height: 1.6 !important;
+/* ========= PROCESS SECTION ========= */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+.process-card {
+  position: relative;
+  padding-top: 60px;
+}
+.process-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 5rem;
+  font-weight: 700;
+  color: rgba(56, 189, 248, 0.1);
+  line-height: 1;
 }
 
-section.process-section,
-section.process-section * {
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-filter: none !important;
+/* ========= COMPARISON GRID ========= */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 48px auto;
+}
+.comparison-card {
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(12px);
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.comparison-card.featured {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 40px var(--accent-glow);
 }
 
-/* Break-fix comparison mobile fix */
-@media (max-width: 768px) {
-  .comparison-grid {
-    grid-template-columns: 1fr !important;
-  }
+/* ========= SCROLL REVEAL ========= */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
-  /* ========= DUAL CTA SIDE BY SIDE ========= */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========= DUAL CTA ========= */
 .dual-cta-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
 }
-
 .dual-cta-card {
-  padding: 80px 0;
+  padding: 100px 0;
   text-align: center;
   display: flex;
   align-items: center;
 }
-
 .dual-cta-card .container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 40px;
 }
 
-.dual-cta-card h2 {
-  font-size: 1.75rem;
-  margin-bottom: 0;
+/* ========= FAQ ========= */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
 }
 
-/* Mobile: Stack them */
+/* ========= MOBILE ========= */
 @media (max-width: 968px) {
-  .dual-cta-grid {
+  .section { padding: 60px 0; }
+  .feature-split, .feature-split:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-bottom: 80px;
+  }
+  .feature-split .feature-image { order: 0 !important; }
+  .process-grid, .comparison-grid, .dual-cta-grid {
     grid-template-columns: 1fr;
   }
-  .dual-cta-card {
-    padding: 60px 0;
-  }
-  .dual-cta-card h2 {
-    font-size: 1.5rem;
-  }
-}
-  /* ========= UNIFIED GRID SYSTEM ========= */
-.services-grid,
-.process-grid,
-.trust-grid,
-.grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
-  gap: 32px !important;
-  margin: 48px 0 !important;
+  .hero-buttons { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; }
 }
 
-/* Make FAQ cards match the dark style of other sections */
-.topics-section .tech-card {
-  background: #1e293b;
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: 12px;
-  padding: 32px 24px;
-  color: #e2e8f0;
-}
-
-.topics-section .tech-card h3 {
-  color: #38bdf8;
-  margin-bottom: 16px;
-  font-size: 1.25rem;
-}
-
-.topics-section .tech-card p {
-  color: #cbd5e1;
-  line-height: 1.6;
-}
-
-/* Center the FAQ section heading */
-.topics-section h2 {
-  text-align: center;
-  color: #fff;
-  margin-bottom: 16px;
-}
-  /* ========= FAQ / TOPICS SECTION FIX ========= */
-.topics-section {
-  background: #0b1220 !important;
-  padding: 80px 0;
-}
-
-.topics-section h2 {
-  text-align: center !important;
-  color: #ffffff !important;
-  margin-bottom: 48px !important;
-  font-size: 2rem !important;
-}
-
-.topics-section .tech-card {
-  background: #1e293b !important;
-  border: 1px solid rgba(56, 189, 248, 0.3) !important;
-  border-radius: 12px !important;
-  padding: 32px 24px !important;
-}
-
-.topics-section .tech-card h3 {
-  color: #38bdf8 !important;
-  margin-bottom: 16px !important;
-  font-size: 1.25rem !important;
-  font-weight: 600 !important;
-}
-
-.topics-section .tech-card p {
-  color: #e2e8f0 !important;
-  line-height: 1.7 !important;
-  font-size: 1rem !important;
+/* ========= FOCUS STATES ========= */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 </style>
 </head>
@@ -225,315 +341,231 @@ section.process-section * {
     .then(res => res.text())
     .then(data => {
       document.getElementById('header').innerHTML = data;
-      
-      // Hamburger toggle
       document.getElementById('hamburger')?.addEventListener('click', () => {
         document.getElementById('navMenu')?.classList.toggle('active');
-      });
-      
-      // Back to top shows after scrolling 300px
-      const scrollBtn = document.getElementById('scrollTopBtn');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          scrollBtn?.classList.add('show');
-        } else {
-          scrollBtn?.classList.remove('show');
-        }
-      });
-      
-      scrollBtn?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
 </script>
 
-<section class="hero services-hero">
-  <video autoplay muted loop playsinline class="hero-video" loading="lazy">
+<section class="hero">
+  <video autoplay muted loop playsinline preload="none" class="hero-video" poster="security-poster.jpg">
     <source src="security-screen.mp4" type="video/mp4">
   </video>
-  <div class="hero-overlay"></div>
-
   <div class="container hero-content">
-    <h1>Stop Losing R1,500/month to IT Downtime</h1>
-    <p class="section-intro">Gauteng businesses waste 47 hours per employee per year on “break-fix” IT. We give you fixed-cost support, 30-min response, and POPIA compliance. No contracts.</p>
+    <h1>Stop Losing <span class="accent-text" data-count="1500">R0</span>/month to IT Downtime</h1>
+    <p class="section-intro">Gauteng SMEs waste <span class="accent-text" data-count="47">0</span> hours per employee per year on “break-fix” IT. We give you fixed-cost support, 30-min response, and POPIA compliance. No contracts.</p>
     <div class="hero-buttons">
       <a href="r950-check.html" class="btn-primary">Start with R950 Health Check</a>
       <a href="pricing.html" class="btn-secondary">See Monthly Plans</a>
     </div>
-    <p style="font-size:0.9rem;color:#94a3b8;margin-top:12px;">✓ No setup fees ✓ Cancel anytime ✓ We speak to your accountant</p>
+    <p style="font-size:0.9rem;color:var(--text-muted);margin-top:20px;">✓ No setup fees ✓ Cancel anytime ✓ 30+ Gauteng SMEs trust us</p>
   </div>
 </section>
 
-<!-- BREAK-FIX VS MANAGED COMPARISON -->
-<section style="padding:80px 0;background:#0f172a;">
+<!-- STATS BAR -->
+<section class="stats-bar">
   <div class="container">
-    <h2 style="text-align:center;margin-bottom:48px;">Break-Fix IT Costs 3x More</h2>
-    <div class="comparison-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto;">
-      <div style="background:#1e293b;padding:32px;border-radius:12px;border:1px solid #334155;">
+    <div class="stats-grid">
+      <div class="reveal">
+        <span class="stat-number" data-count="12">0</span>
+        <span class="stat-label">Businesses saved from ransomware</span>
+      </div>
+      <div class="reveal">
+        <span class="stat-number"><span data-count="30">0</span>min</span>
+        <span class="stat-label">Average response time</span>
+      </div>
+      <div class="reveal">
+        <span class="stat-number" data-count="18">0</span>
+        <span class="stat-label">Months zero incidents avg</span>
+      </div>
+      <div class="reveal">
+        <span class="stat-number">R<span data-count="2.4">0</span>M</span>
+        <span class="stat-label">Client downtime prevented</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section" style="background:#0f172a;">
+  <div class="container">
+    <h2 style="text-align:center;">Break-Fix IT Costs 3x More</h2>
+    <p class="section-intro">You're not saving money with "R0/month". You're paying in downtime.</p>
+    <div class="comparison-grid">
+      <div class="comparison-card reveal">
         <h3 style="color:#ef4444;">❌ Break-Fix “R0/Month”</h3>
-        <ul style="color:#cbd5e1;line-height:2;">
-          <li>R3,500 emergency callouts</li>
-          <li>6+ hours downtime per incident</li>
-          <li>No backups tested until it’s too late</li>
-          <li>POPIA fines are your problem</li>
-          <li>Avg cost: R18,000/year</li>
+        <ul style="color:var(--text);line-height:2.2;list-style:none;padding:0;">
+          <li>💸 R3,500 emergency callouts</li>
+          <li>⏱️ 6+ hours downtime per incident</li>
+          <li>💾 No backups tested until it's too late</li>
+          <li>⚖️ POPIA fines are your problem</li>
+          <li>📊 Avg cost: R18,000/year</li>
         </ul>
       </div>
-      <div style="background:#1e293b;padding:32px;border-radius:12px;border:2px solid #38bdf8;">
-        <h3 style="color:#38bdf8;">✓ Managed IT from R1,999/mo</h3>
-        <ul style="color:#cbd5e1;line-height:2;">
-          <li>Unlimited support, 30-min response</li>
-          <li>Proactive monitoring 24/7</li>
-          <li>Tested backups + M365 hardening</li>
-          <li>We sign POPIA Operator Agreement</li>
-          <li>Avg cost: R5,000/year total issues</li>
+      <div class="comparison-card featured reveal">
+        <h3 style="color:var(--accent);">✓ Managed IT from R1,999/mo</h3>
+        <ul style="color:var(--text);line-height:2.2;list-style:none;padding:0;">
+          <li>🚀 Unlimited support, 30-min response</li>
+          <li>🔍 Proactive monitoring 24/7</li>
+          <li>✅ Tested backups + M365 hardening</li>
+          <li>🛡️ We sign POPIA Operator Agreement</li>
+          <li>📉 Avg cost: R5,000/year total issues</li>
         </ul>
       </div>
-    </div>
-    <div style="text-align:center;margin-top:40px;">
-      <a href="managed-it-vs-break-fix-cost.html" class="btn-secondary">Read Full Cost Breakdown →</a>
     </div>
   </div>
 </section>
 
-<!-- SERVICES (uses .services-snapshot so the white-card CSS applies) -->
-<section class="services-snapshot">
+<!-- ZIG-ZAG SERVICES -->
+<section class="section">
   <div class="container">
-    <h2>What We Do</h2>
-    <p class="section-intro">We focus on the things that actually prevent downtime and data loss for 5–50 person teams.</p>
+    <h2 style="text-align:center;">What We Actually Fix</h2>
+    <p class="section-intro">We focus on the 3 things that prevent 90% of downtime for 5–50 person teams.</p>
 
-<div class="services-grid">
-
-  <div class="service-card">
-    <div class="service-image">
-      <img src="illustrations/microsoft-365.jpg" alt="Microsoft 365 Security" loading="lazy">
+    <div class="feature-split reveal">
+      <div class="feature-content">
+        <span class="badge">MICROSOFT 365 SECURITY</span>
+        <h2>Email Security That Lawyers Trust</h2>
+        <p>We lock down M365 so hackers can't invoice your clients from your email. MFA, anti-phishing, and encrypted mail in 5 days.</p>
+        <ul>
+          <li><strong>MFA for everyone:</strong> Block 99.9% of account hacks</li>
+          <li><strong>Anti-phishing:</strong> Safe Links + Safe Attachments stop malicious emails</li>
+          <li><strong>Conditional access:</strong> Block logins from Nigeria, China, Russia automatically</li>
+        </ul>
+        <div class="testimonial-inline">
+          <strong>"Zero incidents in 18 months"</strong><br>
+          <span style="color:var(--text-muted);">— Law Firm, 17 Users, Centurion</span>
+        </div>
+        <a href="m365-security-checklist.html" class="btn-primary">See Our M365 Checklist →</a>
+      </div>
+      <div class="feature-image">
+        <img src="illustrations/microsoft-365.jpg" alt="Microsoft 365 Security Dashboard" loading="lazy">
+      </div>
     </div>
-    <div class="service-icon">🔒</div>
-    <h3>Microsoft 365 Security</h3>
-    <p>We harden your Microsoft 365 environment so email can’t be hijacked and sensitive files stay private.</p>
-    <ul class="service-features">
-      <li><strong>Multi-factor authentication (MFA):</strong> Enforce MFA for all users, admins, and remote logins to block credential theft.</li>
-      <li><strong>Anti-phishing & spam:</strong> Configure Microsoft Defender for Office 365 (Safe Links, Safe Attachments) to stop malicious emails.</li>
-      <li><strong>Email encryption & DLP:</strong> Set up encrypted email for invoices/contracts and data-loss-prevention rules to prevent accidental file sharing.</li>
-      <li><strong>Access control:</strong> Conditional access policies (block logins from unknown countries/devices, require MFA outside the office).</li>
-      <li><strong>User training:</strong> Short, plain-English guides so staff spot phishing and use secure sharing.</li>
-    </ul>
-  </div>
 
-  <div class="service-card">
-    <div class="service-image">
-      <img src="illustrations/cloud-backup.jpg" alt="Cloud Backup & Recovery" loading="lazy">
+    <div class="feature-split reveal">
+      <div class="feature-image">
+        <img src="illustrations/cloud-backup.jpg" alt="Cloud Backup Recovery" loading="lazy">
+      </div>
+      <div class="feature-content">
+        <span class="badge">CLOUD BACKUP</span>
+        <h2>Restore Files in Minutes, Not Days</h2>
+        <p>If ransomware hits or Sarah deletes the quote folder, you restore it before lunch. Not next week.</p>
+        <ul>
+          <li><strong>Automated daily backups:</strong> Email, OneDrive, SharePoint, Teams</li>
+          <li><strong>3-2-1 strategy:</strong> 3 copies, 2 media types, 1 offsite</li>
+          <li><strong>Quarterly test restores:</strong> We prove it works with a written report</li>
+        </ul>
+        <div class="testimonial-inline">
+          <strong>"Restored server in 3 hours after crash"</strong><br>
+          <span style="color:var(--text-muted);">— Accounting Practice, 32 Users, Pretoria</span>
+        </div>
+        <a href="pricing.html" class="btn-primary">See Backup Plans →</a>
+      </div>
     </div>
-    <div class="service-icon">☁️</div>
-    <h3>Cloud Backup & Recovery</h3>
-    <p>If ransomware hits or a file is deleted, you can restore it in minutes — not days.</p>
-    <ul class="service-features">
-      <li><strong>Automated daily backups:</strong> Back up Exchange email, OneDrive, SharePoint and Teams files every night.</li>
-      <li><strong>3-2-1 strategy:</strong> 3 copies of data, 2 different media, 1 offsite copy.</li>
-      <li><strong>Versioning & retention:</strong> Keep 30–365 days of previous file versions.</li>
-      <li><strong>Test restores:</strong> Quarterly restore tests with a written report so you know backups work.</li>
-      <li><strong>Fast recovery:</strong> Restore a single email, folder or entire mailbox on request.</li>
-    </ul>
-  </div>
 
-  <div class="service-card">
-    <div class="service-image">
-      <img src="illustrations/managed-it.jpg" alt="Managed IT Support" loading="lazy">
-    </div>
-    <div class="service-icon">💻</div>
-    <h3>Managed IT Support</h3>
-    <p>You get a dedicated team that watches your systems 24/7 and fixes issues before staff notice.</p>
-    <ul class="service-features">
-      <li><strong>&lt; 1 hour first response (8am–5pm):</strong> Phone, WhatsApp or remote support when something breaks.</li>
-      <li><strong>24/7 monitoring:</strong> Alerts for disk space, hardware failures, backup failures and security events.</li>
-      <li><strong>Patch management:</strong> Windows and app updates rolled out after hours to avoid disruption.</li>
-      <li><strong>On-site visits:</strong> We come to your Pretoria/Gauteng office for hardware or network issues.</li>
-      <li><strong>Monthly health report:</strong> Simple summary of uptime, backup status and tickets resolved.</li>
-    </ul>
-  </div>
-
-  <div class="service-card">
-    <div class="service-image">
-      <img src="illustrations/network.jpg" alt="Network & Wi-Fi" loading="lazy">
-    </div>
-    <div class="service-icon">🌐</div>
-    <h3>Network & Wi-Fi</h3>
-    <p>Stable, secure connectivity for staff and guests — no dropouts or slow speeds.</p>
-    <ul class="service-features">
-      <li><strong>Wi-Fi site survey:</strong> Check signal coverage, dead spots and interference, then optimise access points.</li>
-      <li><strong>Firewall configuration:</strong> Proper firewall rules to block intruders and unwanted traffic.</li>
-      <li><strong>VPN access:</strong> Secure remote access for staff working from home or on the road.</li>
-      <li><strong>Network segmentation:</strong> Separate guest Wi-Fi from business network to protect client data.</li>
-      <li><strong>Bandwidth management:</strong> Prioritise business apps over streaming/social media.</li>
-    </ul>
-  </div>
-
-  <div class="service-card">
-    <div class="service-image">
-      <img src="illustrations/endpoint.jpg" alt="Endpoint Protection" loading="lazy">
-    </div>
-    <div class="service-icon">🛡️</div>
-    <h3>Endpoint Protection</h3>
-    <p>Every laptop and PC is protected against viruses, ransomware and unauthorised access.</p>
-    <ul class="service-features">
-      <li><strong>EDR antivirus:</strong> Business-grade endpoint detection & response (not just basic antivirus).</li>
-      <li><strong>BitLocker encryption:</strong> Full disk encryption so stolen laptops can’t be read.</li>
-      <li><strong>Application control:</strong> Block unknown or risky software from running.</li>
-      <li><strong>Device compliance:</strong> Ensure devices meet your security policy (updates, encryption, password strength).</li>
-      <li><strong>Remote wipe:</strong> If a device is lost, we can wipe company data remotely.</li>
-    </ul>
-  </div>
-
-  <div class="service-card">
-    <div class="service-image">
-      <img src="illustrations/it-strategy.jpg" alt="IT Strategy & Setup" loading="lazy">
-    </div>
-    <div class="service-icon">📈</div>
-    <h3>IT Strategy & Setup</h3>
-    <p>We plan your IT so you buy the right gear and don’t waste money on unnecessary licenses.</p>
-    <ul class="service-features">
-      <li><strong>30-minute free IT audit:</strong> Review your current hardware, software licenses and security posture.</li>
-      <li><strong>Licensing optimisation:</strong> Right-size Microsoft 365 licenses (remove unused licenses, switch to cheaper plans where safe).</li>
-      <li><strong>Hardware refresh planning:</strong> Identify PCs/servers that are ageing and plan replacements.</li>
-      <li><strong>Asset register:</strong> Document all devices, licenses and warranties in one place.</li>
-      <li><strong>Onboarding/offboarding:</strong> Set up new staff with correct access; remove ex-staff access immediately.</li>
-    </ul>
-  </div>
-
-</div>
-
-    <div class="cta-center">
-      <a href="pricing.html" class="btn-primary">See Plans & Pricing</a>
-      <p class="cta-note-small">No lock-in contracts. Month-to-month after first 90 days.</p>
+    <div class="feature-split reveal">
+      <div class="feature-content">
+        <span class="badge">MANAGED IT SUPPORT</span>
+        <h2>We Fix It Before Staff Notice</h2>
+        <p>24/7 monitoring catches disk failures, backup failures, and security events at 2am. You get an email: "Fixed". Not "Your server is down".</p>
+        <ul>
+          <li><strong>< 1 hour response:</strong> Phone, WhatsApp, or remote in 30min avg</li>
+          <li><strong>Patch management:</strong> Updates roll out after hours, zero disruption</li>
+          <li><strong>Monthly health report:</strong> Uptime, tickets, backup status in plain English</li>
+        </ul>
+        <div class="testimonial-inline">
+          <strong>"90% fewer IT tickets. Staff productivity up."</strong><br>
+          <span style="color:var(--text-muted);">— Manufacturer, 48 Users, Midrand</span>
+        </div>
+        <a href="pricing.html" class="btn-primary">See Support Plans →</a>
+      </div>
+      <div class="feature-image">
+        <img src="illustrations/managed-it.jpg" alt="IT Support Dashboard" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PROCESS TIMELINE -->
-<section class="process-section">
+<!-- PROCESS -->
+<section class="section" style="background:#0b1220;">
   <div class="container">
-    <h2>What Happens After You Sign Up</h2>
-    <p class="section-intro">No surprises. Here's your first 90 days.</p>
-    
+    <h2 style="text-align:center;">Your First 90 Days</h2>
+    <p class="section-intro">No surprises. Here's exactly what happens after you sign up.</p>
     <div class="process-grid">
-      <div class="process-card">
+      <div class="glass-card process-card reveal">
+        <div class="process-number">01</div>
         <h3>Day 0-7: Onboarding</h3>
-        <p>We run the R950 audit, deploy monitoring agents, secure M365, fix red-flag items. You get admin access to everything.</p>
+        <p>We run the R950 audit, deploy monitoring agents, secure M365, fix red-flag items. You get admin access to everything. No vendor lock-in.</p>
       </div>
-      <div class="process-card">
+      <div class="glass-card process-card reveal">
+        <div class="process-number">02</div>
         <h3>Day 8-30: Stabilize</h3>
         <p>Patch all devices, document passwords in encrypted vault, test backups, set up helpdesk. Goal: zero preventable downtime.</p>
       </div>
-      <div class="process-card">
+      <div class="glass-card process-card reveal">
+        <div class="process-number">03</div>
         <h3>Day 31-90: Optimize</h3>
-        <p>First quarterly business review. We show you tickets resolved, backup status, and recommend next security upgrades.</p>
+        <p>First quarterly business review. We show tickets resolved, backup status, and recommend next security upgrades. You decide.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CASE STUDIES -->
-<section class="trust-section">
-  <div class="container">
-    <h2>Real Results for Gauteng SMEs</h2>
-    <div class="trust-grid">
-      <div class="trust-card">
-        <h3>Law Firm, 17 Users, Centurion</h3>
-        <p><strong>Problem:</strong> No MFA, shared passwords. Ransomware encrypted files.<br>
-        <strong>Fix:</strong> R950 check → Full M365 lockdown in 5 days.<br>
-        <strong>Result:</strong> Zero incidents 18 months. Cyber insurance approved.</p>
-      </div>
-      <div class="trust-card">
-        <h3>Accounting Practice, 32 Users, Pretoria</h3>
-        <p><strong>Problem:</strong> Backups failing silently for 4 months. Only found out during audit.<br>
-        <strong>Fix:</strong> New backup, tested restore, daily alerts.<br>
-        <strong>Result:</strong> Survived server crash 2 months later. Restored in 3 hours.</p>
-      </div>
-      <div class="trust-card">
-        <h3>Manufacturer, 48 Users, Midrand</h3>
-        <p><strong>Problem:</strong> Wi-Fi dead zones, production PCs infected, no asset list.<br>
-        <strong>Fix:</strong> Site survey, EDR rollout, asset register.<br>
-        <strong>Result:</strong> 90% fewer IT tickets. Staff productivity up.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHO THIS IS NOT FOR -->
-<section class="support-section">
-  <div class="container">
-    <div class="tech-card highlight" style="max-width: 800px; margin: 0 auto;">
-      <h3>We're Probably Not a Fit If...</h3>
-      <p>You want the cheapest break/fix hourly guy, you need 24/7 onsite engineers, or you run only Linux servers. We specialize in Microsoft SMEs in Gauteng who want predictable IT and real security — not just password resets.</p>
-      <p style="margin-top: 16px; font-style: italic;">If that’s you, we’ll tell you upfront and refer you to someone better suited.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ 
-<section class="topics-section" style="background: #0f172a;">
+<!-- FAQ -->
+<section class="section topics-section">
   <div class="container">
     <h2>Common Questions</h2>
-    <div class="grid">
-      <div class="card tech-card">
+    <div class="faq-grid">
+      <div class="glass-card tech-card reveal">
         <h3>Do I have to sign a 12-month contract?</h3>
         <p>No. Month-to-month after first 90 days. We earn your business monthly. The R950 check has zero obligation.</p>
       </div>
-      <div class="card tech-card">
+      <div class="glass-card tech-card reveal">
         <h3>What if we already have an IT guy?</h3>
         <p>Perfect. Our Co-Managed plan covers security + M365 + backups so he can focus on staff and projects. We escalate to each other.</p>
       </div>
-      <div class="card tech-card">
+      <div class="glass-card tech-card reveal">
         <h3>How fast is support?</h3>
-        <p>8-5 helpdesk: &lt;1hr first response. Critical outages: 15min. Pro plan includes after-hours. We track every ticket and send you monthly reports.</p>
+        <p>8-5 helpdesk: <1hr first response. Critical outages: 15min. Pro plan includes after-hours. We track every ticket.</p>
       </div>
-      <div class="card tech-card">
-        <h3>Do you support Mac / Google Workspace?</h3>
-        <p>Yes for Mac. For Google Workspace, we can monitor and back it up, but 90% of our clients are Microsoft. We’ll tell you upfront if we’re not a fit.</p>
+      <div class="glass-card tech-card reveal">
+        <h3>Do you support Mac?</h3>
+        <p>Yes. We manage Macs via Jamf. 90% of our clients are Microsoft, but we'll tell you upfront if we're not a fit.</p>
       </div>
-      <div class="card tech-card">
-        <h3>Is the R950 deductible if I don’t proceed?</h3>
-        <p>The R950 report is yours forever, even if you never use us again. 7/10 businesses ask us to fix what we find, but there’s zero pressure.</p>
+      <div class="glass-card tech-card reveal">
+        <h3>Is the R950 deductible?</h3>
+        <p>The R950 report is yours forever, even if you never use us again. 7/10 businesses ask us to fix what we find, but zero pressure.</p>
       </div>
-      <div class="card tech-card">
+      <div class="glass-card tech-card reveal">
         <h3>Can you work remotely?</h3>
         <p>Yes. Pretoria & Centurion we come onsite. Anywhere else in SA: secure remote session. 90% of issues are fixed remotely anyway.</p>
       </div>
     </div>
   </div>
-</section>-->
+</section>
 
-<!-- CREDIBILITY STRIP 
-<section class="cert-section">
-  <div class="container">
-    <p class="section-intro">| Microsoft 365 Certified |</p>
-      </div>
-</section>-->
-
-<!-- DUAL CTA - SIDE BY SIDE -->
+<!-- DUAL CTA -->
 <section style="padding: 0;">
   <div class="dual-cta-grid">
-    <!-- Left: R950 CTA -->
     <div class="dual-cta-card" style="background: linear-gradient(135deg, #1e40af, #1e3a8a);">
       <div class="container">
         <h2 style="color: white;">Not Ready for Monthly? Start Here.</h2>
         <p style="color: #bfdbfe; margin: 16px auto 32px; max-width: 500px;">
-          Our R950 IT Health Check finds your 3 biggest risks in 48 hours. No obligation to continue. If we don’t find anything, we tell you and part as friends.
+          Our R950 IT Health Check finds your 3 biggest risks in 48 hours. No obligation. If we find nothing, we tell you and part as friends.
         </p>
         <a href="r950-check.html" class="btn-primary" style="background: white; color: #1e40af;">Book R950 Check</a>
       </div>
     </div>
-
-    <!-- Right: Guides CTA -->
     <div class="dual-cta-card" style="background: #0f172a;">
       <div class="container">
         <h2 style="color: white;">Not Sure What You Need?</h2>
         <p style="color: #cbd5e1; margin: 16px auto 32px; max-width: 500px;">
-          Read our guides on M365 security and managed IT costs.
+          Read our guides on M365 security and managed IT costs. No email required.
         </p>
-        <div class="hero-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
           <a href="m365-security-checklist.html" class="btn-secondary">M365 Security Guide</a>
-          <a href="managed-it-vs-break-fix-cost.html" class="btn-secondary">Managed IT Cost Breakdown</a>
+          <a href="managed-it-vs-break-fix-cost.html" class="btn-secondary">Cost Breakdown</a>
         </div>
       </div>
     </div>
@@ -541,89 +573,81 @@ section.process-section * {
 </section>
 
 <!-- FINAL CTA -->
-<section class="cta-section final-cta" style="padding: 80px 0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-  <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 0 24px;">
-    <h2 style="font-size: 2rem; margin-bottom: 20px; color: #ffffff;">Stop Guessing About Your IT Risks</h2>
-    <p style="font-size: 1.125rem; color: #cbd5e1; margin: 0 auto 32px; line-height: 1.6; max-width: 600px;">
+<section class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+  <div class="container" style="max-width: 800px; text-align: center;">
+    <h2>Stop Guessing About Your IT Risks</h2>
+    <p style="font-size: 1.125rem; color: var(--text-muted); margin: 0 auto 32px; max-width: 600px;">
       Start with the R950 IT Health Check. Get a plain-English report in 90 minutes. No obligation to continue.
     </p>
-    <div class="cta-buttons" style="display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 24px;">
-      <a href="r950-check.html" class="btn-primary" style="padding: 14px 32px; font-size: 1rem; font-weight: 600; min-width: 200px;">Book My R950 Check</a>
-      <a href="https://wa.me/27680330794" class="btn-secondary" style="padding: 14px 32px; font-size: 1rem; font-weight: 600; min-width: 200px;">WhatsApp Us First</a>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+      <a href="r950-check.html" class="btn-primary">Book My R950 Check</a>
+      <a href="https://wa.me/27680330794" class="btn-secondary">WhatsApp Us First</a>
     </div>
-    <p style="font-size: 0.95rem; color: #94a3b8; margin: 0;">7/10 businesses ask us to fix what we find. But you decide.</p>
+    <p style="font-size: 0.95rem; color: var(--text-muted);">7/10 businesses ask us to fix what we find. But you decide.</p>
   </div>
 </section>
 
-<!-- STICKY BOTTOM CTA - ONLY BAR ON SERVICES PAGE -->
-<div class="bottom-nav" style="position: sticky; bottom: 0; z-index: 998; background: #020617; border-top: 2px solid #38bdf8;">
-  <a href="r950-check.html" style="flex-direction: row; gap: 10px; font-weight: 600;"><span>🔍</span><p>R950 Check</p></a>
-  <a href="https://wa.me/27680330794" style="flex-direction: row; gap: 10px; font-weight: 600;"><span>💬</span><p>WhatsApp</p></a>
-  <a href="tel:+27680330794" style="flex-direction: row; gap: 10px; font-weight: 600;"><span>📞</span><p>Call</p></a>
+<!-- STICKY BOTTOM CTA -->
+<div class="bottom-nav" style="position: sticky; bottom: 0; z-index: 998; background: var(--bg-dark); border-top: 2px solid var(--accent); display: flex; justify-content: space-around; padding: 12px;">
+  <a href="r950-check.html" style="display:flex;flex-direction:row;gap:10px;font-weight:600;color:var(--text);text-decoration:none;"><span>🔍</span><p>R950 Check</p></a>
+  <a href="https://wa.me/27680330794" style="display:flex;flex-direction:row;gap:10px;font-weight:600;color:var(--text);text-decoration:none;"><span>💬</span><p>WhatsApp</p></a>
+  <a href="tel:+27680330794" style="display:flex;flex-direction:row;gap:10px;font-weight:600;color:var(--text);text-decoration:none;"><span>📞</span><p>Call</p></a>
 </div>
 
-<footer>
-<div class="container">
-<p>© 2026 NextGrid Technologies</p>
-</div>
+<footer style="background:#0b1220;padding:40px 0;text-align:center;">
+  <div class="container">
+    <p style="color:var(--text-muted);">© 2026 NextGrid Technologies | POPIA Compliant</p>
+  </div>
 </footer>
 
-<!-- Supabase library for header auth state only -->
-<script src="js/supabase.min.js"></script>
 <script>
-    // Initialize Supabase Client
-    const supabaseClient = supabase.createClient(
-        'https://tirkqybcedxfusifslim.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8',
-        { auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true } }
-    );
+// Scroll Reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.1 });
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const adminLinkContainer = document.getElementById('adminLinkContainer');
-        const loginLogoutLink = document.getElementById('loginLogoutLink');
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Check user session
-        const { data: { user }, error } = await supabaseClient.auth.getUser();
+// Count Up Animation
+const countUp = (el) => {
+  const target = parseFloat(el.dataset.count);
+  const duration = 2000;
+  const step = target / (duration / 16);
+  let current = 0;
+  
+  const update = () => {
+    current += step;
+    if (current < target) {
+      el.textContent = Math.floor(current).toLocaleString();
+      requestAnimationFrame(update);
+    } else {
+      el.textContent = target.toLocaleString();
+    }
+  };
+  update();
+};
 
-        if (user) {
-            // User is logged in
-            loginLogoutLink.textContent = 'Logout';
-            loginLogoutLink.href = '#';
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+      countUp(entry.target);
+      entry.target.classList.add('counted');
+    }
+  });
+}, { threshold: 0.5 });
 
-            loginLogoutLink.onclick = async (e) => {
-                e.preventDefault();
-                await supabaseClient.auth.signOut();
-                window.location.href = 'login.html';
-            };
+document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
 
-            // Fetch user role
-            const { data: profileData, error: profileError } = await supabaseClient
-               .from('profiles')
-               .select('role')
-               .eq('user_id', user.id)
-               .single();
-
-            if (!profileError && profileData && profileData.role === 'admin') {
-                adminLinkContainer.innerHTML = '<a href="admin_dashboard.html" class="nav-cta">Admin Panel</a>';
-            } else {
-                adminLinkContainer.innerHTML = '';
-            }
-        } else {
-            // User is not logged in
-            loginLogoutLink.textContent = 'Client Login';
-            loginLogoutLink.href = 'login.html';
-            adminLinkContainer.innerHTML = '';
-        }
-
-        // Hamburger menu functionality
-        const hamburger = document.getElementById("hamburger");
-        const navMenu = document.getElementById("navMenu");
-        if (hamburger && navMenu) {
-            hamburger.addEventListener("click", () => {
-                navMenu.classList.toggle("active");
-            });
-        }
-    });
+// Supabase auth
+const supabaseClient = supabase.createClient(
+  'https://tirkqybcedxfusifslim.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcmtxeWJjZWR4ZnVzaWZzbGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjA4NDcsImV4cCI6MjA5MDQzNjg0N30.EQufAux8VmjAzDeIj8MrmqXaIDBfsCpbj2FUS60e5-8'
+);
 </script>
+<script src="js/supabase.min.js"></script>
 </body>
 </html>
