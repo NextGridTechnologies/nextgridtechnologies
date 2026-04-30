@@ -229,6 +229,83 @@
   color: #fff;
   margin-bottom: 16px;
 }
+  /* ========= PROOF BLOCKS ========= */
+.proof-block {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.proof-block:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 10px 40px rgba(56, 189, 248, 0.15);
+}
+
+.proof-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.proof-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.proof-header h3 {
+  color: #38bdf8;
+  font-size: 1.5rem;
+  margin: 0 0 4px 0;
+}
+
+.proof-sla {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.proof-body p {
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.proof-example {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 3px solid #38bdf8;
+  padding: 16px 20px;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+}
+
+.proof-example strong {
+  color: #38bdf8;
+}
+
+/* FAQ Accordion - reuse from previous answer */
+.faq-accordion { display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: #1e293b; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; overflow: hidden; transition: all 0.3s ease; }
+.faq-item:hover { border-color: #38bdf8; }
+.faq-item.active { border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.15); }
+.faq-question { width: 100%; background: transparent; border: none; padding: 24px 28px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; color: #ffffff; font-size: 1.125rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: color 0.3s; }
+.faq-question:hover { color: #38bdf8; }
+.faq-icon { font-size: 1.5rem; font-weight: 300; color: #38bdf8; transition: transform 0.3s ease; flex-shrink: 0; }
+.faq-item.active .faq-icon { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.faq-answer p { padding: 0 28px 24px; margin: 0; color: #e2e8f0; line-height: 1.8; font-size: 1rem; }
+.faq-item.active .faq-answer { max-height: 300px; }
+
+@media (max-width: 768px) {
+  .proof-header { flex-direction: column; }
+  .faq-question { padding: 20px; font-size: 1rem; }
+  .faq-answer p { padding: 0 20px 20px; }
+}
 </style>
 
 <script type="application/ld+json">
@@ -285,51 +362,74 @@
   </div>
 </section>
 
-<!-- MANAGED IT SUPPORT -->
-<section class="services-snapshot">
+
+<!-- MANAGED IT SUPPORT - PROOF DRIVEN -->
+<section class="section" style="background:#0b1220; padding:100px 0;">
   <div class="container">
-    <h2>One Team. Every IT Problem Solved.</h2>
-    <p class="section-intro">R200/user/month covers 95% of what breaks in a normal SME. No hourly bills.</p>
+    <h2 style="text-align:center; font-size:2.5rem; color:#fff; margin-bottom:16px;">One Team. Every IT Problem Solved.</h2>
+    <p style="text-align:center; color:#94a3b8; max-width:65ch; margin:0 auto 60px; font-size:1.125rem;">
+      R200/user/month covers 95% of what breaks. No hourly bills. Here's exactly what happens when things go wrong:
+    </p>
     
-    <div class="support-grid">
-      <div class="support-card">
-        <h3>🔒 Microsoft 365 Managed</h3>
-        <ul>
-          <li>24/7 monitoring + security alerts</li>
-          <li>User setup/leaver in 1 hour</li>
-          <li>Email, Teams, SharePoint support</li>
-          <li>MFA, Conditional Access, DLP policies</li>
-          <li>Monthly security score report</li>
-          <li>License optimization — stop paying for unused</li>
-        </ul>
+    <!-- SLA PROOF BLOCKS - Replace the support-grid -->
+    <div style="max-width:900px; margin:0 auto;">
+      
+      <!-- Block 1 -->
+      <div class="proof-block">
+        <div class="proof-header">
+          <span class="proof-icon">🔒</span>
+          <div>
+            <h3>Microsoft 365 Managed</h3>
+            <p class="proof-sla">Response: 30min avg | Resolution: 2hrs avg</p>
+          </div>
+        <div class="proof-body">
+          <p><strong>What we actually do:</strong> User locked out. MFA reset. Phishing email quarantined. License added. SharePoint permissions fixed.</p>
+          <div class="proof-example">
+            <strong>Last week:</strong> "Finance manager locked out before month-end. Reset + new device enrolled in 12min. Payroll ran on time."
+          </div>
+        </div>
       </div>
-      <div class="support-card">
-        <h3>🛠️ On-Site & Remote Support</h3>
-        <ul>
-          <li>Same-day callout Pretoria/Centurion/JHB</li>
-          <li>Unlimited remote support 7am-6pm</li>
-          <li>PC setups, virus removal, printer fixes</li>
-          <li>New staff onboarding kits</li>
-          <li>Loan laptop if yours dies</li>
-          <li>Wi-Fi surveys + optimization</li>
-        </ul>
+
+      <!-- Block 2 -->
+      <div class="proof-block">
+        <div class="proof-header">
+          <span class="proof-icon">🛠️</span>
+          <div>
+            <h3>On-Site & Remote Support</h3>
+            <p class="proof-sla">Same-day Pretoria/Centurion | Unlimited remote 7am-6pm</p>
+          </div>
+        </div>
+        <div class="proof-body">
+          <p><strong>What we actually do:</strong> PC won't boot. Printer offline. Wi-Fi dead zone. New staff onboarding. Loan laptop if yours dies.</p>
+          <div class="proof-example">
+            <strong>Real ticket:</strong> "Server room AC failed Saturday 2am. We got alert, drove out, moved server, client woke to 'All systems normal' email."
+          </div>
+        </div>
       </div>
-      <div class="support-card">
-        <h3>☁️ Backup & Security</h3>
-        <ul>
-          <li>Daily immutable cloud backups</li>
-          <li>Ransomware protection + EDR</li>
-          <li>Tested restores every quarter</li>
-          <li>POPIA compliance assistance</li>
-          <li>Dark web monitoring for your domain</li>
-          <li>BitLocker key escrow to Azure AD</li>
-        </ul>
+
+      <!-- Block 3 -->
+      <div class="proof-block">
+        <div class="proof-header">
+          <span class="proof-icon">☁️</span>
+          <div>
+            <h3>Backup & Security</h3>
+            <p class="proof-sla">Daily immutable backups | Tested restores quarterly</p>
+          </div>
+        </div>
+        <div class="proof-body">
+          <p><strong>What we actually do:</strong> Daily M365 backup. Ransomware rollback. POPIA DLP policies. BitLocker key escrow. Dark web monitoring.</p>
+          <div class="proof-example">
+            <strong>Proof:</strong> "Law firm partner deleted entire SharePoint. We restored 847 files from 3 days ago in 18 minutes. Billable hours saved: ~R40k."
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="price-strip">
-      <h3>From R200 per user / month</h3>
-      <p>No contracts. 30-day cancellation. Hardware, projects & licenses billed separately.</p>
+    <!-- PRICING ANCHOR - Replace price-strip -->
+    <div style="background:linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%); color:#020617; text-align:center; padding:32px; border-radius:16px; margin:60px auto; max-width:700px;">
+      <h3 style="font-size:2rem; margin:0 0 8px 0; color:#020617;">R200 per user / month</h3>
+      <p style="margin:0 0 16px 0; font-weight:500; font-size:1.1rem;">10 users = R2,000/mo. Includes everything above.</p>
+      <p style="margin:0; font-size:0.95rem; opacity:0.9;"><strong>Not included:</strong> New projects, hardware, M365 licenses. No contracts. 30-day cancellation.</p>
     </div>
   </div>
 </section>
@@ -486,35 +586,63 @@
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="topics-section" style="background: #0f172a;">
+<!-- FAQ - ACCORDION VERSION -->
+<section class="section" style="background: #0f172a; padding:80px 0;">
   <div class="container">
-    <h2>Common Questions</h2>
-    <div class="grid">
-      <div class="card tech-card">
-        <h3>Do I have to sign a 12-month contract?</h3>
-        <p>No. Month-to-month after first 90 days. We earn your business monthly. The R950 check has zero obligation.</p>
+    <h2 style="text-align:center; color:#fff; font-size:2.5rem; margin-bottom:48px;">Common Questions</h2>
+    
+    <div class="faq-accordion" style="max-width: 900px; margin: 0 auto;">
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Do I have to sign a 12-month contract?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>No. Month-to-month after first 90 days. We earn your business monthly. The R950 check has zero obligation. Leave anytime, take all your passwords + docs with you.</p>
+        </div>
       </div>
-      <div class="card tech-card">
-        <h3>What if we already have an IT guy?</h3>
-        <p>Perfect. Our Co-Managed plan covers security + M365 + backups so he can focus on staff and projects. We escalate to each other.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What if we already have an IT guy?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Perfect. Our Co-Managed plan covers security + M365 + backups so he can focus on staff and projects. We escalate to each other. You get 24/7 coverage without hiring.</p>
+        </div>
       </div>
-      <div class="card tech-card">
-        <h3>How fast is support?</h3>
-        <p>8-5 helpdesk: &lt;1hr first response. Critical outages: 15min. Pro plan includes after-hours. We track every ticket and send you monthly reports.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>How fast is support really?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>8-5 helpdesk: &lt;1hr first response, 30min average. Critical outages: 15min. Pro plan includes after-hours. We track every ticket and send you monthly reports showing actual times. Ask us for last month's report.</p>
+        </div>
       </div>
-      <div class="card tech-card">
-        <h3>Do you support Mac / Google Workspace?</h3>
-        <p>Yes for Mac. For Google Workspace, we can monitor and back it up, but 90% of our clients are Microsoft. We’ll tell you upfront if we’re not a fit.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What's NOT included in R200/mo?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>New projects: Office moves, new server installs, Wi-Fi cabling. Hardware: Laptops, switches. M365 licenses: You pay Microsoft direct, we manage it. Everything else — fixes, monitoring, backups, helpdesk — is included.</p>
+        </div>
       </div>
-      <div class="card tech-card">
-        <h3>Is the R950 deductible if I don’t proceed?</h3>
-        <p>The R950 report is yours forever, even if you never use us again. 7/10 businesses ask us to fix what we find, but there’s zero pressure.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Can you work remotely if we're not in Pretoria?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Yes. 90% of issues are fixed remotely via secure session. On-site is Pretoria/Centurion/JHB only. Outside Gauteng: we partner with local techs for hardware, we handle all remote/monitoring.</p>
+        </div>
       </div>
-      <div class="card tech-card">
-        <h3>Can you work remotely?</h3>
-        <p>Yes. Pretoria & Centurion we come onsite. Anywhere else in SA: secure remote session. 90% of issues are fixed remotely anyway.</p>
-      </div>
+
     </div>
   </div>
 </section>
