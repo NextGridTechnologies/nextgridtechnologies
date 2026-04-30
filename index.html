@@ -357,7 +357,7 @@ initHeader();
 </section>
 
 
-<!-- NextGrid CTA Bar v3 - With Favicon + Copy Phone -->
+<!-- NextGrid CTA Bar v3 - Single Row Buttons -->
 <section style="background:#0F172A; padding:36px 16px; text-align:center; border-top:3px solid #00A86B;">
   <!-- Logo using your favicon -->
   <img src="https://nextgridtechnologies.co.za/illustrations/favicon.ico" 
@@ -371,21 +371,43 @@ initHeader();
     R950 flat-fee POPIA health check. Remote across SA. On-site Pretoria & Centurion.
   </p>
   
-  <!-- CTA Buttons -->
-  <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:16px;">
-  <!-- Smart Phone Button -->
-  <div style="position:relative;">
-    <a href="tel:+27680330794" 
-       id="ng-phone-btn"
-       style="background:#00A86B; color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,168,107,0.25);">
-      📞 068 033 0794 
-    </a>
-    <div id="ng-copy-tooltip"
-         style="display:none; position:absolute; top:-42px; left:50%; transform:translateX(-50%); background:#1E293B; color:#fff; padding:6px 12px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap;">
-      Copied!
+  <!-- CTA Buttons - ALL IN ONE ROW -->
+  <div style="display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+    
+    <!-- Smart Phone Button -->
+    <div style="position:relative;">
+      <a href="tel:+27680330794" 
+         id="ng-phone-btn"
+         style="background:#00A86B; color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,168,107,0.25); white-space:nowrap;">
+        📞 068 033 0794 
+      </a>
+      <div id="ng-copy-tooltip"
+           style="display:none; position:absolute; top:-42px; left:50%; transform:translateX(-50%); background:#1E293B; color:#fff; padding:6px 12px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap; z-index:10;">
+        Copied!
+      </div>
     </div>
+    
+    <!-- Email Button -->
+    <a href="mailto:info@nextgridtechnologies.co.za?subject=Urgent%3A%20M365%20Risk%20Check%20-%20%5BCompany%5D&body=Hi%20NextGrid%20team%2C%0A%0AI%20need%20to%20check%20if%20our%20Microsoft%20365%20is%20POPIA%20compliant.%20We%20have%20~___%20users.%0A%0ASend%20me%3A%0A1.%20Next%20audit%20slots%0A2.%20What%20you%20need%20to%20start%0A%0AThanks%2C%0A%5BName%5D" 
+       style="background:#FFFFFF; color:#0F172A; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; white-space:nowrap;">
+      📧 Email
+    </a>
+    
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/27680330794?text=Hi%20NextGrid%20👋%20%0A%0AI%20run%20a%20business%20in%20___%20and%20worry%20about%20POPIA%20fines.%20Can%20you%20run%20the%20R950%20health%20check%3F%0A%0AUsers%3A%20~___%0A" 
+       style="background:#25D366; color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(37,211,102,0.25); white-space:nowrap;">
+      💬 WhatsApp
+    </a>
+    
   </div>
-</div>
+
+  <p style="color:#FBBF24; font-size:15px; font-weight:600; margin:0 0 8px 0;">
+    ⚡ 2x R750 Launch Slots Left This Month
+  </p>
+  <p style="color:#94A3B8; font-size:14px; margin:0;">
+    Avg reply: 15 min, 8am-5pm | 7/10 SMEs ask us to fix what we find
+  </p>
+</section>
 
 <script>
 // Detect if mobile/touch device
@@ -413,26 +435,6 @@ if (!isMobile) {
   phoneBtn.title = 'Click to copy number';
 }
 </script>
-    
-    <a href="mailto:info@nextgridtechnologies.co.za?subject=Urgent%3A%20M365%20Risk%20Check%20-%20%5BCompany%5D&body=Hi%20NextGrid%20team%2C%0A%0AI%20need%20to%20check%20if%20our%20Microsoft%20365%20is%20POPIA%20compliant.%20We%20have%20~___%20users.%0A%0ASend%20me%3A%0A1.%20Next%20audit%20slots%0A2.%20What%20you%20need%20to%20start%0A%0AThanks%2C%0A%5BName%5D" 
-       style="background:#FFFFFF; color:#0F172A; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px;">
-      📧 Email
-    </a>
-    
-    <a href="https://wa.me/27680330794?text=Hi%20NextGrid%20👋%20%0A%0AI%20run%20a%20business%20in%20___%20and%20worry%20about%20POPIA%20fines.%20Can%20you%20run%20the%20R950%20health%20check%3F%0A%0AUsers%3A%20~___%0A" 
-       style="background:#25D366; color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(37,211,102,0.25);">
-      💬 WhatsApp
-    </a>
-  </div>
-
-  <p style="color:#FBBF24; font-size:15px; font-weight:600; margin:0 0 8px 0;">
-    ⚡ 2x R750 Launch Slots Left This Month
-  </p>
-  <p style="color:#94A3B8; font-size:14px; margin:0;">
-    Avg reply: 15 min, 8am-5pm | 7/10 SMEs ask us to fix what we find
-  </p>
-</section>
-
 <script>
 // Show "Click to copy" on desktop, keep tel: link on mobile
 function setupCallButton() {
