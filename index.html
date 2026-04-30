@@ -373,19 +373,46 @@ initHeader();
   
   <!-- CTA Buttons -->
   <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:16px;">
-    <!-- Desktop: Copy | Mobile: Call -->
-    <div style="position:relative;">
-      <a href="tel:+27680330794" 
-         id="ng-call-btn"
-         style="background:#00A86B; color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,168,107,0.25);">
-        📞 068 033 0794
-      </a>
-      <button onclick="copyPhone()" 
-              id="ng-copy-btn"
-              style="display:none; position:absolute; top:-38px; left:50%; transform:translateX(-50%); background:#1E293B; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap; cursor:pointer;">
-        📋 Click to copy
-      </button>
+  <!-- Smart Phone Button -->
+  <div style="position:relative;">
+    <a href="tel:+27680330794" 
+       id="ng-phone-btn"
+       style="background:#00A86B; color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,168,107,0.25);">
+      📞 068 033 0794 
+    </a>
+    <div id="ng-copy-tooltip"
+         style="display:none; position:absolute; top:-42px; left:50%; transform:translateX(-50%); background:#1E293B; color:#fff; padding:6px 12px; border-radius:6px; font-size:13px; font-weight:600; white-space:nowrap;">
+      Copied!
     </div>
+  </div>
+</div>
+
+<script>
+// Detect if mobile/touch device
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || ('ontouchstart' in window);
+
+const phoneBtn = document.getElementById('ng-phone-btn');
+const tooltip = document.getElementById('ng-copy-tooltip');
+
+phoneBtn.addEventListener('click', function(e) {
+  if (!isMobile) {
+    // Desktop: copy instead of calling
+    e.preventDefault();
+    navigator.clipboard.writeText('+27680330794').then(() => {
+      tooltip.style.display = 'block';
+      setTimeout(() => {
+        tooltip.style.display = 'none';
+      }, 1500);
+    });
+  }
+  // Mobile: do nothing, let tel: link work naturally
+});
+
+// Optional: Show "Click to copy" hint on desktop hover
+if (!isMobile) {
+  phoneBtn.title = 'Click to copy number';
+}
+</script>
     
     <a href="mailto:info@nextgridtechnologies.co.za?subject=Urgent%3A%20M365%20Risk%20Check%20-%20%5BCompany%5D&body=Hi%20NextGrid%20team%2C%0A%0AI%20need%20to%20check%20if%20our%20Microsoft%20365%20is%20POPIA%20compliant.%20We%20have%20~___%20users.%0A%0ASend%20me%3A%0A1.%20Next%20audit%20slots%0A2.%20What%20you%20need%20to%20start%0A%0AThanks%2C%0A%5BName%5D" 
        style="background:#FFFFFF; color:#0F172A; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:16px; display:inline-flex; align-items:center; gap:8px;">
