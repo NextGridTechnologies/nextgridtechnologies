@@ -155,6 +155,124 @@
     font-size: 1.75rem;
   }
 }
+  /* ========= INDUSTRIES CAROUSEL ========= */
+.industries-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.industries-carousel::before,
+.industries-carousel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.industries-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, #0f172a, transparent);
+}
+
+.industries-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, #0f172a, transparent);
+}
+
+.industry-track {
+  display: flex;
+  gap: 24px;
+  animation: scroll-industries 40s linear infinite;
+  width: max-content;
+  padding: 0 24px;
+}
+
+.industry-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-industries {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.industry-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.6));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  padding: 32px 28px;
+  min-width: 320px;
+  max-width: 320px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.industry-card:hover {
+  border-color: #38bdf8;
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+}
+
+.industry-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.industry-card h3 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.industry-card p {
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Mobile: Show scroll hint + enable manual scroll */
+@media (max-width: 768px) {
+  .industries-carousel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .industry-track {
+    animation: none;
+    padding: 0 16px;
+  }
+  
+  .industry-card {
+    scroll-snap-align: start;
+    min-width: 280px;
+  }
+  
+  .scroll-hint {
+    display: block !important;
+  }
+  
+  .industries-carousel::before,
+  .industries-carousel::after {
+    display: none;
+  }
+}
+
+/* Accessibility: Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .industry-track {
+    animation: none;
+  }
+}
   </style>
 <div id="header"></div>
 <!-- your page content -->
@@ -624,56 +742,73 @@ function copyPhone() {
 document.addEventListener('DOMContentLoaded', setupCallButton);
 </script>
   
-<!-- Service Focus -->
-<section class="areas">
+<!-- Who We Help - Horizontal Scroll Carousel -->
+<section class="section" style="background: #0f172a; padding: 80px 0; overflow: hidden;">
   <div class="container">
-    <h2>Who We Help</h2>
-    <p class="section-intro">We work with growing teams (5–50 staff) that rely on email and client files every day.</p>
-    <div class="areas-grid">
-  <div class="area-card">
-    <div class="area-icon">
-      <img src="illustrations/professional-services.jpg" alt="Professional Services" loading="lazy">
-    </div>
-    <h3>Professional Services</h3>
-    <p>Agencies, consultants, and service firms needing secure email + file access.</p>
+    <h2 style="text-align:center; color:#fff; font-size:2.5rem; margin-bottom:16px;">Who We Help</h2>
+    <p class="section-intro" style="color:#94a3b8; text-align:center; max-width:65ch; margin:0 auto 48px; font-size:1.125rem;">
+      Growing teams (5–50 staff) that rely on email and client files every day.
+    </p>
   </div>
-  <div class="area-card">
-    <div class="area-icon">
-      <img src="illustrations/accounting.jpg" alt="Accounting & Bookkeeping" loading="lazy">
+
+  <!-- Scrolling Carousel -->
+  <div class="industries-carousel" id="industries-scroll">
+    <div class="industry-track">
+      <!-- Duplicate set for infinite scroll effect -->
+      <div class="industry-card">
+        <div class="industry-icon">⚖️</div>
+        <h3>Professional Services</h3>
+        <p>Agencies, consultants needing secure email + file access.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">📊</div>
+        <h3>Accounting & Bookkeeping</h3>
+        <p>SARS deadlines, payroll files — all protected and backed up.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">👔</div>
+        <h3>Legal & Consulting</h3>
+        <p>Confidential docs, POPIA compliance, secure sharing.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🏥</div>
+        <h3>Medical & Dental</h3>
+        <p>Patient records, practice software that can't go down.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🛍️</div>
+        <h3>Retail & E-commerce</h3>
+        <p>POS systems, online stores, customer data security.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🔨</div>
+        <h3>Contractors & Field</h3>
+        <p>Quotes, invoices, team comms from site to office.</p>
+      </div>
+      
+      <!-- Duplicate for seamless loop -->
+      <div class="industry-card">
+        <div class="industry-icon">⚖️</div>
+        <h3>Professional Services</h3>
+        <p>Agencies, consultants needing secure email + file access.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">📊</div>
+        <h3>Accounting & Bookkeeping</h3>
+        <p>SARS deadlines, payroll files — all protected and backed up.</p>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">👔</div>
+        <h3>Legal & Consulting</h3>
+        <p>Confidential docs, POPIA compliance, secure sharing.</p>
+      </div>
     </div>
-    <h3>Accounting & Bookkeeping</h3>
-    <p>SARS deadlines, payroll files, client data — all protected and backed up.</p>
   </div>
-  <div class="area-card">
-    <div class="area-icon">
-      <img src="illustrations/legal.jpg" alt="Legal & Consulting Firms" loading="lazy">
-    </div>
-    <h3>Legal & Consulting</h3>
-    <p>Confidential client docs, POPIA compliance, and secure sharing.</p>
-  </div>
-  <div class="area-card">
-    <div class="area-icon">
-      <img src="illustrations/medical.jpg" alt="Medical & Dental Practices" loading="lazy">
-    </div>
-    <h3>Medical & Dental</h3>
-    <p>Patient records, practice software, and email that can’t go down.</p>
-  </div>
-  <div class="area-card">
-    <div class="area-icon">
-      <img src="illustrations/retail.jpg" alt="Retail & E-commerce" loading="lazy">
-    </div>
-    <h3>Retail & E-commerce</h3>
-    <p>POS systems, online stores, and customer data security.</p>
-  </div>
-  <div class="area-card">
-    <div class="area-icon">
-      <img src="illustrations/contractors.jpg" alt="Contractors & Field Services" loading="lazy">
-    </div>
-    <h3>Contractors & Field</h3>
-    <p>Quotes, invoices, and team comms from site to office.</p>
-  </div>
-</div>
-</div>
+
+  <!-- Scroll hint on mobile -->
+  <p style="text-align:center; color:#64748b; font-size:0.9rem; margin-top:24px; display:none;" class="scroll-hint">
+    ← Swipe to see more →
+  </p>
 </section>
 
 <!-- Contact / Sign Up -->
