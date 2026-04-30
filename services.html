@@ -436,6 +436,106 @@ a:focus-visible, button:focus-visible {
   opacity: 1 !important;
   transform: none !important;
 }
+  /* ========= FAQ ACCORDION ========= */
+.topics-section {
+  background: #0f172a !important;
+  padding: 80px 0;
+}
+
+.topics-section h2 {
+  text-align: center !important;
+  color: #ffffff !important;
+  margin-bottom: 48px !important;
+  font-size: 2rem !important;
+}
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: #38bdf8;
+}
+
+.faq-item.active {
+  border-color: #38bdf8;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.faq-question {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 24px 28px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  transition: color 0.3s;
+}
+
+.faq-question:hover {
+  color: #38bdf8;
+}
+
+.faq-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #38bdf8;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-answer p {
+  padding: 0 28px 24px;
+  margin: 0;
+  color: #e2e8f0;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 300px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .faq-question {
+    padding: 20px;
+    font-size: 1rem;
+  }
+  .faq-answer p {
+    padding: 0 20px 20px;
+  }
+}
 </style>
 </head>
 <body>
@@ -621,35 +721,74 @@ a:focus-visible, button:focus-visible {
   </div>
 </section>
 
-<!-- FAQ - FIXED COLORS -->
-<section class="section topics-section">
+
+<!-- FAQ ACCORDION -->
+<section class="section topics-section" style="background: #0f172a;">
   <div class="container">
-    <h2>Common Questions</h2>
-    <div class="faq-grid">
-      <div class="tech-card reveal">
-        <h3>Do I have to sign a 12-month contract?</h3>
-        <p>No. Month-to-month after first 90 days. We earn your business monthly. The R950 check has zero obligation.</p>
+    <h2 style="text-align:center; color:#fff; font-size:2.5rem; margin-bottom:48px;">Common Questions</h2>
+    
+    <div class="faq-accordion" style="max-width: 900px; margin: 0 auto;">
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Do I have to sign a 12-month contract?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>No. Month-to-month after first 90 days. We earn your business monthly. The R950 check has zero obligation.</p>
+        </div>
       </div>
-      <div class="tech-card reveal">
-        <h3>What if we already have an IT guy?</h3>
-        <p>Perfect. Our Co-Managed plan covers security + M365 + backups so he can focus on staff and projects. We escalate to each other.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What if we already have an IT guy?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Perfect. Our Co-Managed plan covers security + M365 + backups so he can focus on staff and projects. We escalate to each other. You get 24/7 coverage without hiring.</p>
+        </div>
       </div>
-      <div class="tech-card reveal">
-        <h3>How fast is support?</h3>
-        <p>8-5 helpdesk: <1hr first response. Critical outages: 15min. Pro plan includes after-hours. We track every ticket.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>How fast is support?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>8-5 helpdesk: &lt;1hr first response, 30min average. Critical outages: 15min. Pro plan includes after-hours. We track every ticket and send you monthly reports showing response times.</p>
+        </div>
       </div>
-      <div class="tech-card reveal">
-        <h3>Do you support Mac?</h3>
-        <p>Yes. We manage Macs via Jamf. 90% of our clients are Microsoft, but we'll tell you upfront if we're not a fit.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Do you support Mac / Google Workspace?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Yes for Mac via Jamf MDM (+R200/user/mo). For Google Workspace, we can monitor and back it up, but 90% of our clients are Microsoft. We'll tell you upfront if we're not a fit.</p>
+        </div>
       </div>
-      <div class="tech-card reveal">
-        <h3>Is the R950 deductible?</h3>
-        <p>The R950 report is yours forever, even if you never use us again. 7/10 businesses ask us to fix what we find, but zero pressure.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Is the R950 deductible if I don't proceed?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>The R950 report is yours forever, even if you never use us again. 7/10 businesses ask us to fix what we find, but there's zero pressure. No sales calls after.</p>
+        </div>
       </div>
-      <div class="tech-card reveal">
-        <h3>Can you work remotely?</h3>
-        <p>Yes. Pretoria & Centurion we come onsite. Anywhere else in SA: secure remote session. 90% of issues are fixed remotely anyway.</p>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Can you work remotely?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Yes. Pretoria & Centurion we come onsite included in Business plan. Anywhere else in SA: secure remote session via AnyDesk/Splashtop. 90% of issues are fixed remotely anyway.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -752,5 +891,22 @@ const countObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
 </script>
 <script src="js/supabase.min.js"></script>
+  <script>
+// FAQ Accordion Toggle
+function toggleFaq(button) {
+  const item = button.parentElement;
+  const isActive = item.classList.contains('active');
+  
+  // Close all other items
+  document.querySelectorAll('.faq-item').forEach(el => {
+    el.classList.remove('active');
+  });
+  
+  // Toggle current item
+  if (!isActive) {
+    item.classList.add('active');
+  }
+}
+</script>
 </body>
 </html>
