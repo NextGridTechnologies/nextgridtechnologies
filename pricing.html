@@ -194,6 +194,48 @@ section {
   .compare-table { font-size: 0.9rem; }
   .compare-table th, .compare-table td { padding: 12px 8px; }
 }
+  /* ========= FINAL CTA CENTERING ========= */
+.final-cta {
+  text-align: center;
+  background: #0b1220;
+}
+
+.final-cta h2 {
+  color: #fff;
+  margin-bottom: 16px;
+  font-size: 2.5rem;
+}
+
+.final-cta p {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.cta-note {
+  color: #94a3b8 !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .final-cta h2 { font-size: 2rem; }
+  .cta-buttons { flex-direction: column; }
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary { width: 100%; max-width: 300px; }
+}
 </style>
 
 <script type="application/ld+json">
