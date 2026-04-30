@@ -1,5 +1,127 @@
-ccc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounting Firm: From 5 Hours Downtime/Month to Zero | NextGrid</title>
+<meta name="description" content="Pretoria accounting firm losing R12k/month to IT outages. We fixed root cause: failing switch + no monitoring. 6 months zero outages. Here's how.">
+<link rel="icon" href="../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-C9DS2C71G6');</script>
+<style>
+.post-container{max-width:800px;margin:0 auto;padding:80px 24px;color:#e2e8f0}
+.post-container h1{font-size:2.5rem;color:#fff;margin-bottom:16px;line-height:1.2}
+.post-meta{color:#94a3b8;font-size:0.95rem;margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid rgba(56,189,248,0.2)}
+.post-container h2{color:#38bdf8;font-size:1.75rem;margin:48px 0 20px}
+.post-container p{line-height:1.8;margin-bottom:20px;color:#cbd5e1}
+.post-container ul{margin:20px 0 20px 20px;color:#cbd5e1}
+.post-container li{margin-bottom:12px;line-height:1.7}
+.post-container strong{color:#fff}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:32px 0}
+.ba-card{background:#1e293b;border-radius:12px;padding:24px}
+.ba-card h3{color:#38bdf8;margin-top:0}
+.ba-bad{border:1px solid #ef4444}
+.ba-good{border:1px solid #10b981}
+.cta-box{background:linear-gradient(135deg,#38bdf8 0%,#0ea5e9 100%);color:#020617;padding:32px;border-radius:16px;text-align:center;margin:48px 0}
+.cta-box h3{color:#020617;margin:0 0 12px 0}
+@media(max-width:768px){.before-after{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="header"></div>
 
+<article class="post-container">
+  <h1>How We Killed 5 Hours of Monthly Downtime for an Accounting Firm</h1>
+  <div class="post-meta">January 2026 · 5 min read · Client Story</div>
 
+  <p>"Every month-end our server dies." Cost: R12,000 in lost billable hours. Cause: Nobody monitored it. Here's how we fixed it in 90 days.</p>
 
-jzzz
+  <h2>The Before: Break-Fix Chaos</h2>
+  <div class="before-after">
+    <div class="ba-card ba-bad">
+      <h3>❌ Before NextGrid</h3>
+      <ul>
+        <li>IT guy: "Just reboot the server"</li>
+        <li>No monitoring: Issues found when staff complained</li>
+        <li>No logs: Nobody knew why Pastel crashed monthly</li>
+        <li>Hardware: 8-year-old switch, 5-year-old server</li>
+        <li>Backup: External HDD, last tested 2019</li>
+        <li><strong>Monthly cost: R8k break-fix + R12k lost time = R20k</strong></li>
+      </ul>
+    </div>
+    <div class="ba-card ba-good">
+      <h3>✅ After NextGrid</h3>
+      <ul>
+        <li>24/7 monitoring: Alert before staff notice</li>
+        <li>Root cause fixed: New switch + UPS</li>
+        <li>Logs centralised: Know exactly why crashes happen</li>
+        <li>Hardware: Business-grade, 3-year warranty</li>
+        <li>Backup: Daily cloud, tested quarterly</li>
+        <li><strong>Monthly cost: R2,000 managed [10 users]</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>The R950 Audit Findings [23-Point Check]</h2>
+  <ul>
+    <li><strong>Critical:</strong> Switch CRC errors — failing hardware causing network drops</li>
+    <li><strong>Critical:</strong> No UPS on server — load-shedding = hard crashes, database corruption</li>
+    <li><strong>High:</strong> 0% disk monitoring — C: drive at 98%, Pastel crashing from no space</li>
+    <li><strong>High:</strong> Backups failing silently for 6 months — external HDD full</li>
+    <li><strong>Medium:</strong> 15 unused M365 licenses = R1,800/mo wasted</li>
+  </ul>
+
+  <h2>The Fix: 90-Day Plan</h2>
+  <ul>
+    <li><strong>Month 1:</strong> Replace switch [R4,000], add UPS [R3,000], setup PRTG monitoring</li>
+    <li><strong>Month 2:</strong> Migrate Pastel to Azure VM, decommission old server</li>
+    <li><strong>Month 3:</strong> Retire 15 licenses, enable disk alerts, document all passwords in client portal</li>
+    <li><strong>Total cost:</strong> R15,000 once-off + R2,000/mo managed [10 users]</li>
+  </ul>
+
+  <h2>The After: 6 Months Zero Outages</h2>
+  <ul>
+    <li><strong>Downtime:</strong> 5 hours/month → 0 hours</li>
+    <li><strong>Billable hours recovered:</strong> R12,000/month</li>
+    <li><strong>IT cost:</strong> R20,000/mo → R2,000/mo</li>
+    <li><strong>ROI:</strong> 6x in first year</li>
+    <li><strong>Client quote:</strong> "We didn't realize IT could be boring. That's the goal."</li>
+  </ul>
+
+  <h2>The 3 Root Causes We See Everywhere</h2>
+  <ul>
+    <li><strong>1. No monitoring:</strong> "If it ain't broke..." until month-end and it is</li>
+    <li><strong>2. Ancient hardware:</strong> "It still works" until it doesn't during SARS deadline</li>
+    <li><strong>3. No documentation:</strong> IT guy leaves, passwords die with him, nobody can login</li>
+  </ul>
+
+  <div class="cta-box">
+    <h3>R950 Audit Finds Your Root Causes</h3>
+    <p style="color:#020617;opacity:0.9;margin-bottom:20px;">Most fixes are under R5k. We show you exactly what to fix first for max ROI.</p>
+    <a href="../r950-check.html" class="btn-primary" style="background:#020617;color:#38bdf8;">Book Your Health Check</a>
+  </div>
+</article>
+
+<div class="bottom-nav">
+  <a href="../index.html"><span>🏠</span><p>Home</p></a>
+  <a href="../services.html"><span>🛠</span><p>Services</p></a>
+  <a href="../blog.html"><span>📰</span><p>Blog</p></a>
+  <a href="../zoho.html"><span>📞</span><p>Contact</p></a>
+</div>
+
+<footer>
+  <div class="container">
+    <p>© 2026 NextGrid Technologies</p>
+  </div>
+</footer>
+
+<script>
+fetch('../header.html').then(res=>res.text()).then(data=>{
+  document.getElementById('header').innerHTML=data;
+  document.getElementById('hamburger')?.addEventListener('click',()=>{document.getElementById('navMenu')?.classList.toggle('active')});
+});
+</script>
+</body>
+</html>
