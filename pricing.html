@@ -805,6 +805,7 @@ a:focus-visible, button:focus-visible {
   </div>
 </section>
 
+
 <!-- FINAL CTA -->
 <section class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); text-align:center;">
   <div class="container">
@@ -832,56 +833,7 @@ a:focus-visible, button:focus-visible {
 </footer>
 
 <script>
-// Billing Toggle
-document.getElementById('billing-toggle').addEventListener('click', function() {
-  this.classList.toggle('annual');
-  document.getElementById('pricing-container').classList.toggle('annual');
-  document.getElementById('monthly-label').classList.toggle('active');
-  document.getElementById('annual-label').classList.toggle('active');
-});
-
-// Calculator
-const slider = document.getElementById('userSlider');
-const userCount = document.getElementById('userCount');
-const totalCost = document.getElementById('totalCost');
-const pricePerUser = 300; // Business plan
-
-slider.addEventListener('input', function() {
-  const users = this.value;
-  userCount.textContent = users + ' users';
-  totalCost.textContent = (users * pricePerUser).toLocaleString();
-});
-
-// Comparison Accordion
-function toggleCompare(header) {
-  const content = header.nextElementSibling;
-  const icon = header.querySelector('span:last-child');
-  content.classList.toggle('active');
-  icon.textContent = content.classList.contains('active') ? '−' : '+';
-}
-
-// Scroll Reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Header
-fetch('header.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('header').innerHTML = data;
-    document.getElementById('hamburger')?.addEventListener('click', () => {
-      document.getElementById('navMenu')?.classList.toggle('active');
-    });
-  });
-</script>
-  // FAQ Accordion Toggle
+// ========= FAQ ACCORDION TOGGLE =========
 function toggleFaq(button) {
   const item = button.parentElement;
   const isActive = item.classList.contains('active');
@@ -896,5 +848,57 @@ function toggleFaq(button) {
     item.classList.add('active');
   }
 }
+
+// ========= BILLING TOGGLE =========
+document.getElementById('billing-toggle')?.addEventListener('click', function() {
+  this.classList.toggle('annual');
+  document.getElementById('pricing-container').classList.toggle('annual');
+  document.getElementById('monthly-label').classList.toggle('active');
+  document.getElementById('annual-label').classList.toggle('active');
+});
+
+// ========= CALCULATOR =========
+const slider = document.getElementById('userSlider');
+const userCount = document.getElementById('userCount');
+const totalCost = document.getElementById('totalCost');
+const pricePerUser = 300; // Business plan
+
+if (slider) {
+  slider.addEventListener('input', function() {
+    const users = this.value;
+    userCount.textContent = users + ' users';
+    totalCost.textContent = (users * pricePerUser).toLocaleString();
+  });
+}
+
+// ========= COMPARISON ACCORDION =========
+function toggleCompare(header) {
+  const content = header.nextElementSibling;
+  const icon = header.querySelector('span:last-child');
+  content.classList.toggle('active');
+  icon.textContent = content.classList.contains('active') ? '−' : '+';
+}
+
+// ========= SCROLL REVEAL =========
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ========= HEADER LOAD =========
+fetch('header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header').innerHTML = data;
+    document.getElementById('hamburger')?.addEventListener('click', () => {
+      document.getElementById('navMenu')?.classList.toggle('active');
+    });
+  });
+</script>
 </body>
 </html>
