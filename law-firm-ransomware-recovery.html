@@ -3,110 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How We Recovered a Law Firm From Ransomware in 2 Hours | NextGrid</title>
+<title>We Recovered This Law Firm From Ransomware in 2 Hours | NextGrid</title>
 <meta name="description" content="Pretoria law firm hit by crypto-locker Saturday 2am. Back online Monday 9am with zero data loss. Here's the exact backup + response setup that saved them.">
-<link rel="icon" href="favicon.ico">
+<link rel="icon" href="../favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-
-<!-- Google tag -->
+<link rel="stylesheet" href="../styles.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-C9DS2C71G6');
-</script>
-
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-C9DS2C71G6');</script>
 <style>
-.post-content { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
-.post-content h1 { font-size: 2.5rem; color: #fff; line-height: 1.2; margin-bottom: 16px; }
-.post-content h2 { font-size: 1.75rem; color: #38bdf8; margin: 48px 0 16px; }
-.post-content p { color: #cbd5e1; line-height: 1.8; margin-bottom: 20px; font-size: 1.05rem; }
-.post-content ul { color: #cbd5e1; margin: 20px 0; padding-left: 20px; }
-.post-content li { margin-bottom: 12px; line-height: 1.7; }
-.post-content strong { color: #fff; }
-.post-meta { color: #94a3b8; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #334155; }
-.timeline { background: #1e293b; border-left: 3px solid #38bdf8; padding: 24px; border-radius: 8px; margin: 32px 0; }
-.timeline-item { margin-bottom: 16px; }
-.timeline-time { color: #38bdf8; font-weight: 700; }
-.checklist { background: #0f172a; border: 1px solid #334155; padding: 24px; border-radius: 12px; margin: 32px 0; }
-.checklist li { list-style: none; padding-left: 32px; position: relative; }
-.checklist li:before { content: "☐"; position: absolute; left: 0; color: #38bdf8; font-size: 1.2rem; }
-.cta-box { background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%); color: #020617; padding: 32px; border-radius: 16px; text-align: center; margin: 48px 0; }
-.cta-box h3 { font-size: 1.5rem; margin-bottom: 12px; }
+.post-container{max-width:800px;margin:0 auto;padding:80px 24px;color:#e2e8f0}
+.post-container h1{font-size:2.5rem;color:#fff;margin-bottom:16px;line-height:1.2}
+.post-meta{color:#94a3b8;font-size:0.95rem;margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid rgba(56,189,248,0.2)}
+.post-container h2{color:#38bdf8;font-size:1.75rem;margin:48px 0 20px}
+.post-container p{line-height:1.8;margin-bottom:20px;color:#cbd5e1}
+.post-container ul{margin:20px 0 20px 20px;color:#cbd5e1}
+.post-container li{margin-bottom:12px;line-height:1.7}
+.post-container strong{color:#fff}
+.timeline{background:#1e293b;border-left:3px solid #38bdf8;padding:24px;border-radius:8px;margin:32px 0}
+.timeline-item{margin-bottom:16px}
+.timeline-time{color:#38bdf8;font-weight:600}
+.cta-box{background:linear-gradient(135deg,#38bdf8 0%,#0ea5e9 100%);color:#020617;padding:32px;border-radius:16px;text-align:center;margin:48px 0}
+.cta-box h3{color:#020617;margin:0 0 12px 0}
 </style>
 </head>
 <body>
 <div id="header"></div>
-
-<article class="post-content">
-  <div class="post-meta">Client Story · Feb 2026 · 6 min read</div>
-  
+<article class="post-container">
   <h1>How We Recovered a Law Firm From Ransomware in 2 Hours</h1>
-  
-  <p><strong>Saturday 2:14am:</strong> Our EDR alert fires. Crypto.exe executing on file server.</p>
-  <p><strong>Monday 9:00am:</strong> 12 lawyers are billing clients again. Zero ransom paid. Zero data loss.</p>
-  <p>This is exactly how we did it — and why 90% of SA firms wouldn't survive this attack.</p>
+  <div class="post-meta">February 2026 · 6 min read · Client Story</div>
+
+  <p>Saturday 2am: EDR alert. Monday 9am: 12 lawyers billing again. R0 paid to criminals. This is exactly how the 3-2-1 backup rule saved a Pretoria law firm.</p>
 
   <h2>The Attack Timeline</h2>
   <div class="timeline">
-    <div class="timeline-item"><span class="timeline-time">02:14 AM:</span> EDR detects Crypto.exe on file server. Server auto-isolated from network.</div>
-    <div class="timeline-item"><span class="timeline-time">02:15 AM:</span> We remote in via backup admin account. Confirm encryption started on S: drive.</div>
-    <div class="timeline-item"><span class="timeline-time">02:30 AM:</span> Kill process, preserve memory dump for forensics. Client still asleep.</div>
-    <div class="timeline-item"><span class="timeline-time">06:00 AM:</span> Backup integrity check: Veeam cloud backup from 01:00 AM is clean.</div>
-    <div class="timeline-item"><span class="timeline-time">08:00 AM:</span> Restore to clean VM begins. 847GB, ~2 hours.</div>
-    <div class="timeline-item"><span class="timeline-time">10:00 AM:</span> Client notified. Systems testing with senior partner.</div>
-    <div class="timeline-item"><span class="timeline-time">11:00 AM:</span> All staff back online. Old infected server nuked from orbit.</div>
+    <div class="timeline-item"><span class="timeline-time">02:14 AM:</span> EDR alert - Crypto.exe executing on file server</div>
+    <div class="timeline-item"><span class="timeline-time">02:15 AM:</span> Server auto-isolated from network via SentinelOne</div>
+    <div class="timeline-item"><span class="timeline-time">02:30 AM:</span> We remote in, confirm encryption started on 3 folders</div>
+    <div class="timeline-item"><span class="timeline-time">06:00 AM:</span> Backup integrity check passed — last clean backup 01:00 AM</div>
+    <div class="timeline-item"><span class="timeline-time">08:00 AM:</span> Restore to clean VM begins, 847GB</div>
+    <div class="timeline-item"><span class="timeline-time">10:00 AM:</span> Client notified, systems testing begins</div>
+    <div class="timeline-item"><span class="timeline-time">11:00 AM:</span> All staff back online, zero data loss</div>
   </div>
 
   <h2>Why They Survived: The 3-2-1 Backup Rule</h2>
-  <p>We follow <strong>3-2-1</strong> religiously:</p>
+  <p>We enforce this for every client. It worked exactly as designed:</p>
   <ul>
-    <li><strong>3 copies:</strong> Live server + Onsite Synology NAS + Wasabi immutable cloud</li>
-    <li><strong>2 media types:</strong> Local disk + cloud object storage</li>
+    <li><strong>3 copies:</strong> Live server + Onsite Synology NAS + Wasabi cloud immutable</li>
+    <li><strong>2 media types:</strong> Local SSD + Cloud object storage</li>
     <li><strong>1 offsite:</strong> Air-gapped, 30-day retention, can't be deleted by ransomware</li>
   </ul>
-  <p><strong>Backup vendor:</strong> Veeam for M365 + Synology Active Backup<br>
-  <strong>Test frequency:</strong> Quarterly restore drills. Last test was 3 weeks before attack.</p>
+  <p><strong>Backup vendor:</strong> Veeam Backup for Microsoft 365 + Synology Active Backup<br>
+  <strong>Test frequency:</strong> Quarterly restore drills. Last test was 3 weeks before attack — we knew it worked.</p>
 
-  <h2>Why 90% of Firms Would Have Paid Ransom</h2>
+  <h2>What Failed [And Why Most Firms Wouldn't Recover]</h2>
   <ul>
-    <li><strong>No MFA on RDP:</strong> Intern used "Password123". Attacker brute-forced in.</li>
-    <li><strong>Antivirus only:</strong> Old McAfee missed it. No EDR with rollback.</li>
-    <li><strong>Backups never tested:</strong> 60% of firms have corrupt backups and don't know it.</li>
-    <li><strong>No air-gap:</strong> Backups were on same network. Ransomware encrypted them too.</li>
+    <li><strong>No MFA on RDP:</strong> Intern used "Password123". Brute-forced in 6 hours.</li>
+    <li><strong>No EDR:</strong> Old antivirus saw Crypto.exe as "unknown" and allowed it.</li>
+    <li><strong>No backups tested:</strong> 60% of SA SMEs have backups that fail on restore. They never test.</li>
   </ul>
 
   <h2>The Cost Breakdown</h2>
-  <p><strong>Our emergency response:</strong> R0 — included in R300/user/mo managed plan<br>
-  <strong>Downtime cost avoided:</strong> ~R15,000 [2hrs × 12 lawyers × R625/hr]<br>
-  <strong>If no backup:</strong> R150k+ ransom demand + 2 weeks rebuild + reputation damage</p>
+  <ul>
+    <li><strong>Our response:</strong> R0 — included in R300/user/mo Managed IT plan</li>
+    <li><strong>Downtime cost avoided:</strong> ~R15,000 [2hrs × 12 lawyers × R625/hr]</li>
+    <li><strong>If no backup:</strong> R150,000+ ransom demand + 2 weeks rebuild + POPIA fines</li>
+  </ul>
 
   <h2>Checklist: Can Your Firm Survive This?</h2>
-  <div class="checklist">
-    <ul>
-      <li>Immutable backups tested in last 90 days?</li>
-      <li>EDR with ransomware rollback, not just antivirus?</li>
-      <li>MFA enforced on all admin + RDP accounts?</li>
-      <li>Air-gapped copy offsite?</li>
-      <li>Incident response plan printed and accessible?</li>
-    </ul>
-  </div>
-
-  <p><strong>Score less than 4/5?</strong> You're one click away from disaster.</p>
+  <ul>
+    <li>Immutable backups tested in last 90 days?</li>
+    <li>EDR with rollback, not just antivirus?</li>
+    <li>MFA enforced on all admin + RDP accounts?</li>
+    <li>Air-gapped copy offsite?</li>
+    <li>Incident response plan printed and accessible?</li>
+  </ul>
+  <p>Score less than 3? You're exposed.</p>
 
   <div class="cta-box">
-    <h3>Get Your Backup Score</h3>
-    <p>Our R950 Health Check tests your backups for real. We restore a file in front of you.</p>
-    <a href="r950-check.html" class="btn-primary" style="background:#020617; color:#fff; margin-top:16px; display:inline-block;">Book R950 Audit</a>
+    <h3>Book the R950 Health Check</h3>
+    <p style="color:#020617;opacity:0.9;margin-bottom:20px;">We test your backups for real. Not just "are they running" — we restore a file and prove it works.</p>
+    <a href="../r950-check.html" class="btn-primary" style="background:#020617;color:#38bdf8;">Check My Backups</a>
   </div>
 </article>
-
-<footer><div class="container"><p>© 2026 NextGrid Technologies</p></div></footer>
+<div class="bottom-nav">
+  <a href="../index.html"><span>🏠</span><p>Home</p></a>
+  <a href="../services.html"><span>🛠</span><p>Services</p></a>
+  <a href="../blog.html"><span>📰</span><p>Blog</p></a>
+  <a href="../zoho.html"><span>📞</span><p>Contact</p></a>
+</div>
 <script>
-fetch('header.html').then(res => res.text()).then(data => {
-  document.getElementById('header').innerHTML = data;
+fetch('../header.html').then(res=>res.text()).then(data=>{
+  document.getElementById('header').innerHTML=data;
+  document.getElementById('hamburger')?.addEventListener('click',()=>{document.getElementById('navMenu')?.classList.toggle('active')});
 });
 </script>
 </body>
