@@ -228,43 +228,83 @@ h3 {
   border-radius: 8px;
 }
 
-/* ========= PROCESS SECTION - FIXED CONTRAST ========= */
+/* ========= PROCESS SECTION - SOLID CARDS, NO BLUR ========= */
 .process-section {
-  background: var(--bg-section) !important;
+  background: #0b1220;
+  padding: 100px 0;
 }
+
+.process-section h2 {
+  text-align: center;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 16px;
+}
+
+.process-section .section-intro {
+  color: #94a3b8;
+  text-align: center;
+  max-width: 65ch;
+  margin: 0 auto 64px;
+  font-size: 1.125rem;
+}
+
 .process-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   margin-top: 48px;
 }
+
 .process-card {
   position: relative;
-  padding: 60px 32px;
-  background: var(--bg-card-solid) !important;
-  border: 1px solid var(--border);
+  padding: 60px 32px 40px;
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 16px;
+  transition: all 0.3s ease;
 }
+
+.process-card:hover {
+  border-color: #38bdf8;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(56, 189, 248, 0.15);
+}
+
 .process-number {
   position: absolute;
-  top: 20px;
+  top: 24px;
   left: 32px;
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 700;
-  color: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  opacity: 0.3;
   line-height: 1;
+  z-index: 0;
 }
+
 .process-card h3 {
-  color: var(--accent) !important;
-  position: relative;
-  z-index: 1;
-}
-.process-card p {
-  color: var(--text) !important;
+  color: #38bdf8;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
   position: relative;
   z-index: 1;
 }
 
+.process-card p {
+  color: #e2e8f0;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+  font-size: 1rem;
+}
+
+@media (max-width: 968px) {
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ========= COMPARISON GRID ========= */
 .comparison-grid {
   display: grid;
@@ -519,23 +559,25 @@ a:focus-visible, button:focus-visible {
   </div>
 </section>
 
-<!-- PROCESS -->
+
+<!-- PROCESS TIMELINE -->
 <section class="section process-section">
   <div class="container">
-    <h2 style="text-align:center;">Your First 90 Days</h2>
+    <h2>Your First 90 Days</h2>
     <p class="section-intro">No surprises. Here's exactly what happens after you sign up.</p>
+    
     <div class="process-grid">
-      <div class="glass-card process-card reveal">
+      <div class="process-card reveal">
         <div class="process-number">01</div>
         <h3>Day 0-7: Onboarding</h3>
         <p>We run the R950 audit, deploy monitoring agents, secure M365, fix red-flag items. You get admin access to everything. No vendor lock-in.</p>
       </div>
-      <div class="glass-card process-card reveal">
+      <div class="process-card reveal">
         <div class="process-number">02</div>
         <h3>Day 8-30: Stabilize</h3>
         <p>Patch all devices, document passwords in encrypted vault, test backups, set up helpdesk. Goal: zero preventable downtime.</p>
       </div>
-      <div class="glass-card process-card reveal">
+      <div class="process-card reveal">
         <div class="process-number">03</div>
         <h3>Day 31-90: Optimize</h3>
         <p>First quarterly business review. We show tickets resolved, backup status, and recommend next security upgrades. You decide.</p>
