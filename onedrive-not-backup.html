@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneDrive is NOT a Backup — Here's Proof | NextGrid</title>
+<meta name="description" content="Deleted files, ransomware, departing staff. 3 ways OneDrive sync fails. What SA businesses should use instead for R120/user/month.">
+<link rel="icon" href="../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9DS2C71G6"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-C9DS2C71G6');</script>
+<style>
+.post-container{max-width:800px;margin:0 auto;padding:80px 24px;color:#e2e8f0}
+.post-container h1{font-size:2.5rem;color:#fff;margin-bottom:16px;line-height:1.2}
+.post-meta{color:#94a3b8;font-size:0.95rem;margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid rgba(56,189,248,0.2)}
+.post-container h2{color:#38bdf8;font-size:1.75rem;margin:48px 0 20px}
+.post-container p{line-height:1.8;margin-bottom:20px;color:#cbd5e1}
+.post-container ul{margin:20px 0 20px 20px;color:#cbd5e1}
+.post-container li{margin-bottom:12px;line-height:1.7}
+.post-container strong{color:#fff}
+.fail-box{background:#7f1d;border:1px solid #ef4444;padding:24px;border-radius:12px;margin:32px 0}
+.fail-box h3{color:#fca5a5;margin-top:0}
+.cta-box{background:linear-gradient(135deg,#38bdf8 0%,#0ea5e9 100%);color:#020617;padding:32px;border-radius:16px;text-align:center;margin:48px 0}
+.cta-box h3{color:#020617;margin:0 0 12px 0}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<article class="post-container">
+  <h1>Stop Calling OneDrive Your "Backup". It's File Sync.</h1>
+  <div class="post-meta">February 2026 · 5 min read · Backup</div>
+
+  <p>"But it's in the cloud!" — 3 reasons OneDrive will fail you when you need it most. Real cases from SA businesses.</p>
+
+  <div class="fail-box">
+    <h3>Failure #1: Deleted Files Sync Deletion</h3>
+    <p>Staff deletes folder locally → OneDrive syncs deletion to cloud. Recycle bin: 93 days max, then gone forever.</p>
+    <p><strong>Real case:</strong> Architect deleted 2 years of client drawings. Recycle bin already emptied after 93 days. R200k project files lost.</p>
+    <p><strong>Fix:</strong> True backup keeps versions even after deletion. We can restore files deleted 2 years ago.</p>
+  </div>
+
+  <div class="fail-box">
+    <h3>Failure #2: Ransomware Syncs Encryption</h3>
+    <p>Crypto-locker encrypts local files → OneDrive uploads encrypted versions. Version history overwritten if ransomware runs 30+ days undetected.</p>
+    <p><strong>Real case:</strong> Retailer paid R80k ransom because OneDrive backups were encrypted too. No clean version to restore.</p>
+    <p><strong>Fix:</strong> Immutable backup — can't be modified or deleted by ransomware for 30+ days.</p>
+  </div>
+
+  <div class="fail-box">
+    <h3>Failure #3: Departing Staff = Data Loss</h3>
+    <p>Employee leaves → Admin deletes M365 account → OneDrive deleted after 30 days. Manager asks for files 6 months later → Gone.</p>
+    <p><strong>Real case:</strong> Sales director took client list, deleted OneDrive on exit. Company lost 5 years of CRM data.</p>
+    <p><strong>Fix:</strong> Backup retains data even after account deletion. Legal hold for leavers.</p>
+  </div>
+
+  <h2>What Real Backup Looks Like [3 Requirements]</h2>
+  <ul>
+    <li><strong>Separate from production:</strong> Not in same M365 tenant. If Microsoft is down, backup still works.</li>
+    <li><strong>Immutable:</strong> Can't be deleted or modified by admin or ransomware for X days.</li>
+    <li><strong>Point-in-time restore:</strong> Pick any date in last 365 days, restore entire folder or single file.</li>
+  </ul>
+
+  <h2>Cost Comparison</h2>
+  <ul>
+    <li><strong>OneDrive:</strong> Included in M365 Business Standard. Backup capability: R0</li>
+    <li><strong>Real backup:</strong> R120/user/month [Veeam/Acronis/Synology]. Includes Teams, SharePoint, Email, OneDrive</li>
+    <li><strong>Ransomware recovery:</strong> R150k average ransom + 2 weeks downtime, or R0 with backup</li>
+  </ul>
+
+  <div class="cta-box">
+    <h3>We Backup M365 for R120/user</h3>
+    <p style="color:#020617;opacity:0.9;margin-bottom:20px;">Includes Teams, SharePoint, Email, OneDrive. Test restore anytime. 30-day retention minimum.</p>
+    <a href="../pricing.html" class="btn-primary" style="background:#020617;color:#38bdf8;">See Backup Plans</a>
+  </div>
+</article>
+<div class="bottom-nav">
+  <a href="../index.html"><span>🏠</span><p>Home</p></a>
+  <a href="../services.html"><span>🛠</span><p>Services</p></a>
+  <a href="../blog.html"><span>📰</span><p>Blog</p></a>
+  <a href="../zoho.html"><span>📞</span><p>Contact</p></a>
+</div>
+<script>
+fetch('../header.html').then(res=>res.text()).then(data=>{
+  document.getElementById('header').innerHTML=data;
+  document.getElementById('hamburger')?.addEventListener('click',()=>{document.getElementById('navMenu')?.classList.toggle('active')});
+});
+</script>
+</body>
+</html>
