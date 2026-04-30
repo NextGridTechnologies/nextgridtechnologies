@@ -401,6 +401,41 @@ a:focus-visible, button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+  /* ========= NUCLEAR FIX FOR PROCESS CARDS ========= */
+.process-section .process-card,
+.process-section .process-card.glass-card,
+.process-section .glass-card {
+  background: #1e293b !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+.process-section .process-card h3 {
+  color: #38bdf8 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.process-section .process-card p {
+  color: #e2e8f0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.process-section .process-number {
+  color: rgba(56, 189, 248, 0.25) !important;
+  opacity: 1 !important;
+}
+
+/* Kill the reveal if JS doesn't load */
+.process-section .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
 </style>
 </head>
 <body>
@@ -567,17 +602,17 @@ a:focus-visible, button:focus-visible {
     <p class="section-intro">No surprises. Here's exactly what happens after you sign up.</p>
     
     <div class="process-grid">
-      <div class="process-card reveal">
+      <div class="process-card">
         <div class="process-number">01</div>
         <h3>Day 0-7: Onboarding</h3>
         <p>We run the R950 audit, deploy monitoring agents, secure M365, fix red-flag items. You get admin access to everything. No vendor lock-in.</p>
       </div>
-      <div class="process-card reveal">
+      <div class="process-card">
         <div class="process-number">02</div>
         <h3>Day 8-30: Stabilize</h3>
         <p>Patch all devices, document passwords in encrypted vault, test backups, set up helpdesk. Goal: zero preventable downtime.</p>
       </div>
-      <div class="process-card reveal">
+      <div class="process-card">
         <div class="process-number">03</div>
         <h3>Day 31-90: Optimize</h3>
         <p>First quarterly business review. We show tickets resolved, backup status, and recommend next security upgrades. You decide.</p>
